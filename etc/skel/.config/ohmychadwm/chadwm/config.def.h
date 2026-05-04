@@ -69,6 +69,7 @@
 //#include "themes/buffalo.h"
 
 // custom themes
+#include "themes/meditation.h"
 //#include "themes/venom.h"
 //#include "themes/spiderwoman.h"
 //#include "themes/bright.h"
