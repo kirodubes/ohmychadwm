@@ -176,6 +176,7 @@ static const int new_window_attach_on_end = 0 ; /*  1 means the new window will 
 static const char *fonts[] = {
     THEME_FONT ":style=" THEME_FONTSTYLE ":size=" _STR(THEME_FONTSIZE),
     "JetBrainsMono Nerd Font Mono:style=Bold:size=" _STR(THEME_ICONSIZE),
+    "Noto Sans CJK JP:size=" _STR(THEME_FONTSIZE),
 };
 
 static const char *colors[][3] = {
