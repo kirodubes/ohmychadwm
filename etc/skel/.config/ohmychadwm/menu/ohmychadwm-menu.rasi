@@ -89,7 +89,7 @@ element-text {
     text-color:       inherit;
     vertical-align:   0.5;
     horizontal-align: 0.0;
-    font:             "DejaVu Sans Mono Bold 13";
+    font:             "JetBrainsMono Nerd Font Mono Bold 13";
 }
 
 /* No icons in dmenu mode — element-icon kept minimal */

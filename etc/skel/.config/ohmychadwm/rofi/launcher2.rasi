@@ -6,7 +6,7 @@
  */
 
 configuration {
-	font:			"DejaVu Sans Mono Bold 13";
+	font:			"JetBrainsMono Nerd Font Mono Bold 13";
     show-icons:                     true;
 	icon-theme: 					"";
     display-drun: 					"";

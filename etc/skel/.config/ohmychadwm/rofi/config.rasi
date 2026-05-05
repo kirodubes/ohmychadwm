@@ -1,7 +1,7 @@
 configuration{
     modi: "run,drun,window";
     lines: 5;
-    font: "DejaVu Sans Mono Bold 13";
+    font: "JetBrainsMono Nerd Font Mono Bold 13";
     show-icons: true;
     icon-theme: "Paper Mono";
     terminal: "st";
