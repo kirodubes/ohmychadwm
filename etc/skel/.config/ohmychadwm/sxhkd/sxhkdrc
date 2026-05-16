@@ -173,6 +173,10 @@ ctrl + alt + e
 ctrl + alt + a
     alacritty-tweak-tool
 
+#alacritty-tweak-tool
+ctrl + alt + q
+    alacritty-tweak-tool
+
 #File-Manager
 ctrl + alt + b
      brave --password-store=basic
