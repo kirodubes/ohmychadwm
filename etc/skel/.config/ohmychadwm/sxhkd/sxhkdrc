@@ -169,6 +169,10 @@ super + shift + s
 ctrl + alt + e
     archlinux-tweak-tool
 
+#alacritty-tweak-tool
+ctrl + alt + a
+    alacritty-tweak-tool
+
 #File-Manager
 ctrl + alt + b
      brave --password-store=basic

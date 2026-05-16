@@ -1,61 +1,50 @@
 #!/bin/bash
 #set -e
 ##################################################################################################################
-# Author 	: Erik Dubois
+# Author    : Erik Dubois
 # Website   : https://www.erikdubois.be
-# Website   : https://www.alci.online
-# Website	: https://www.arcolinux.info
-# Website	: https://www.arcolinux.com
-# Website	: https://www.arcolinuxd.com
-# Website	: https://www.arcolinuxb.com
-# Website	: https://www.arcolinuxiso.com
-# Website	: https://www.arcolinuxforum.com
 ##################################################################################################################
 #
 #   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
 #
 ##################################################################################################################
-#tput setaf 0 = black 
-#tput setaf 1 = red 
+#tput setaf 0 = black
+#tput setaf 1 = red
 #tput setaf 2 = green
-#tput setaf 3 = yellow 
-#tput setaf 4 = dark blue 
+#tput setaf 3 = yellow
+#tput setaf 4 = dark blue
 #tput setaf 5 = purple
-#tput setaf 6 = cyan 
-#tput setaf 7 = gray 
+#tput setaf 6 = cyan
+#tput setaf 7 = gray
 #tput setaf 8 = light blue
 ##################################################################################################################
 
-# change a commit comment
-# git commit --amend -m "more info"
-# git push --force origin
+# reset - commit your changes or stash them before you merge
+# git reset --hard - personal alias - grh
 
-# stash or commit
-# git reset --hard
+if [[ -f "./repo.sh" ]]; then
+    echo "Found repo.sh, running it..."
+    bash ./repo.sh
+fi
 
-cp etc/skel/.config/ohmychadwm/README.md .
-
-rm previews/*
-cp etc/skel/.config/ohmychadwm/previews/* previews
-
+# Below command will backup everything inside the project folder
 git add --all .
 
-input="update"
+# skip commit if nothing staged (git commit exits non-zero with nothing to commit)
+git diff --cached --quiet || git commit -m "update"
 
-# Committing to the local repository with a message containing the time details and commit text
-
-git commit -m "$input"
+git commit -m "update"
 
 # Push the local files to github
 
 if grep -q main .git/config; then
 	echo "Using main"
-	git push -u origin main
+		git push -u origin main
 fi
 
 if grep -q master .git/config; then
 	echo "Using master"
-	git push -u origin master
+		git push -u origin master
 fi
 
 echo "################################################################"
