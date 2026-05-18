@@ -341,15 +341,15 @@ F12
 
 #Raises volume
 XF86AudioRaiseVolume
-    amixer -D pulse set Master 10%+
+    pamixer -i 10
 
 #Lowers volume
 XF86AudioLowerVolume
-    amixer -D pulse set Master 10%-
+    pamixer -d 10
 
 #Mute
 XF86AudioMute
-    amixer -D pulse set Master 1+ toggle
+    pamixer -t
 
 #Playerctl works for Pragha, Spotify and others
 #Delete the line for playerctl if you want to use mpc
