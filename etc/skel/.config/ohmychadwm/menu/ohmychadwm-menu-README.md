@@ -120,16 +120,16 @@ show_my_custom_tools() {
 
 ## X11 ↔ Wayland substitutions made
 
-| Omarchy (Wayland)        | This script (X11)                    |
-|--------------------------|--------------------------------------|
-| `walker -dmenu`          | `rofi -dmenu`                        |
-| `grim` + `slurp`         | `maim` + `slop`                      |
-| `wl-copy` / `wl-paste`  | `xclip -selection clipboard`         |
-| `hyprpicker`             | `xcolor`                             |
-| `wf-recorder`            | `ffmpeg -f x11grab`                  |
-| `waybar` signals         | polybar IPC / `pkill -SIGUSR1`       |
-| `hyprctl dispatch`       | `xdotool` / direct WM control        |
-| `swayosd`                | `fastcompmgr -c` + `notify-send`     |
-| `hypridle` + `hyprlock`  | `xautolock` + `slock` / `i3lock`     |
-| `hyprsunset`             | `redshift`                           |
-| `setsid gtk-launch`      | `setsid xdg-open` / direct launch    |
+| Omarchy (Wayland)       | This script (X11)                 |
+|-------------------------|-----------------------------------|
+| `walker -dmenu`         | `rofi -dmenu`                     |
+| `grim` + `slurp`        | `maim` + `slop`                   |
+| `wl-copy` / `wl-paste`  | `xclip -selection clipboard`      |
+| `hyprpicker`            | `xcolor`                          |
+| `wf-recorder`           | `ffmpeg -f x11grab`               |
+| `waybar` signals        | polybar IPC / `pkill -SIGUSR1`    |
+| `hyprctl dispatch`      | `xdotool` / direct WM control     |
+| `swayosd`               | `fastcompmgr -c` + `notify-send`  |
+| `hypridle` + `hyprlock` | `xautolock` + `slock` / `i3lock`  |
+| `hyprsunset`            | `redshift`                        |
+| `setsid gtk-launch`     | `setsid xdg-open` / direct launch |

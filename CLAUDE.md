@@ -73,16 +73,16 @@ Shortcuts come from two sources:
 
 ## Key files to edit for common tasks
 
-| Task | File |
-|------|------|
-| Change theme | `chadwm/config.def.h` — the `#include "themes/X.h"` line |
-| Add/change WM keybinding | `chadwm/config.def.h` — `keys[]` array |
-| Add/change app shortcut | `sxhkd/sxhkdrc` |
-| Change status bar modules | `slstatus/config.def.h` |
-| Change compositor settings | `picom/picom.conf` |
-| Change autostart apps | `scripts/run.sh` |
-| Add menu entry | `menu/ohmychadwm-menu.sh` or `menu/menu-extension.sh` |
-| Create/edit theme | `chadwm/themes/<name>.h` |
+| Task                       | File                                                     |
+|----------------------------|----------------------------------------------------------|
+| Change theme               | `chadwm/config.def.h` — the `#include "themes/X.h"` line |
+| Add/change WM keybinding   | `chadwm/config.def.h` — `keys[]` array                   |
+| Add/change app shortcut    | `sxhkd/sxhkdrc`                                          |
+| Change status bar modules  | `slstatus/config.def.h`                                  |
+| Change compositor settings | `picom/picom.conf`                                       |
+| Change autostart apps      | `scripts/run.sh`                                         |
+| Add menu entry             | `menu/ohmychadwm-menu.sh` or `menu/menu-extension.sh`    |
+| Create/edit theme          | `chadwm/themes/<name>.h`                                 |
 
 ## Scripts
 

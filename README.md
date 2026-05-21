@@ -15,16 +15,16 @@ Kiro can be downloaded on [Sourceforge](https://sourceforge.net/projects/kiro/fi
 
 It combines:
 
-| Component | Role |
-| --- | --- |
-| **ohmychadwm** (patched chadwm) | Tiling window manager — manages windows |
-| **slstatus** | Status bar — shows time, CPU, RAM, network etc. |
-| **sxhkd** | Keybinding daemon — Super/Ctrl/Alt shortcuts |
-| **rofi** | App launcher + hierarchical system menu |
-| **picom / fastcompmgr** | Compositor — transparency, shadows |
-| **feh** | Wallpaper manager |
-| **variety** | Wallpaper fetcher/manager |
-| **alacritty** | Terminal emulator |
+| Component                       | Role                                            |
+|---------------------------------|-------------------------------------------------|
+| **ohmychadwm** (patched chadwm) | Tiling window manager — manages windows         |
+| **slstatus**                    | Status bar — shows time, CPU, RAM, network etc. |
+| **sxhkd**                       | Keybinding daemon — Super/Ctrl/Alt shortcuts    |
+| **rofi**                        | App launcher + hierarchical system menu         |
+| **picom / fastcompmgr**         | Compositor — transparency, shadows              |
+| **feh**                         | Wallpaper manager                               |
+| **variety**                     | Wallpaper fetcher/manager                       |
+| **alacritty**                   | Terminal emulator                               |
 
 ---
 
@@ -86,15 +86,15 @@ The rebuild script copies `config.def.h` → `config.h`, compiles, installs, and
 
 ## Key bindings (most important)
 
-| Key | Action |
-| --- | --- |
-| `Super + Enter` | Open terminal |
-| `Super + Shift + Enter` | Open thunar |
-| `Super + 1..9` | Switch to tag/workspace |
-| `Super + Shift + Q` | Quit window |
-| `Super + Shift + R` | Restart ohmychadwm (reload config) |
-| `Super + Alt + Space` | Open ohmychadwm system menu |
-| `Super + D` | Open rofi app launcher |
+| Key                     | Action                             |
+|-------------------------|------------------------------------|
+| `Super + Enter`         | Open terminal                      |
+| `Super + Shift + Enter` | Open thunar                        |
+| `Super + 1..9`          | Switch to tag/workspace            |
+| `Super + Shift + Q`     | Quit window                        |
+| `Super + Shift + R`     | Restart ohmychadwm (reload config) |
+| `Super + Alt + Space`   | Open ohmychadwm system menu        |
+| `Super + D`             | Open rofi app launcher             |
 
 Full keybinding list: open the menu → Learn → Keybindings.
 
@@ -110,65 +110,65 @@ We have 43 themes or create one more on the fly with our theme generator.
 
 #### Default
 
-| | | |
-| :---: | :---: | :---: |
-| ![catppuccin](previews/catppuccin.png) | ![dracula](previews/dracula.png) | ![dracul](previews/dracul.png) |
-| **catppuccin** | **dracula** | **dracul** |
-| ![everforest](previews/everforest.png) | ![gruvchad](previews/gruvchad.png) | ![onedark](previews/onedark.png) |
-| **everforest** | **gruvchad** | **onedark** |
-| ![prime](previews/prime.png) | ![tokyonight](previews/tokyonight.png) | ![tundra](previews/tundra.png) |
-| **prime** | **tokyonight** | **tundra** |
+|                                        |                                        |                                  |
+|:--------------------------------------:|:--------------------------------------:|:--------------------------------:|
+| ![catppuccin](previews/catppuccin.png) |    ![dracula](previews/dracula.png)    |  ![dracul](previews/dracul.png)  |
+|             **catppuccin**             |              **dracula**               |            **dracul**            |
+| ![everforest](previews/everforest.png) |   ![gruvchad](previews/gruvchad.png)   | ![onedark](previews/onedark.png) |
+|             **everforest**             |              **gruvchad**              |           **onedark**            |
+|      ![prime](previews/prime.png)      | ![tokyonight](previews/tokyonight.png) |  ![tundra](previews/tundra.png)  |
+|               **prime**                |             **tokyonight**             |            **tundra**            |
 
 #### Nord family
 
-| | | |
-| :---: | :---: | :---: |
-| ![nord](previews/nord.png) | ![nord-polarnight](previews/nord-polarnight.png) | ![nord-snowstorm](previews/nord-snowstorm.png) |
-| **nord** | **nord-polarnight** | **nord-snowstorm** |
-| ![nord-frost](previews/nord-frost.png) | ![nord-aurora](previews/nord-aurora.png) | |
-| **nord-frost** | **nord-aurora** | |
+|                                        |                                                  |                                                |
+|:--------------------------------------:|:------------------------------------------------:|:----------------------------------------------:|
+|       ![nord](previews/nord.png)       | ![nord-polarnight](previews/nord-polarnight.png) | ![nord-snowstorm](previews/nord-snowstorm.png) |
+|                **nord**                |               **nord-polarnight**                |               **nord-snowstorm**               |
+| ![nord-frost](previews/nord-frost.png) |     ![nord-aurora](previews/nord-aurora.png)     |                                                |
+|             **nord-frost**             |                 **nord-aurora**                  |                                                |
 
 #### Other dark themes
 
-| | | |
-| :---: | :---: | :---: |
-| ![kanagawa](previews/kanagawa.png) | ![monokai](previews/monokai.png) | ![rosepine](previews/rosepine.png) |
-| **kanagawa** | **monokai** | **rosepine** |
-| ![material](previews/material.png) | ![solarized](previews/solarized.png) | |
-| **material** | **solarized** | |
+|                                    |                                      |                                    |
+|:----------------------------------:|:------------------------------------:|:----------------------------------:|
+| ![kanagawa](previews/kanagawa.png) |   ![monokai](previews/monokai.png)   | ![rosepine](previews/rosepine.png) |
+|            **kanagawa**            |             **monokai**              |            **rosepine**            |
+| ![material](previews/material.png) | ![solarized](previews/solarized.png) |                                    |
+|            **material**            |            **solarized**             |                                    |
 
 #### Stellar
 
-| | | |
-| :---: | :---: | :---: |
-| ![jupiter](previews/jupiter.png) | ![saturn](previews/saturn.png) | ![mars](previews/mars.png) |
-| **jupiter** | **saturn** | **mars** |
-| ![venus](previews/venus.png) | ![mercury](previews/mercury.png) | ![neptune](previews/neptune.png) |
-| **venus** | **mercury** | **neptune** |
-| ![uranus](previews/uranus.png) | ![pluto](previews/pluto.png) | |
-| **uranus** | **pluto** | |
+|                                  |                                  |                                  |
+|:--------------------------------:|:--------------------------------:|:--------------------------------:|
+| ![jupiter](previews/jupiter.png) |  ![saturn](previews/saturn.png)  |    ![mars](previews/mars.png)    |
+|           **jupiter**            |            **saturn**            |             **mars**             |
+|   ![venus](previews/venus.png)   | ![mercury](previews/mercury.png) | ![neptune](previews/neptune.png) |
+|            **venus**             |           **mercury**            |           **neptune**            |
+|  ![uranus](previews/uranus.png)  |   ![pluto](previews/pluto.png)   |                                  |
+|            **uranus**            |            **pluto**             |                                  |
 
 #### African (bottom bar, zero gaps)
 
-| | | |
-| :---: | :---: | :---: |
+|                                  |                              |                              |
+|:--------------------------------:|:----------------------------:|:----------------------------:|
 | ![buffalo](previews/buffalo.png) | ![hippo](previews/hippo.png) | ![rhino](previews/rhino.png) |
-| **buffalo** | **hippo** | **rhino** |
+|           **buffalo**            |          **hippo**           |          **rhino**           |
 
 #### Custom
 
-| | | |
-| :---: | :---: | :---: |
-| ![bright](previews/bright.png) | ![clonewar](previews/clonewar.png) | ![doors](previews/doors.png) |
-| **bright** | **clonewar** | **doors** |
-| ![dragon](previews/dragon.png) | ![drwho](previews/drwho.png) | ![faraway](previews/faraway.png) |
-| **dragon** | **drwho** | **faraway** |
+|                                      |                                    |                                          |
+|:------------------------------------:|:----------------------------------:|:----------------------------------------:|
+|    ![bright](previews/bright.png)    | ![clonewar](previews/clonewar.png) |       ![doors](previews/doors.png)       |
+|              **bright**              |            **clonewar**            |                **doors**                 |
+|    ![dragon](previews/dragon.png)    |    ![drwho](previews/drwho.png)    |     ![faraway](previews/faraway.png)     |
+|              **dragon**              |             **drwho**              |               **faraway**                |
 | ![goodnight](previews/goodnight.png) | ![lookinto](previews/lookinto.png) | ![spiderwoman](previews/spiderwoman.png) |
-| **goodnight** | **lookinto** | **spiderwoman** |
-| ![starwars](previews/starwars.png) | ![summit](previews/summit.png) | ![tiger](previews/tiger.png) |
-| **starwars** | **summit** | **tiger** |
-| ![venom](previews/venom.png) | | |
-| **venom** | | |
+|            **goodnight**             |            **lookinto**            |             **spiderwoman**              |
+|  ![starwars](previews/starwars.png)  |   ![summit](previews/summit.png)   |       ![tiger](previews/tiger.png)       |
+|             **starwars**             |             **summit**             |                **tiger**                 |
+|     ![venom](previews/venom.png)     |                                    |                                          |
+|              **venom**               |                                    |                                          |
 
 ---
 
@@ -202,56 +202,56 @@ Or run it from the menu in Style/Chadwm
 
 Each theme `.h` file can define these values (all have sensible defaults if omitted):
 
-| Parameter | Default | Description |
-| --- | --- | --- |
-| `THEME_TOPBAR` | `1` | Bar position: 1 = top, 0 = bottom |
-| `THEME_GAPS` | `5` | Gap size between windows (px) |
-| `THEME_BORDER` | `2` | Window border width (px) |
-| `THEME_AUTOHIDE` | `0` | Auto-hide bar after N seconds (0 = off) |
-| `THEME_SHOWSYSTRAY` | `1` | Show system tray: 1 = yes, 0 = no |
-| `THEME_SMARTGAPS` | `0` | Remove gaps with single window: 1 = yes |
-| `THEME_MFACT` | `0.50` | Master area width (0.10–0.90) |
-| `THEME_NMASTER` | `1` | Number of windows in master area |
-| `THEME_FONT` | `JetBrainsMono Nerd Font Mono` | Bar font family |
-| `THEME_FONTSTYLE` | `Bold` | Bar font style |
-| `THEME_FONTSIZE` | `13` | Bar font size (pt) |
-| `THEME_ICONSIZE` | `18` | Bar icon size (pt) |
-| `THEME_TAGS` | `TAGS_NERD` | Tag label style — see options below |
-| `THEME_LAYOUT` | `LAYOUT_DWINDLE` | Default layout on startup — see options below |
+| Parameter           | Default                        | Description                                   |
+|---------------------|--------------------------------|-----------------------------------------------|
+| `THEME_TOPBAR`      | `1`                            | Bar position: 1 = top, 0 = bottom             |
+| `THEME_GAPS`        | `5`                            | Gap size between windows (px)                 |
+| `THEME_BORDER`      | `2`                            | Window border width (px)                      |
+| `THEME_AUTOHIDE`    | `0`                            | Auto-hide bar after N seconds (0 = off)       |
+| `THEME_SHOWSYSTRAY` | `1`                            | Show system tray: 1 = yes, 0 = no             |
+| `THEME_SMARTGAPS`   | `0`                            | Remove gaps with single window: 1 = yes       |
+| `THEME_MFACT`       | `0.50`                         | Master area width (0.10–0.90)                 |
+| `THEME_NMASTER`     | `1`                            | Number of windows in master area              |
+| `THEME_FONT`        | `JetBrainsMono Nerd Font Mono` | Bar font family                               |
+| `THEME_FONTSTYLE`   | `Bold`                         | Bar font style                                |
+| `THEME_FONTSIZE`    | `13`                           | Bar font size (pt)                            |
+| `THEME_ICONSIZE`    | `18`                           | Bar icon size (pt)                            |
+| `THEME_TAGS`        | `TAGS_NERD`                    | Tag label style — see options below           |
+| `THEME_LAYOUT`      | `LAYOUT_DWINDLE`               | Default layout on startup — see options below |
 
 **Tag style options for `THEME_TAGS`:**
 
-| Constant | Labels |
-| --- | --- |
-| `TAGS_NERD` | Nerd Font icons (default) |
-| `TAGS_ARABIC` | 1 2 3 4 5 6 7 8 9 10 |
-| `TAGS_ROMAN` | I II III IV V VI VII VIII IX X |
-| `TAGS_POWERLINE` | Powerline glyphs |
-| `TAGS_WEBDINGS` | Web Chat Edit Meld Vb Mail Video Image Files Music |
-| `TAGS_JAPANESE` | 一 二 三 四 五 六 七 八 九 十 |
-| `TAGS_ALPHA` | A B C D E F G H I J |
-| `TAGS_EMOJI` | 👨‍💻 🌐 🖥️ 📟 📜 👋 📺 ✉️ 💬 🎮 |
-| `TAGS_GEOMETRIC` | ● ■ ▲ ◆ ◇ ★ ✗ ✓ + ○ |
-| `TAGS_CHINESE` | 壹 贰 叁 肆 伍 陆 柒 捌 玖 拾 |
-| `TAGS_PURPOSE` | home chat surf media game remote code mail files misc |
+| Constant         | Labels                                                |
+|------------------|-------------------------------------------------------|
+| `TAGS_NERD`      | Nerd Font icons (default)                             |
+| `TAGS_ARABIC`    | 1 2 3 4 5 6 7 8 9 10                                  |
+| `TAGS_ROMAN`     | I II III IV V VI VII VIII IX X                        |
+| `TAGS_POWERLINE` | Powerline glyphs                                      |
+| `TAGS_WEBDINGS`  | Web Chat Edit Meld Vb Mail Video Image Files Music    |
+| `TAGS_JAPANESE`  | 一 二 三 四 五 六 七 八 九 十                                   |
+| `TAGS_ALPHA`     | A B C D E F G H I J                                   |
+| `TAGS_EMOJI`     | 👨‍💻 🌐 🖥️ 📟 📜 👋 📺 ✉️ 💬 🎮                               |
+| `TAGS_GEOMETRIC` | ● ■ ▲ ◆ ◇ ★ ✗ ✓ + ○                                   |
+| `TAGS_CHINESE`   | 壹 贰 叁 肆 伍 陆 柒 捌 玖 拾                                   |
+| `TAGS_PURPOSE`   | home chat surf media game remote code mail files misc |
 
 **Layout options for `THEME_LAYOUT`:**
 
-| Constant | Symbol | Description |
-| --- | --- | --- |
-| `LAYOUT_DWINDLE` | `[\\]` | Fibonacci dwindle (default) |
-| `LAYOUT_TILE` | `[]=` | Master + stack |
-| `LAYOUT_SPIRAL` | `[@]` | Fibonacci spiral |
-| `LAYOUT_DECK` | `H[]` | Master + tabbed stack |
-| `LAYOUT_BSTACK` | `TTT` | Bottom stack |
-| `LAYOUT_BSTACKH` | `===` | Bottom stack horizontal |
-| `LAYOUT_GRID` | `HHH` | Grid |
-| `LAYOUT_NROWGRID` | `###` | N-row grid |
-| `LAYOUT_HORIZGRID` | `---` | Horizontal grid |
-| `LAYOUT_GAPLESS` | `:::` | Gapless grid |
-| `LAYOUT_CENTER` | `\|M\|` | Centered master |
-| `LAYOUT_CFLOAT` | `>M>` | Centered floating master |
-| `LAYOUT_FLOAT` | `><>` | Floating |
+| Constant           | Symbol  | Description                 |
+|--------------------|---------|-----------------------------|
+| `LAYOUT_DWINDLE`   | `[\\]`  | Fibonacci dwindle (default) |
+| `LAYOUT_TILE`      | `[]=`   | Master + stack              |
+| `LAYOUT_SPIRAL`    | `[@]`   | Fibonacci spiral            |
+| `LAYOUT_DECK`      | `H[]`   | Master + tabbed stack       |
+| `LAYOUT_BSTACK`    | `TTT`   | Bottom stack                |
+| `LAYOUT_BSTACKH`   | `===`   | Bottom stack horizontal     |
+| `LAYOUT_GRID`      | `HHH`   | Grid                        |
+| `LAYOUT_NROWGRID`  | `###`   | N-row grid                  |
+| `LAYOUT_HORIZGRID` | `---`   | Horizontal grid             |
+| `LAYOUT_GAPLESS`   | `:::`   | Gapless grid                |
+| `LAYOUT_CENTER`    | `\|M\|` | Centered master             |
+| `LAYOUT_CFLOAT`    | `>M>`   | Centered floating master    |
+| `LAYOUT_FLOAT`     | `><>`   | Floating                    |
 
 The `SchemeMenufg` color from the active theme is automatically synced to the rofi menu accent color (`ac:` in `ohmychadwm-menu.rasi`) when you switch themes.
 
@@ -323,20 +323,20 @@ run "your-application"
 
 ## Patches included
 
-| Patch | Effect |
-| --- | --- |
-| vanity gaps | Configurable inner/outer gaps |
-| barpadding | Padding inside the bar |
-| status2d | Per-block colors in the status bar |
-| colorful tags | Each tag gets its own color |
-| winicon | Window icons in the title bar |
-| tag preview | Hover a tag to preview its windows |
-| movestack | Move windows up/down in the stack |
-| fibonacci | Fibonacci tiling layout |
-| gaplessgrid | Grid layout without gaps |
-| bottomstack | Stack below master |
+| Patch             | Effect                                   |
+|-------------------|------------------------------------------|
+| vanity gaps       | Configurable inner/outer gaps            |
+| barpadding        | Padding inside the bar                   |
+| status2d          | Per-block colors in the status bar       |
+| colorful tags     | Each tag gets its own color              |
+| winicon           | Window icons in the title bar            |
+| tag preview       | Hover a tag to preview its windows       |
+| movestack         | Move windows up/down in the stack        |
+| fibonacci         | Fibonacci tiling layout                  |
+| gaplessgrid       | Grid layout without gaps                 |
+| bottomstack       | Stack below master                       |
 | preserveonrestart | Windows stay on their tags after restart |
-| dragmfact | Drag the master area border with mouse |
+| dragmfact         | Drag the master area border with mouse   |
 
 ---
 
@@ -382,11 +382,11 @@ Originally from [suckless.org/dwm](https://dwm.suckless.org) © Anselm R Garbe a
 
 ## Credits & Inspirations
 
-| Project | What we took from it |
-| --- | --- |
-| [dwm](https://dwm.suckless.org) | The window manager this is built on |
-| [chadwm](https://github.com/siduck/chadwm) by siduck | Original patched dwm base, themes, status2d coloring |
-| [omarchy](https://github.com/basecamp/omarchy) by Basecamp | Menu system design, workflow philosophy, script structure |
-| [dusk](https://github.com/bakkeby/dusk) by bakkeby | Patch reference, dragcfact implementation |
-| [rofi themes](https://github.com/adi1090x/rofi) by Aditya Shakya | launcher2.rasi base design |
-| [suckless slstatus](https://tools.suckless.org/slstatus/) | Status bar |
+| Project                                                          | What we took from it                                      |
+|------------------------------------------------------------------|-----------------------------------------------------------|
+| [dwm](https://dwm.suckless.org)                                  | The window manager this is built on                       |
+| [chadwm](https://github.com/siduck/chadwm) by siduck             | Original patched dwm base, themes, status2d coloring      |
+| [omarchy](https://github.com/basecamp/omarchy) by Basecamp       | Menu system design, workflow philosophy, script structure |
+| [dusk](https://github.com/bakkeby/dusk) by bakkeby               | Patch reference, dragcfact implementation                 |
+| [rofi themes](https://github.com/adi1090x/rofi) by Aditya Shakya | launcher2.rasi base design                                |
+| [suckless slstatus](https://tools.suckless.org/slstatus/)        | Status bar                                                |
