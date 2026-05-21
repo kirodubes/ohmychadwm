@@ -2,6 +2,17 @@
 
 ## 2026.05.21
 
+### What Changed
+- Added the four other required markdown scaffold files (created stubs for whichever of `IDEAS.md` / `TODO.md` / `CLAUDE.md` were missing) per the new ecosystem MD-scaffold rule codified in [Kiro-HQ/CLAUDE.md](/home/erik/Insync/Kiro/Kiro-HQ/CLAUDE.md#required-markdown-scaffold-every-repo). README was already substantial; left untouched.
+
+### Files Modified
+- CHANGELOG.md
+- IDEAS.md (created where missing)
+- TODO.md (created where missing)
+- CLAUDE.md (created where missing)
+
+## 2026.05.21
+
 **What Changed**
 Ported the ckb-next (Corsair keyboard) autostart line from the live `~/.config/ohmychadwm/` into the EDU skel mirror so new installs launch ckb-next when the package is installed.
 
