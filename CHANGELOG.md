@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026.05.21
+
+**What Changed**
+Ported the ckb-next (Corsair keyboard) autostart line from the live `~/.config/ohmychadwm/` into the EDU skel mirror so new installs launch ckb-next when the package is installed.
+
+**Technical Details**
+Added a guarded one-liner in `scripts/run.sh` right after `blueberry-tray`. Bypasses the local `run()` helper because `pgrep ckb-next` (loose substring) matches the already-running `ckb-next-daemon` and falsely concludes the GUI is up — uses `pgrep -x ckb-next` instead. Whole line is gated by `command -v ckb-next` so it's a silent no-op on machines without the package.
+
+**Files Modified**
+- etc/skel/.config/ohmychadwm/scripts/run.sh
+
 ## 2026.05.01
 
 **What Changed**

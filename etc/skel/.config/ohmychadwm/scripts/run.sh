@@ -39,6 +39,10 @@ run "flameshot"                                       # Screenshot tool (tray + 
 run "xfce4-power-manager"                             # Battery / display power management
 run "xfce4-clipman"                                   # Clipboard manager
 run "blueberry-tray"                                  # Bluetooth manager tray
+# Corsair keyboard control (RGB + remap) — only start if the package is installed.
+# Note: can't use run() here — its `pgrep ckb-next` (loose substring) matches the
+# already-running `ckb-next-daemon` and falsely concludes the GUI is up. Use -x.
+command -v ckb-next >/dev/null 2>&1 && ! pgrep -x ckb-next >/dev/null && ckb-next --background &
 run "/usr/lib/xfce4/notifyd/xfce4-notifyd"           # Desktop notification daemon
 run "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"  # Polkit auth popups (sudo GUI)
 
