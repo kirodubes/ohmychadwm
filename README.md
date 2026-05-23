@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="kiro.jpg" alt="Kiro" width="220" />
+</p>
+
 # ohmychadwm
 
 A fully configured, keyboard-driven X11 desktop built on top of [Chadwm](https://github.com/siduck/chadwm), a fork from **dwm** (Dynamic Window Manager). We started with the code from ArcoLinux - arcolinux-chadwm package and we let us inspire by Omarchy.
