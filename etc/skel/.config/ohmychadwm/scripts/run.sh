@@ -11,7 +11,10 @@
 # =============================================================================
 
 # run() — start a program only if it is not already running.
-# Prevents duplicate processes when ohmychadwm restarts itself (Super+Shift+Q).
+# run.sh runs once per session login (via exec-ohmychadwm); Super+Shift+R only
+# re-execs the ohmychadwm binary in the loop at the bottom, not this autostart
+# section. The pgrep guard is defensive: it avoids duplicates only if run.sh is
+# ever launched again while these processes are still alive.
 run() {
  if ! pgrep $1 ;
   then
@@ -21,6 +24,12 @@ run() {
 
 # ── Backup original app configs (one-time, before ohmychadwm first modifies them)
 bash "$HOME/.config/ohmychadwm/scripts/backup-originals.sh"
+
+# ── Default home folders ────────────────────────────────────────────────────────
+# Create the standard XDG user dirs (Desktop, Downloads, Documents, …) the same
+# way XFCE does on login. Reads /etc/xdg/user-dirs.defaults and is idempotent:
+# it only creates missing folders and won't restore ones you deleted on purpose.
+command -v xdg-user-dirs-update >/dev/null 2>&1 && xdg-user-dirs-update
 
 # ── Monitor layout ────────────────────────────────────────────────────────────
 # Apply a saved arandr/xrandr screen layout named after the current user.
@@ -82,7 +91,8 @@ run "slstatus"
 # ── Claude assistant terminal ─────────────────────────────────────────────────
 # Open an Alacritty window in Kiro-HQ and drop straight into Claude Code.
 # fish -i -C claude keeps an interactive shell around, so the window survives
-# claude exiting. Guarded by pgrep so Super+Shift+R does not spawn duplicates.
+# claude exiting. The pgrep guard prevents a duplicate window only if run.sh is
+# re-run while claude is already up (it does not re-run on Super+Shift+R).
 # Only auto-launch on the "hq" host — other machines skip it.
 if [ "$(hostname)" = "hq" ] && ! pgrep -x claude >/dev/null; then
     alacritty --working-directory "$HOME/Insync/Kiro/Kiro-HQ" \
