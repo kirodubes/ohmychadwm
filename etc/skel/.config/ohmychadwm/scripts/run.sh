@@ -83,7 +83,8 @@ run "slstatus"
 # Open an Alacritty window in Kiro-HQ and drop straight into Claude Code.
 # fish -i -C claude keeps an interactive shell around, so the window survives
 # claude exiting. Guarded by pgrep so Super+Shift+R does not spawn duplicates.
-if ! pgrep -x claude >/dev/null; then
+# Only auto-launch on the "hq" host — other machines skip it.
+if [ "$(hostname)" = "hq" ] && ! pgrep -x claude >/dev/null; then
     alacritty --working-directory "$HOME/Insync/Kiro/Kiro-HQ" \
               -e fish -i -C claude &
 fi
