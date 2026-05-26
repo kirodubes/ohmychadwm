@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026.05.26
+
+### What Changed
+- Added a unified `super + g` keybinding to toggle **fastcompmgr** (the default compositor), matching the binding used across the other Kiro window managers. picom is intentionally kept here — ohmychadwm remains dual-compositor — so `super + p` still toggles picom.
+- Relabeled the mislabeled `#Picom Toggle` comment on the `ctrl + alt + o` → `opera` binding to `#Opera` (it never toggled picom).
+
+### Technical Details
+- Created `scripts/fastcompmgr-toggle.sh` — a start/stop toggle that kills picom first (mutual exclusion, mirroring `picom-toggle.sh`) so only one compositor runs at a time.
+- `sxhkd/sxhkdrc`: added the `#Compositor Toggle (fastcompmgr)` block on `super + g`; kept the `#Picom Toggle` block on `super + p`; `#Opera` relabel.
+
+### Files Modified
+- etc/skel/.config/ohmychadwm/scripts/fastcompmgr-toggle.sh (created)
+- etc/skel/.config/ohmychadwm/sxhkd/sxhkdrc
+
 ## 2026.05.25
 
 ### What Changed

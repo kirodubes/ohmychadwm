@@ -70,10 +70,6 @@ super + k
 super + e
     code
 
-#Conky-toggle
-super + c
-    conky-toggle
-
 #archlinux-logout
 super + x
     archlinux-logout
@@ -148,6 +144,10 @@ super + shift + s
 #################################################################
 # CONTROL + ALT KEYS
 #################################################################
+
+#obs
+ctrl + alt + d
+    obs
 
 #archlinux-tweak-tool
 ctrl + alt + e
