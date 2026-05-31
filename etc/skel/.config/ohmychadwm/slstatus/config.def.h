@@ -85,7 +85,7 @@ static const struct arg args[] = {
     //{ netspeed_tx,   "  %s  ",   "enp3s0"            },  /* upload speed    */
 
     /* CPU & memory */
-    //{ cpu_perc,      "  %s%%  ", NULL                },  /* CPU usage       */
+    { cpu_perc,      "  %s%%  ", NULL                },  /* CPU usage       */
     //{ ram_used,      "  %s  ",   NULL                },  /* RAM used (GB)   */
     //{ ram_perc,      "  %s%%  ", NULL                },  /* RAM %           */
 

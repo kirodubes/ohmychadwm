@@ -77,7 +77,7 @@ run "volctl"                                          # PipeWire/PulseAudio volu
 if [ -f "$HOME/.fehbg" ]; then
     sh "$HOME/.fehbg" &
 else
-    feh --bg-scale ~/.config/ohmychadwm/wallpapers/dracula.jpg &
+    feh --bg-scale ~/.config/ohmychadwm/wallpapers/kiro-swirl.png &
 fi
 
 # ── Cloud sync ────────────────────────────────────────────────────────────────
