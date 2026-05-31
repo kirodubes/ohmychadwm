@@ -235,7 +235,7 @@ static char *tags[] = { "home", "chat", "surf", "media", "game", "remote", "code
 static char *tags[] = { "", "", "", "", "", "󰋉", "", "", "", "" };
 #endif
 
-static const char* ohmychadwm_menu[] = { "/bin/sh", "-c", "/home/erik/.config/ohmychadwm/menu/ohmychadwm-menu.sh", NULL };
+static const char* ohmychadwm_menu[] = { "/bin/sh", "-c", "~/.config/ohmychadwm/menu/ohmychadwm-menu.sh", NULL };
 static const char* firefox[] = { "firefox", NULL };
 static const char* vivaldi[] = { "vivaldi", NULL };
 static const char* brave[] = { "brave", "--password-store=basic", "%U", NULL };
