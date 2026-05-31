@@ -40,7 +40,7 @@ command -v xdg-user-dirs-update >/dev/null 2>&1 && xdg-user-dirs-update
 [ -f "$HOME/.screenlayout/$(whoami).sh" ] && sh "$HOME/.screenlayout/$(whoami).sh"
 
 # ── System tray applets ───────────────────────────────────────────────────────
-run "signal-in-tray"                                  # Signal Desktop tray icon
+#run "signal-in-tray"                                  # Signal Desktop tray icon
 run "nm-applet"                                       # NetworkManager wifi/eth tray
 run "pamac-tray"                                      # Manjaro/Arch package manager tray
 #run "variety"                                         # Wallpaper rotator (optional)
@@ -81,7 +81,7 @@ else
 fi
 
 # ── Cloud sync ────────────────────────────────────────────────────────────────
-run "insync start"                                    # Google Drive sync (optional)
+#run "insync start"                                    # Google Drive sync (optional)
 
 # ── Status bar ────────────────────────────────────────────────────────────────
 # slstatus writes system info (time, CPU, RAM, …) to the dwm bar via XSetRoot.
