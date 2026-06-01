@@ -67,7 +67,7 @@ super + alt + space
 #################################################################
 
 #show keybindings
-super + k
+super + ctrl + s
     kiro-keybindings
 
 #Code
