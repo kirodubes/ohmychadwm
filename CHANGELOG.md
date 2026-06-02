@@ -3,15 +3,28 @@
 ## 2026.06.02
 
 ### What Changed
+- **AZERTY ⇄ QWERTY switching for ohmychadwm.** chadwm is compiled dwm — its keybindings live in `config.def.h`, not a runtime config — so the rest of the Kiro ecosystem's startup auto-detection approach (kiro-bspwm/kiro-qtile detect `be` via `setxkbmap -query`) does not apply. Instead a single compile-time toggle `#define KIRO_AZERTY true|false` selects the tag, gap-resize, view-all and focus-monitor keysyms (only those differ between layouts), and a one-command switch script flips it and rebuilds. Ships AZERTY by default (Erik's build); QWERTY for the rest of the world.
+- Added `.bin/ohmychadwm-keyboard-layout` — toggles AZERTY⇄QWERTY (or `azerty`/`qwerty` to force, `--dry-run` to preview): flips the `#define`, recompiles + `sudo make install`s the WM, swaps the matching keybindings cheatsheet, and prompts for `Super+Shift+R`.
+- Added a **Keyboard layout** entry to the rofi system menu (Style → Customise) so users can switch without the CLI, alongside the other config-editing entries (Tags/Border/Gaps).
+- Generated `keybindings-azerty.txt` / `keybindings-qwerty.txt` cheatsheet variants; the switch script copies the active one over `keybindings.txt`.
 - Aligned `scripts/run.sh` to the canonical [TWM autostart standard](/home/erik/Insync/Kiro/Kiro-HQ/AUTOSTART_TEMPLATE.md) `run()` — ohmychadwm is the gold-standard file, but it was still using the older loose `run()` (`pgrep $1`), the one place the reference diverged from the rule it inspired. Now matches.
 - Dropped the `ckb-next` special-case workaround: the loose `pgrep` used to false-match `ckb-next-daemon`, which forced a manual `! pgrep -x ckb-next` guard. The robust `run()` (exact-match `pgrep -x`) distinguishes the GUI from the daemon, so ckb-next is now a normal guarded `run` call (`command -v ckb-next … && run ckb-next --background`).
 
 ### Technical Details
+- `config.def.h`: `#if KIRO_AZERTY` block defines `KEY_TAG0..8`, `KEY_GAP_IH/IV/OH/OV`, `KEY_VIEWALL`, `KEY_FOCUSMON_NEXT` as AZERTY keysyms (`XK_ampersand`, `XK_eacute`, …, `XK_agrave`, `XK_semicolon`); the `#else` branch maps them to QWERTY (`XK_1`..`XK_9`, `XK_0`, `XK_period`). `TAGKEYS()` and the gap/view/focusmon bindings reference the `KEY_*` macros so the same `keys[]` array serves both layouts. Local `true`/`false` macros are guarded with `#ifndef`. Verified both branches compile cleanly (`make` AZERTY → OK, flipped to QWERTY → OK) in a throwaway copy.
+- `ohmychadwm-keyboard-layout` follows the standard bash template; `swap_cheatsheet` warns (not fails) if a variant cheatsheet is missing. Validated with `bash -n`.
+- `menu/ohmychadwm-menu.sh`: new `show_keyboard_layout_menu` mirrors `_apply_border` (edit → rebuild in terminal) but delegates to the switch script via `$HOME/.bin/ohmychadwm-keyboard-layout <target>`, run in alacritty for the sudo prompt. Validated with `bash -n`.
 - `run()` → `if ! pgrep -x "$(basename "$1" | head -c 15)" >/dev/null; then "$@" &`. Because it now uses quoted `"$@"`, all `run "…"` calls were **unquoted** to canonical style (`run nm-applet`, `run numlockx on`, …) — the two-word `run "numlockx on"` would otherwise have been treated as a single command name and failed.
 - No behavior change to which apps autostart; AZERTY default, slstatus, and the hq-host Claude terminal are untouched.
 - Validated with `sh -n`.
 
 ### Files Modified
+- etc/skel/.config/ohmychadwm/chadwm/config.def.h
+- etc/skel/.bin/ohmychadwm-keyboard-layout
+- etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh
+- etc/skel/.config/ohmychadwm/keybindings-azerty.txt
+- etc/skel/.config/ohmychadwm/keybindings-qwerty.txt
+- etc/skel/.config/ohmychadwm/keybindings.txt
 - etc/skel/.config/ohmychadwm/scripts/run.sh
 
 ## 2026.06.01

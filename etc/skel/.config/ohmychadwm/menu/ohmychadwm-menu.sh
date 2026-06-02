@@ -516,7 +516,7 @@ _customise_reset_defaults() {
 
 show_customise_menu() {
     while true; do
-        case $(menu "Customise" " Tags\n Border\n Gaps\n Bar padding\n Bar position\n Smart gaps\n Hide systray\n New window\n Launcher icons\n Master area\n Font\n Back to default") in
+        case $(menu "Customise" " Tags\n Border\n Gaps\n Bar padding\n Bar position\n Smart gaps\n Hide systray\n New window\n Launcher icons\n Master area\n Font\n Keyboard layout\n Back to default") in
             *Tags*)             show_tags_menu         || continue; return 0 ;;
             *Border*)           show_border_menu       || continue; return 0 ;;
             *Gaps*)             show_gaps_menu         || continue; return 0 ;;
@@ -528,6 +528,7 @@ show_customise_menu() {
             *"Launcher icons"*) show_launchers_menu    || continue; return 0 ;;
             *"Master area"*)    show_mfact_menu        || continue; return 0 ;;
             *Font*)             show_font_menu         || continue; return 0 ;;
+            *"Keyboard layout"*) show_keyboard_layout_menu || continue; return 0 ;;
             *"Back to default"*) _customise_reset_defaults; return 0 ;;
             *)                  return 1 ;;
         esac
@@ -575,6 +576,19 @@ PYEOF
 
     (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
     notify-send "ohmychadwm" "Tags set to '${chosen}'"
+}
+
+show_keyboard_layout_menu() {
+    local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
+    local current
+    if grep -qE '^#define KIRO_AZERTY[[:space:]]+true' "$config"; then current=AZERTY; else current=QWERTY; fi
+    local chosen
+    chosen=$(menu "Keyboard layout (current: ${current})" "AZERTY (Belgian)\nQWERTY (US / world)") || return 1
+    local target=azerty
+    [[ "$chosen" == QWERTY* ]] && target=qwerty
+    # The switch script flips KIRO_AZERTY, recompiles, and swaps the cheatsheet; run it in a terminal for the sudo prompt.
+    (alacritty -e bash -c "\$HOME/.bin/ohmychadwm-keyboard-layout ${target}; exec bash")
+    notify-send "ohmychadwm" "Keyboard layout: ${target}. Press Super+Shift+R to apply."
 }
 
 show_border_menu() {
