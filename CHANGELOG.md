@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026.06.02
+
+### What Changed
+- Aligned `scripts/run.sh` to the canonical [TWM autostart standard](/home/erik/Insync/Kiro/Kiro-HQ/AUTOSTART_TEMPLATE.md) `run()` — ohmychadwm is the gold-standard file, but it was still using the older loose `run()` (`pgrep $1`), the one place the reference diverged from the rule it inspired. Now matches.
+- Dropped the `ckb-next` special-case workaround: the loose `pgrep` used to false-match `ckb-next-daemon`, which forced a manual `! pgrep -x ckb-next` guard. The robust `run()` (exact-match `pgrep -x`) distinguishes the GUI from the daemon, so ckb-next is now a normal guarded `run` call (`command -v ckb-next … && run ckb-next --background`).
+
+### Technical Details
+- `run()` → `if ! pgrep -x "$(basename "$1" | head -c 15)" >/dev/null; then "$@" &`. Because it now uses quoted `"$@"`, all `run "…"` calls were **unquoted** to canonical style (`run nm-applet`, `run numlockx on`, …) — the two-word `run "numlockx on"` would otherwise have been treated as a single command name and failed.
+- No behavior change to which apps autostart; AZERTY default, slstatus, and the hq-host Claude terminal are untouched.
+- Validated with `sh -n`.
+
+### Files Modified
+- etc/skel/.config/ohmychadwm/scripts/run.sh
+
 ## 2026.06.01
 
 ### What Changed

@@ -13,12 +13,11 @@
 # run() — start a program only if it is not already running.
 # run.sh runs once per session login (via exec-ohmychadwm); Super+Shift+R only
 # re-execs the ohmychadwm binary in the loop at the bottom, not this autostart
-# section. The pgrep guard is defensive: it avoids duplicates only if run.sh is
-# ever launched again while these processes are still alive.
+# section. The exact-match (-x) pgrep on the 15-char process name avoids false
+# "already up" hits from loose substring matching, so no per-app special-casing.
 run() {
- if ! pgrep $1 ;
-  then
-    $@&
+  if ! pgrep -x "$(basename "$1" | head -c 15)" >/dev/null; then
+    "$@" &
   fi
 }
 
@@ -40,20 +39,20 @@ command -v xdg-user-dirs-update >/dev/null 2>&1 && xdg-user-dirs-update
 [ -f "$HOME/.screenlayout/$(whoami).sh" ] && sh "$HOME/.screenlayout/$(whoami).sh"
 
 # ── System tray applets ───────────────────────────────────────────────────────
-#run "signal-in-tray"                                  # Signal Desktop tray icon
-run "nm-applet"                                       # NetworkManager wifi/eth tray
-run "pamac-tray"                                      # Manjaro/Arch package manager tray
-#run "variety"                                         # Wallpaper rotator (optional)
-run "flameshot"                                       # Screenshot tool (tray + daemon)
-run "xfce4-power-manager"                             # Battery / display power management
-run "xfce4-clipman"                                   # Clipboard manager
-run "blueberry-tray"                                  # Bluetooth manager tray
-# Corsair keyboard control (RGB + remap) — only start if the package is installed.
-# Note: can't use run() here — its `pgrep ckb-next` (loose substring) matches the
-# already-running `ckb-next-daemon` and falsely concludes the GUI is up. Use -x.
-command -v ckb-next >/dev/null 2>&1 && ! pgrep -x ckb-next >/dev/null && ckb-next --background &
-run "/usr/lib/xfce4/notifyd/xfce4-notifyd"           # Desktop notification daemon
-run "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"  # Polkit auth popups (sudo GUI)
+#run signal-in-tray                                   # Signal Desktop tray icon
+run nm-applet                                         # NetworkManager wifi/eth tray
+run pamac-tray                                        # Manjaro/Arch package manager tray
+#run variety                                          # Wallpaper rotator (optional)
+run flameshot                                         # Screenshot tool (tray + daemon)
+run xfce4-power-manager                               # Battery / display power management
+run xfce4-clipman                                     # Clipboard manager
+run blueberry-tray                                    # Bluetooth manager tray
+# Corsair keyboard control (RGB + remap) — only if the package is installed.
+# run()'s exact-match pgrep -x now tells the ckb-next GUI from ckb-next-daemon,
+# so the old manual guard is gone.
+command -v ckb-next >/dev/null 2>&1 && run ckb-next --background
+run /usr/lib/xfce4/notifyd/xfce4-notifyd              # Desktop notification daemon
+run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1  # Polkit auth popups (sudo GUI)
 
 # ── Compositor ────────────────────────────────────────────────────────────────
 # Provides transparency, shadows and smooth window rendering.
@@ -63,13 +62,13 @@ run fastcompmgr -c
 #run picom --config ~/.config/ohmychadwm/picom/picom.conf
 
 # ── Keyboard ──────────────────────────────────────────────────────────────────
-run "numlockx on"                                     # Enable numlock on login
+run numlockx on                                       # Enable numlock on login
 # sxhkd reads keybindings from sxhkdrc and executes them independently of dwm.
 # Edit ~/.config/ohmychadwm/sxhkd/sxhkdrc to add or change keybindings.
 sxhkd -c ~/.config/ohmychadwm/sxhkd/sxhkdrc &
 
 # ── Volume control ────────────────────────────────────────────────────────────
-run "volctl"                                          # PipeWire/PulseAudio volume tray
+run volctl                                            # PipeWire/PulseAudio volume tray
 
 # ── Wallpaper ─────────────────────────────────────────────────────────────────
 # Restore the last wallpaper set by feh (saved to ~/.fehbg automatically).
@@ -81,12 +80,12 @@ else
 fi
 
 # ── Cloud sync ────────────────────────────────────────────────────────────────
-#run "insync start"                                    # Google Drive sync (optional)
+#run insync start                                     # Google Drive sync (optional)
 
 # ── Status bar ────────────────────────────────────────────────────────────────
 # slstatus writes system info (time, CPU, RAM, …) to the dwm bar via XSetRoot.
 # Configure what is shown in ~/.config/ohmychadwm/slstatus/config.def.h
-run "slstatus"
+run slstatus
 
 # ── Claude assistant terminal ─────────────────────────────────────────────────
 # Open an Alacritty window in Kiro-HQ and drop straight into Claude Code.
