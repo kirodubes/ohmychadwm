@@ -1,7 +1,7 @@
 ###############################################################################
-#  KEYBINDINGS — ohmychadwm (AZERTY)
+#  KEYBINDINGS — ohmychadwm (QWERTY)
 #  Source: etc/skel/.config/ohmychadwm/chadwm/config.def.h + etc/skel/.config/ohmychadwm/sxhkd/sxhkdrc
-#  AZERTY variant (shipped default). Swapped by ohmychadwm-keyboard-layout — DO NOT EDIT BY HAND
+#  QWERTY variant. Swapped in by ohmychadwm-keyboard-layout — DO NOT EDIT BY HAND
 ###############################################################################
 
 ── 1. Applications & Launchers ───────────────────────────────────────────────
@@ -90,8 +90,8 @@
   super + ctrl + 1..9       toggle view of tag 1..9
   super + shift + 1..9      move window to tag 1..9
   super + ctrl + shift + 1..9  toggle tag 1..9 on window
-  super + agrave            view all tags
-  super + shift + agrave    move window to all tags
+  super + 0            view all tags
+  super + shift + 0    move window to all tags
 
 ── 4. Layout & Tiling ─────────────────────────────────────────────────────────
   super + i                 increase master count
@@ -112,14 +112,14 @@
   super + ctrl + shift + i  decrease inner gaps
   super + ctrl + o          increase outer gaps
   super + ctrl + shift + o  decrease outer gaps
-  super + ctrl + section    increase inner horizontal gaps
-  super + ctrl + shift + section  decrease inner horizontal gaps
-  super + ctrl + egrave     increase inner vertical gaps
-  super + ctrl + shift + egrave  decrease inner vertical gaps
-  super + ctrl + exclam     increase outer horizontal gaps
-  super + ctrl + shift + exclam  decrease outer horizontal gaps
-  super + ctrl + ccedilla   increase outer vertical gaps
-  super + ctrl + shift + ccedilla  decrease outer vertical gaps
+  super + ctrl + 6    increase inner horizontal gaps
+  super + ctrl + shift + 6  decrease inner horizontal gaps
+  super + ctrl + 7     increase inner vertical gaps
+  super + ctrl + shift + 7  decrease inner vertical gaps
+  super + ctrl + 8     increase outer horizontal gaps
+  super + ctrl + shift + 8  decrease outer horizontal gaps
+  super + ctrl + 9   increase outer vertical gaps
+  super + ctrl + shift + 9  decrease outer vertical gaps
   super + ctrl + shift + d  default gaps
   super + ctrl + F1         set layout dwindle
   super + ctrl + F2         set layout tile
@@ -141,7 +141,7 @@
 
 ── 5. Multi-monitor ───────────────────────────────────────────────────────────
   super + comma             focus previous monitor
-  super + semicolon         focus next monitor
+  super + period         focus next monitor
   super + shift + Left      send window to previous monitor
   super + shift + Right     send window to next monitor
 

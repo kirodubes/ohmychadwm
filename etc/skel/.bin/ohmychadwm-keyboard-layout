@@ -1,0 +1,127 @@
+#!/bin/bash
+set -euo pipefail
+#####################################################################
+# Author : Erik Dubois
+# Website : https://kiroproject.be
+#
+# DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
+#
+# Purpose:
+#   Switch the ohmychadwm window manager between AZERTY and QWERTY
+#   keyboard layouts. ohmychadwm is compiled dwm, so the layout lives
+#   in config.def.h behind the `#define KIRO_AZERTY true|false` toggle.
+#   This flips that one value, recompiles + installs the WM, swaps the
+#   matching keybindings cheatsheet, and tells you to reload.
+#
+# Why:
+#   ohmychadwm ships AZERTY by default; QWERTY users (most of the world)
+#   need a one-command way to switch without hand-editing C and rebuilding.
+#
+# Usage:
+#   ohmychadwm-keyboard-layout            # toggle azerty <-> qwerty
+#   ohmychadwm-keyboard-layout azerty     # force azerty
+#   ohmychadwm-keyboard-layout qwerty     # force qwerty
+#   ohmychadwm-keyboard-layout --dry-run [azerty|qwerty]
+#####################################################################
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
+# ── Colors (silent fallback when not a TTY) ─────────────────────────
+if [ -t 1 ]; then
+    RED="$(tput setaf 1)"; GREEN="$(tput setaf 2)"; YELLOW="$(tput setaf 3)"
+    BLUE="$(tput setaf 4)"; CYAN="$(tput setaf 6)"; RESET="$(tput sgr0)"
+else
+    RED=""; GREEN=""; YELLOW=""; BLUE=""; CYAN=""; RESET=""
+fi
+
+# ── Logging ─────────────────────────────────────────────────────────
+log_section() { echo "${GREEN}############ $* ############${RESET}"; }
+log_info()    { echo "${BLUE}############ $* ############${RESET}"; }
+log_warn()    { echo "${YELLOW}############ $* ############${RESET}"; }
+log_error()   { echo "${RED}############ $* ############${RESET}"; }
+log_success() { echo "${GREEN}############ $* ############${RESET}"; }
+
+# ── Error handler ───────────────────────────────────────────────────
+on_error() { echo "${RED}ERROR on line $1: $2${RESET}"; sleep 10; }
+trap 'on_error "$LINENO" "$BASH_COMMAND"' ERR
+
+# ── Paths / config ──────────────────────────────────────────────────
+CHADWM_DIR="$HOME/.config/ohmychadwm/chadwm"
+CONFIG_DEF="$CHADWM_DIR/config.def.h"
+KB_DIR="$HOME/.config/ohmychadwm"
+DRYRUN=false
+
+# ── Functions ───────────────────────────────────────────────────────
+current_layout() {
+    # true -> azerty, false -> qwerty
+    if grep -qE '^#define KIRO_AZERTY[[:space:]]+true' "$CONFIG_DEF"; then
+        echo azerty
+    else
+        echo qwerty
+    fi
+}
+
+parse_args() {
+    TARGET=""
+    for arg in "$@"; do
+        case "$arg" in
+            --dry-run) DRYRUN=true ;;
+            azerty|qwerty) TARGET="$arg" ;;
+            *) log_error "unknown argument: $arg"; exit 1 ;;
+        esac
+    done
+    # No explicit target -> toggle from the current value.
+    if [ -z "$TARGET" ]; then
+        if [ "$(current_layout)" = azerty ]; then TARGET=qwerty; else TARGET=azerty; fi
+    fi
+}
+
+set_toggle() {
+    local val=true
+    [ "$TARGET" = qwerty ] && val=false
+    log_info "Setting KIRO_AZERTY=$val ($TARGET) in config.def.h"
+    $DRYRUN && return 0
+    sed -i -E "s/^#define KIRO_AZERTY[[:space:]]+.*/#define KIRO_AZERTY $val/" "$CONFIG_DEF"
+}
+
+rebuild_wm() {
+    log_info "Recompiling and installing ohmychadwm (needs sudo)"
+    $DRYRUN && { echo "[dry-run] cd $CHADWM_DIR && make clean && make && sudo make install"; return 0; }
+    ( cd "$CHADWM_DIR" && make clean && make && sudo make install && make clean )
+}
+
+swap_cheatsheet() {
+    local variant="$KB_DIR/keybindings-$TARGET.txt"
+    if [ -f "$variant" ]; then
+        log_info "Swapping keybindings cheatsheet -> $TARGET"
+        $DRYRUN || cp -f "$variant" "$KB_DIR/keybindings.txt"
+    else
+        log_warn "No keybindings-$TARGET.txt found; cheatsheet left unchanged"
+    fi
+}
+
+notify_done() {
+    if command -v notify-send >/dev/null 2>&1 && [ "${EUID:-$(id -u)}" -ne 0 ] && ! $DRYRUN; then
+        notify-send "ohmychadwm" "Keyboard layout switched to $TARGET. Press Super+Shift+R to apply."
+    fi
+}
+
+main() {
+    parse_args "$@"
+    [ -f "$CONFIG_DEF" ] || { log_error "not found: $CONFIG_DEF"; exit 1; }
+
+    log_section "Switching ohmychadwm keyboard layout: $(current_layout) -> $TARGET"
+    if [ "$(current_layout)" = "$TARGET" ] && ! $DRYRUN; then
+        log_warn "Already on $TARGET — rebuilding anyway to be sure"
+    fi
+
+    set_toggle
+    rebuild_wm
+    swap_cheatsheet
+    notify_done
+
+    log_success "Now on $TARGET. Press ${CYAN}Super+Shift+R${RESET}${GREEN} to reload ohmychadwm."
+    log_success "$(basename "$0") done"
+}
+
+main "$@"

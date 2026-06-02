@@ -350,6 +350,56 @@ static const Layout layouts[] = {
 
 /* commands */
 
+/* ── Keyboard layout ──────────────────────────────────────────────────────────
+ * true  = AZERTY (Belgian) — the default ohmychadwm build (Erik's).
+ * false = QWERTY — the rest of the world.
+ * Flip this one value and rebuild; the give-me switch script does it for you.
+ * Only the tag, gap-resize, view-all and focus-monitor keys differ. */
+#ifndef true
+#define true 1
+#endif
+#ifndef false
+#define false 0
+#endif
+
+#define KIRO_AZERTY true
+
+#if KIRO_AZERTY
+/* AZERTY (Belgium) */
+#define KEY_TAG0 XK_ampersand
+#define KEY_TAG1 XK_eacute
+#define KEY_TAG2 XK_quotedbl
+#define KEY_TAG3 XK_apostrophe
+#define KEY_TAG4 XK_parenleft
+#define KEY_TAG5 XK_section
+#define KEY_TAG6 XK_egrave
+#define KEY_TAG7 XK_exclam
+#define KEY_TAG8 XK_ccedilla
+#define KEY_GAP_IH XK_section
+#define KEY_GAP_IV XK_egrave
+#define KEY_GAP_OH XK_exclam
+#define KEY_GAP_OV XK_ccedilla
+#define KEY_VIEWALL XK_agrave
+#define KEY_FOCUSMON_NEXT XK_semicolon
+#else
+/* QWERTY */
+#define KEY_TAG0 XK_1
+#define KEY_TAG1 XK_2
+#define KEY_TAG2 XK_3
+#define KEY_TAG3 XK_4
+#define KEY_TAG4 XK_5
+#define KEY_TAG5 XK_6
+#define KEY_TAG6 XK_7
+#define KEY_TAG7 XK_8
+#define KEY_TAG8 XK_9
+#define KEY_GAP_IH XK_6
+#define KEY_GAP_IV XK_7
+#define KEY_GAP_OH XK_8
+#define KEY_GAP_OV XK_9
+#define KEY_VIEWALL XK_0
+#define KEY_FOCUSMON_NEXT XK_period
+#endif
+
 static const Key keys[] = {
     /* modifier                         key         function        argument */
 
@@ -416,14 +466,14 @@ static const Key keys[] = {
     { MODKEY|ControlMask|ShiftMask,     XK_o,       incrogaps,      {.i = -1 } },
 
     // inner+outer hori, vert gaps 
-    { MODKEY|ControlMask,               XK_section,           incrihgaps,     {.i = +1 } },
-    { MODKEY|ControlMask|ShiftMask,     XK_section,           incrihgaps,     {.i = -1 } },
-    { MODKEY|ControlMask,               XK_egrave,            incrivgaps,     {.i = +1 } },
-    { MODKEY|ControlMask|ShiftMask,     XK_egrave,            incrivgaps,     {.i = -1 } },
-    { MODKEY|ControlMask,               XK_exclam,            incrohgaps,     {.i = +1 } },
-    { MODKEY|ControlMask|ShiftMask,     XK_exclam,            incrohgaps,     {.i = -1 } },
-    { MODKEY|ControlMask,               XK_ccedilla,          incrovgaps,     {.i = +1 } },
-    { MODKEY|ControlMask|ShiftMask,     XK_ccedilla,          incrovgaps,     {.i = -1 } },
+    { MODKEY|ControlMask,               KEY_GAP_IH,           incrihgaps,     {.i = +1 } },
+    { MODKEY|ControlMask|ShiftMask,     KEY_GAP_IH,           incrihgaps,     {.i = -1 } },
+    { MODKEY|ControlMask,               KEY_GAP_IV,           incrivgaps,     {.i = +1 } },
+    { MODKEY|ControlMask|ShiftMask,     KEY_GAP_IV,           incrivgaps,     {.i = -1 } },
+    { MODKEY|ControlMask,               KEY_GAP_OH,           incrohgaps,     {.i = +1 } },
+    { MODKEY|ControlMask|ShiftMask,     KEY_GAP_OH,           incrohgaps,     {.i = -1 } },
+    { MODKEY|ControlMask,               KEY_GAP_OV,           incrovgaps,     {.i = +1 } },
+    { MODKEY|ControlMask|ShiftMask,     KEY_GAP_OV,           incrovgaps,     {.i = -1 } },
 
     { MODKEY|ControlMask|ShiftMask,     XK_d,                 defaultgaps,    {0} },
     { MODKEY|ControlMask|ShiftMask,     XK_r,                 spawn, SHCMD("$HOME/.config/ohmychadwm/chadwm/rebuild.sh") },
@@ -445,10 +495,10 @@ static const Key keys[] = {
     //{ MODKEY,                           XK_space,   setlayout,      {0} },
     { MODKEY|ControlMask,               XK_p,       cyclelayout,    {.i = -1 } },
     { MODKEY|ControlMask,               XK_m,       cyclelayout,    {.i = +1 } },
-    { MODKEY,                           XK_agrave,  view,           {.ui = ~0 } },
-    { MODKEY|ShiftMask,                 XK_agrave,  tag,            {.ui = ~0 } },
+    { MODKEY,                           KEY_VIEWALL,  view,         {.ui = ~0 } },
+    { MODKEY|ShiftMask,                 KEY_VIEWALL,  tag,          {.ui = ~0 } },
     { MODKEY,                           XK_comma,   focusmon,       {.i = -1 } },
-    { MODKEY,                           XK_semicolon,  focusmon,       {.i = +1 } },
+    { MODKEY,                           KEY_FOCUSMON_NEXT,  focusmon,   {.i = +1 } },
     { MODKEY|ShiftMask,                 XK_Left,    tagmon,         {.i = -1 } },
     { MODKEY|ShiftMask,                 XK_Right,   tagmon,         {.i = +1 } },
 
@@ -474,28 +524,16 @@ static const Key keys[] = {
     //{ MODKEY,                           XK_i,       hidewin,        {0} },
     //{ MODKEY|ShiftMask,                 XK_i,       restorewin,     {0} },
 
-    // qwerty keyboard
-
-    //TAGKEYS(                            XK_1,                       0)
-    //TAGKEYS(                            XK_2,                       1)
-    //TAGKEYS(                            XK_3,                       2)
-    //TAGKEYS(                            XK_4,                       3)
-    //TAGKEYS(                            XK_5,                       4)
-    //TAGKEYS(                            XK_6,                       5)
-    //TAGKEYS(                            XK_7,                       6)
-    //TAGKEYS(                            XK_8,                       7)
-    //TAGKEYS(                            XK_9,                       8)
-
-    // azerty keyboard (Belgium)
-    TAGKEYS(                               XK_ampersand,                0)
-    TAGKEYS(                               XK_eacute,                   1)
-    TAGKEYS(                               XK_quotedbl,                 2)
-    TAGKEYS(                               XK_apostrophe,               3)
-    TAGKEYS(                               XK_parenleft,                4)
-    TAGKEYS(                               XK_section,                  5)
-    TAGKEYS(                               XK_egrave,                   6)
-    TAGKEYS(                               XK_exclam,                   7)
-    TAGKEYS(                               XK_ccedilla,                 8)
+    // Workspace/tag keys — AZERTY or QWERTY per the KIRO_AZERTY toggle at the top.
+    TAGKEYS(                               KEY_TAG0,                    0)
+    TAGKEYS(                               KEY_TAG1,                    1)
+    TAGKEYS(                               KEY_TAG2,                    2)
+    TAGKEYS(                               KEY_TAG3,                    3)
+    TAGKEYS(                               KEY_TAG4,                    4)
+    TAGKEYS(                               KEY_TAG5,                    5)
+    TAGKEYS(                               KEY_TAG6,                    6)
+    TAGKEYS(                               KEY_TAG7,                    7)
+    TAGKEYS(                               KEY_TAG8,                    8)
 
 };
 
