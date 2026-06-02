@@ -7,6 +7,8 @@
 - Added `.bin/ohmychadwm-keyboard-layout` — toggles AZERTY⇄QWERTY (or `azerty`/`qwerty` to force, `--dry-run` to preview): flips the `#define`, recompiles + `sudo make install`s the WM, swaps the matching keybindings cheatsheet, and prompts for `Super+Shift+R`.
 - Added a **Keyboard layout** entry to the rofi system menu (Style → Customise) so users can switch without the CLI, alongside the other config-editing entries (Tags/Border/Gaps).
 - Generated `keybindings-azerty.txt` / `keybindings-qwerty.txt` cheatsheet variants; the switch script copies the active one over `keybindings.txt`.
+- Documented the AZERTY↔QWERTY switch for end users in the config-dir `README.md` (new "Keyboard layout" section: why it matters, the menu route, the `ohmychadwm-keyboard-layout` CLI, and the distinction between the WM binding layout and the system keymap).
+- Fixed a stale `README.md` keybinding reference: the cheatsheet opener is `Super + Ctrl + S` (the universal Kiro hotkey), not the old `Super + K` — the table and the prose under it were never updated when the binding moved on 2026.06.01.
 - Aligned `scripts/run.sh` to the canonical [TWM autostart standard](/home/erik/Insync/Kiro/Kiro-HQ/AUTOSTART_TEMPLATE.md) `run()` — ohmychadwm is the gold-standard file, but it was still using the older loose `run()` (`pgrep $1`), the one place the reference diverged from the rule it inspired. Now matches.
 - Dropped the `ckb-next` special-case workaround: the loose `pgrep` used to false-match `ckb-next-daemon`, which forced a manual `! pgrep -x ckb-next` guard. The robust `run()` (exact-match `pgrep -x`) distinguishes the GUI from the daemon, so ckb-next is now a normal guarded `run` call (`command -v ckb-next … && run ckb-next --background`).
 
@@ -25,6 +27,7 @@
 - etc/skel/.config/ohmychadwm/keybindings-azerty.txt
 - etc/skel/.config/ohmychadwm/keybindings-qwerty.txt
 - etc/skel/.config/ohmychadwm/keybindings.txt
+- etc/skel/.config/ohmychadwm/README.md
 - etc/skel/.config/ohmychadwm/scripts/run.sh
 
 ## 2026.06.01

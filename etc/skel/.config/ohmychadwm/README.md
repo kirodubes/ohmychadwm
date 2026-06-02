@@ -84,6 +84,47 @@ The rebuild script copies `config.def.h` → `config.h`, compiles, installs, and
 
 ---
 
+## Keyboard layout (AZERTY ↔ QWERTY)
+
+ohmychadwm ships with an **AZERTY (Belgian)** layout by default. If you use a
+**QWERTY** keyboard (most of the world), the workspace keys won't line up — on
+QWERTY you want `Super + 1..9` to switch tags, but the AZERTY build listens for
+`Super + & é " ' (` instead. Switching the layout fixes that.
+
+**Only a few keys differ** between the two layouts — the number-row tag keys
+(`Super + 1..9`), the gap-resize keys, the "view all tags" key, and the
+next-monitor key. Every other shortcut is identical.
+
+### Switch from AZERTY to QWERTY (the easy way)
+
+Open the system menu (`Super + Alt + Space`) → **Style → Customise → Keyboard
+layout**, then pick **QWERTY**. A terminal opens, rebuilds the window manager
+(it asks for your password — this is the `sudo make install` step), and swaps
+the keybindings cheatsheet to match.
+
+When it finishes, press **`Super + Shift + R`** to reload ohmychadwm. Done — your
+tag keys are now `Super + 1..9`.
+
+### Switch from the terminal
+
+```bash
+ohmychadwm-keyboard-layout qwerty   # force QWERTY
+ohmychadwm-keyboard-layout azerty   # force AZERTY (back to default)
+ohmychadwm-keyboard-layout          # just toggle to the other one
+ohmychadwm-keyboard-layout --dry-run qwerty   # preview, change nothing
+```
+
+The script flips `#define KIRO_AZERTY` in `config.def.h`, recompiles + installs
+the WM, and swaps the cheatsheet. Press `Super + Shift + R` afterwards to apply.
+
+> **Note — two different "layouts".** This switch only changes which keys
+> ohmychadwm *listens for*. It does **not** change what your keyboard physically
+> *types*. To change the system keymap as well (so the keys produce the right
+> characters in apps), use the menu → **Update → keyboard layout**, or run
+> `setxkbmap us` (QWERTY) / `setxkbmap be` (Belgian AZERTY).
+
+---
+
 ## Key bindings (most important)
 
 | Key | Action |
@@ -95,9 +136,9 @@ The rebuild script copies `config.def.h` → `config.h`, compiles, installs, and
 | `Super + Shift + R` | Restart ohmychadwm (reload config) |
 | `Super + Alt + Space` | Open ohmychadwm system menu |
 | `Super + D` | Open rofi app launcher |
-| `Super + K` | Open the keybindings cheatsheet |
+| `Super + Ctrl + S` | Open the keybindings cheatsheet |
 
-Full keybinding list: press `Super + K` or open the menu → Learn → Keybindings — both launch the **kiro-keybindings** searchable cheatsheet.
+Full keybinding list: press `Super + Ctrl + S` or open the menu → Learn → Keybindings — both launch the **kiro-keybindings** searchable cheatsheet.
 
 ---
 
