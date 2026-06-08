@@ -1,5 +1,20 @@
 # Changelog
 
+## 2026.06.08
+
+### What Changed
+- Rebound `Super + F9` from `lollypop` to `virt-manager` in the sxhkd config (committed earlier today) and regenerated the keybindings cheatsheet to match. This change is ohmychadwm-only — the other Kiro TWMs still bind `Super + F9` to their own app (mostly `lollypop`).
+
+### Technical Details
+- Updated `Super + F9` in both `keybindings-azerty.txt` and `keybindings-qwerty.txt` (the F9 app launchers live in the shared sxhkd layer, identical across layouts), then copied the active AZERTY variant over `keybindings.txt` (shipped default, `KIRO_AZERTY true`). Re-rendered `keybindings.html` + `keybindings.pdf` via `kiro-keybindings-html.py`. Generated cheatsheets are a pure transform of the `.txt` — never hand-edited.
+
+### Files Modified
+- `etc/skel/.config/ohmychadwm/keybindings.txt`
+- `etc/skel/.config/ohmychadwm/keybindings-azerty.txt`
+- `etc/skel/.config/ohmychadwm/keybindings-qwerty.txt`
+- `etc/skel/.config/ohmychadwm/keybindings.html`
+- `etc/skel/.config/ohmychadwm/keybindings.pdf`
+
 ## 2026.06.02
 
 ### What Changed

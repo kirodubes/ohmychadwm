@@ -28,7 +28,7 @@
   super + F6                vlc
   super + F7                virtualbox
   super + F8                thunar
-  super + F9                lollypop
+  super + F9                virt-manager
   super + F10               spotify
   super + ctrl + space      variety --selector (wallpaper selector)
   alt + t                   variety -t (trash wallpaper)
