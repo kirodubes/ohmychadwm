@@ -38,9 +38,9 @@ super + F7
 super + F8
     thunar
 
-#Audio player
+#virt-manager
 super + F9
-    lollypop
+    virt-manager
 
 #Spotify
 super + F10
