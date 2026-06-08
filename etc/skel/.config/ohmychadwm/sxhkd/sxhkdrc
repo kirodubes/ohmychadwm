@@ -177,6 +177,10 @@ ctrl + alt + c
 ctrl + alt + g
     chromium -no-default-browser-check
 
+#Kiro Iso Builder
+ctrl + alt + i
+    kiro-iso-builder
+
 #Firefox
 ctrl + alt + f
      firefox
