@@ -58,6 +58,7 @@
   ctrl + alt + b            brave
   ctrl + alt + c            chromium
   ctrl + alt + g            chromium
+  ctrl + alt + i            kiro-iso-builder
   ctrl + alt + f            firefox
   ctrl + alt + p            pamac-manager
   ctrl + alt + m            mintstick -m iso
