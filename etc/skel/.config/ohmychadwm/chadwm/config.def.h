@@ -353,8 +353,14 @@ static const Layout layouts[] = {
 /* ── Keyboard layout ──────────────────────────────────────────────────────────
  * true  = AZERTY (Belgian) — the default ohmychadwm build (Erik's).
  * false = QWERTY — the rest of the world.
- * Flip this one value and rebuild; the give-me switch script does it for you.
- * Only the tag, gap-resize, view-all and focus-monitor keys differ. */
+ * Flip this one value and rebuild; 
+ * #define KIRO_AZERTY true or false
+ * Only the tag, gap-resize, view-all and focus-monitor keys differ.
+ * Or you run this in a terminal 
+ * ohmychadwm-keyboard-layout azerty
+ * ohmychadwm-keyboard-layout qwerty
+ * Afterwards press Super+Shift+R to reload Ohmychadwm */
+
 #ifndef true
 #define true 1
 #endif
@@ -362,7 +368,7 @@ static const Layout layouts[] = {
 #define false 0
 #endif
 
-#define KIRO_AZERTY true
+#define KIRO_AZERTY false
 
 #if KIRO_AZERTY
 /* AZERTY (Belgium) */
