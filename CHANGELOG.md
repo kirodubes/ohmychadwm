@@ -4,14 +4,18 @@
 
 ### What Changed
 - The `rebuild` command (`usr/bin/rebuild`) now runs `kiro-skell` before recompiling, so a rebuild first restores the known-good config + chadwm source from `/etc/skel`, then hands off to `chadwm/rebuild.sh` to `make`/`make install`. Motivated by an ohmychadwm session that "did not load fully" and looped on autologin (SDDM logged the `exec-ohmychadwm` session crashing with exit code 1 across several boots) — refreshing source before recompiling is the recovery path. `kiro-skell` is interactive, so answering "n" at its prompt keeps local edits and just recompiles as before.
+- `scripts/run.sh` now wraps the window-manager loop in a crash guard: it captures `ohmychadwm`'s stderr to `~/.cache/ohmychadwm/session.log`, and if the WM dies within 5s of launch it counts a crash and relaunches up to 3 times, then opens a recovery terminal (alacritty/xterm) instead of letting an autologin crash-loop lock you out of X. Normal Super+Shift+R restart (exit 0) and Super+Shift+Q logout (non-zero after real uptime) behave exactly as before.
 
 ### Technical Details
 - Placed the `kiro-skell` call in the `rebuild` wrapper (which lives in `/usr/bin`, outside `$HOME`) rather than `rebuild.sh` (which lives under `~/.config` and would be overwritten mid-run by `kiro-skell`). Running it first can also recreate `~/.config/ohmychadwm/chadwm` if it is missing, before the dir check.
 - Guarded the call with `command -v kiro-skell` so the script still works where the Kiro tool is absent.
 - Note: `kiro-skell` restores the *entire* `~/.config` (date-stamped backup of only what it overwrites), not just chadwm — a rebuild now also offers to refresh the whole home config.
+- Crash guard keys on **uptime, not exit code**: `dwm.c`'s `quit()` and a fatal `die()` both return `EXIT_FAILURE`, so the exit code can't tell a deliberate logout from a crash; a short uptime (< `MIN_UPTIME=5`) is what marks a crash-on-launch. `restart()` returns `EXIT_SUCCESS` (0) and always relaunches. Verified the three paths (crash→terminal, logout→exit, restart→relaunch) with a stubbed loop.
+- The in-X recovery terminal is best-effort (no WM is running, so it relies on X's default pointer focus); the guaranteed recovery path remains `Ctrl+Alt+F2` → TTY → `rebuild`.
 
 ### Files Modified
 - `usr/bin/rebuild`
+- `etc/skel/.config/ohmychadwm/scripts/run.sh`
 
 ## 2026.06.08
 

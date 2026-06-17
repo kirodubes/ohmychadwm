@@ -98,7 +98,50 @@ if [ "$(hostname)" = "hq" ] && ! pgrep -x claude >/dev/null; then
               -e fish -i -C claude &
 fi
 
-# ── Window manager loop ───────────────────────────────────────────────────────
-# Keeps restarting ohmychadwm as long as it exits with code 0 (Super+Shift+R).
-# Exits the session when ohmychadwm exits with a non-zero code (Super+Shift+Q).
-while type ohmychadwm >/dev/null; do ohmychadwm && continue || break; done
+# ── Window manager loop (with crash guard) ────────────────────────────────────
+# Normal exits are preserved:
+#   exit 0           → Super+Shift+R restart → relaunch ohmychadwm.
+#   exit !0 (uptime) → Super+Shift+Q logout  → end the session.
+# Crash guard: a fatal config/build error exits the same way a logout does
+# (dwm's die() returns EXIT_FAILURE, like quit()), so *uptime* — not the exit
+# code — is what tells a crash-on-launch from a deliberate logout. If ohmychadwm
+# dies within MIN_UPTIME seconds it is counted as a crash; after MAX_CRASHES we
+# stop relaunching and open a terminal, so you land in a usable X session to run
+# `rebuild` / `kiro-skell` instead of being locked out in an autologin loop.
+# stderr is captured to session.log for diagnosis.
+LOG_DIR="$HOME/.cache/ohmychadwm"
+SESSION_LOG="$LOG_DIR/session.log"
+MIN_UPTIME=5
+MAX_CRASHES=3
+mkdir -p "$LOG_DIR"
+: > "$SESSION_LOG"
+crashes=0
+
+while type ohmychadwm >/dev/null 2>&1; do
+    start=$(date +%s)
+    ohmychadwm 2>> "$SESSION_LOG"
+    code=$?
+    uptime=$(( $(date +%s) - start ))
+
+    if [ "$code" -eq 0 ]; then
+        crashes=0
+        continue                          # Super+Shift+R restart
+    fi
+
+    if [ "$uptime" -ge "$MIN_UPTIME" ]; then
+        break                             # ran a while → deliberate logout
+    fi
+
+    crashes=$((crashes + 1))
+    printf '%s ohmychadwm exited %s after %ss — crash %s/%s\n' \
+        "$(date '+%F %T')" "$code" "$uptime" "$crashes" "$MAX_CRASHES" >> "$SESSION_LOG"
+
+    if [ "$crashes" -ge "$MAX_CRASHES" ]; then
+        for term in alacritty xterm; do
+            command -v "$term" >/dev/null 2>&1 || continue
+            "$term" -e sh -c 'printf "\n  ohmychadwm failed to start (see log below).\n\n  >>> Type:  rebuild      to restore the config + recompile <<<\n      or:    kiro-skell   to just restore the config\n\n  Crash log: ~/.cache/ohmychadwm/session.log\n\n"; exec "${SHELL:-sh}"'
+            break
+        done
+        break
+    fi
+done
