@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026.06.17
+
+### What Changed
+- The `rebuild` command (`usr/bin/rebuild`) now runs `kiro-skell` before recompiling, so a rebuild first restores the known-good config + chadwm source from `/etc/skel`, then hands off to `chadwm/rebuild.sh` to `make`/`make install`. Motivated by an ohmychadwm session that "did not load fully" and looped on autologin (SDDM logged the `exec-ohmychadwm` session crashing with exit code 1 across several boots) — refreshing source before recompiling is the recovery path. `kiro-skell` is interactive, so answering "n" at its prompt keeps local edits and just recompiles as before.
+
+### Technical Details
+- Placed the `kiro-skell` call in the `rebuild` wrapper (which lives in `/usr/bin`, outside `$HOME`) rather than `rebuild.sh` (which lives under `~/.config` and would be overwritten mid-run by `kiro-skell`). Running it first can also recreate `~/.config/ohmychadwm/chadwm` if it is missing, before the dir check.
+- Guarded the call with `command -v kiro-skell` so the script still works where the Kiro tool is absent.
+- Note: `kiro-skell` restores the *entire* `~/.config` (date-stamped backup of only what it overwrites), not just chadwm — a rebuild now also offers to refresh the whole home config.
+
+### Files Modified
+- `usr/bin/rebuild`
+
 ## 2026.06.08
 
 ### What Changed

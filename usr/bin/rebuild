@@ -2,6 +2,12 @@
 
 CHADWM_DIR="$HOME/.config/ohmychadwm/chadwm"
 
+# Restore known-good config + chadwm source from /etc/skel before rebuilding.
+# Interactive — answer "n" at its prompt to keep local edits and just recompile.
+if command -v kiro-skell >/dev/null 2>&1; then
+    kiro-skell
+fi
+
 if [ ! -d "$CHADWM_DIR" ]; then
     echo "Directory $CHADWM_DIR not found."
     exit 1
