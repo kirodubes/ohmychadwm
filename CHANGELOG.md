@@ -1,5 +1,28 @@
 # Changelog
 
+## 2026.06.28
+
+### What Changed
+- Regenerated all three keybindings cheatsheets (`keybindings.txt` shipped default + `keybindings-qwerty.txt` + `keybindings-azerty.txt`) in the canonical 8-section `/kiro-create-keybindings` format, parsed fresh from the real binding sources (`chadwm/config.def.h` keys[]/buttons[] + `sxhkd/sxhkdrc`). 157 bindings captured; commented-out bindings (`focusstack`, `togglefloating`, `hidewin`) were not included since they are inactive.
+- ohmychadwm now ships **QWERTY by default** (was AZERTY). The shipped `keybindings.txt` is the QWERTY variant and `config.def.h` keeps `#define KIRO_AZERTY false`.
+- `up.sh` now pins the repo to QWERTY before every commit/push (`ensure_qwerty_default`), so local AZERTY testing can never leak into a publish/build.
+- `ohmychadwm-keyboard-layout` now re-renders `keybindings.html` + `keybindings.pdf` after swapping the active `.txt`, so all three artifacts stay in sync on a layout switch (previously only the `.txt` was swapped, leaving the HTML/PDF stale).
+
+### Technical Details
+- The AZERTY/QWERTY variants differ only in the `KIRO_AZERTY`-toggled keys: view-all-tags (`0` vs `agrave`), the four gap keys (`6/7/8/9` vs `section/egrave/exclam/ccedilla`), and focus-next-monitor (`period` vs `semicolon`). Tag switching stays `1..9` in both (physical key position). AZERTY was built from the QWERTY file via targeted `sed` on those lines plus the header, guaranteeing sections 1/2/6/7/8 are byte-identical.
+- The HTML generator (`kiro-keybindings-html.py`) requires an **absolute** path — it raises `relative paths can't be expressed as file URIs` otherwise. Both `up.sh` and the layout tool pass absolute paths, so this only bites manual invocations.
+- The layout tool's `regen_cheatsheet()` and `up.sh`'s generator call both fall back from `command -v kiro-keybindings-html.py` to `$HOME/.bin/kiro-keybindings-html.py` and warn (non-fatal) if neither is found.
+- Synced the edited tool from `etc/skel/.bin/ohmychadwm-keyboard-layout` to the running `~/.bin/` copy.
+
+### Files Modified
+- `etc/skel/.config/ohmychadwm/keybindings.txt`
+- `etc/skel/.config/ohmychadwm/keybindings-qwerty.txt`
+- `etc/skel/.config/ohmychadwm/keybindings-azerty.txt`
+- `etc/skel/.config/ohmychadwm/keybindings.html` (regenerated)
+- `etc/skel/.config/ohmychadwm/keybindings.pdf` (regenerated)
+- `etc/skel/.bin/ohmychadwm-keyboard-layout`
+- `up.sh`
+
 ## 2026.06.17
 
 ### What Changed

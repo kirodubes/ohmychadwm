@@ -1,188 +1,178 @@
 ###############################################################################
 #  KEYBINDINGS — ohmychadwm (AZERTY)
-#  Source: etc/skel/.config/ohmychadwm/chadwm/config.def.h + etc/skel/.config/ohmychadwm/sxhkd/sxhkdrc
-#  AZERTY variant (shipped default). Swapped by ohmychadwm-keyboard-layout — DO NOT EDIT BY HAND
+#  Source: ~/.config/ohmychadwm/chadwm/config.def.h (AZERTY) + ~/.config/ohmychadwm/sxhkd/sxhkdrc
+#  Generated: 2026.06.28 by /kiro-create-keybindings — DO NOT EDIT BY HAND
 ###############################################################################
 
 ── 1. Applications & Launchers ───────────────────────────────────────────────
-  super + Return            alacritty (terminal)
-  super + KP_Enter          alacritty (terminal)
-  super + t                 alacritty (terminal)
-  super + shift + Return    thunar (file manager)
+  super + Return          alacritty (terminal)
+  super + t               alacritty (terminal)
+  super + KP_Enter        alacritty (terminal)
+  ctrl + alt + Return     alacritty (terminal)
+  ctrl + alt + t          alacritty (terminal)
+  F12                     alacritty (terminal)
+  ctrl + alt + End        alacritty -e btop (system monitor)
+  super + shift + Return  thunar (file manager)
   super + shift + KP_Enter  thunar (file manager)
-  super + e                 code
-  super + v                 pavucontrol
-  super + r                 rofi (drun launcher)
-  super + space             rofi (drun launcher)
-  super + d                 rofi (drun launcher)
-  super + F11               rofi (drun launcher, fullscreen)
-  super + F12               rofi (drun launcher)
-  super + shift + d         dmenu_run
-  super + alt + space       ohmychadwm menu
-  super + ctrl + s          kiro-keybindings (cheatsheet)
-  super + F1                vivaldi-stable
-  super + F2                code
-  super + F3                inkscape
-  super + F4                gimp
-  super + F5                meld
-  super + F6                vlc
-  super + F7                virtualbox
-  super + F8                thunar
-  super + F9                virt-manager
-  super + F10               spotify
-  super + ctrl + space      variety --selector (wallpaper selector)
-  alt + t                   variety -t (trash wallpaper)
-  alt + n                   variety -n (next wallpaper)
-  alt + p                   variety -p (previous wallpaper)
-  alt + f                   variety -f (favorite wallpaper)
-  alt + Left                variety -p (previous wallpaper)
-  alt + Right               variety -n (next wallpaper)
-  alt + Up                  variety --toggle-pause
-  alt + Down                variety --resume
-  alt + shift + t           variety -t + wal (trash wallpaper + pywal)
-  alt + shift + n           variety -n + wal (next wallpaper + pywal)
-  alt + shift + p           variety -p + wal (previous wallpaper + pywal)
-  alt + shift + f           variety -f + wal (favorite wallpaper + pywal)
-  alt + shift + u           wal (update pywal colors)
-  alt + r                   rofi-theme-selector
-  alt + F2                  xfce4-appfinder --collapsed
-  alt + F3                  xfce4-appfinder
-  F12                       alacritty (terminal)
-  ctrl + alt + Return       alacritty (terminal)
-  ctrl + alt + t            alacritty (terminal)
-  ctrl + alt + End          alacritty -e btop
-  ctrl + alt + a            alacritty-tweak-tool
-  ctrl + alt + q            alacritty-tweak-tool
-  ctrl + alt + d            obs
-  ctrl + alt + e            archlinux-tweak-tool
-  ctrl + alt + b            brave
-  ctrl + alt + c            chromium
-  ctrl + alt + g            chromium
-  ctrl + alt + f            firefox
-  ctrl + alt + p            pamac-manager
-  ctrl + alt + m            mintstick -m iso
-  ctrl + alt + ,            mintstick -m iso
-  ctrl + alt + u            pavucontrol
-  ctrl + alt + s            spotify
-  ctrl + alt + v            vivaldi-stable
-  ctrl + alt + o            opera
+  super + F8              thunar (file manager)
+  super + space           rofi drun (app launcher, fullscreen)
+  super + F11             rofi drun (app launcher, fullscreen)
+  super + F12             rofi drun (app launcher)
+  super + r               rofi drun (app launcher)
+  super + d               rofi drun (app launcher, large)
+  super + shift + d       dmenu_run (app launcher)
+  alt + r                 rofi-theme-selector
+  super + e               code (editor)
+  super + F2              code (editor)
+  super + F1              vivaldi-stable (browser)
+  ctrl + alt + v          vivaldi-stable (browser)
+  ctrl + alt + f          firefox (browser)
+  ctrl + alt + b          brave (browser)
+  ctrl + alt + c          chromium (browser)
+  ctrl + alt + g          chromium (browser)
+  ctrl + alt + o          opera (browser)
+  super + F3              inkscape
+  super + F4              gimp
+  super + F5              meld
+  super + F6              vlc
+  super + F7              virtualbox
+  super + F9              virt-manager
+  super + F10             spotify
+  ctrl + alt + d          obs
+  ctrl + alt + e          archlinux-tweak-tool
+  ctrl + alt + a          alacritty-tweak-tool
+  ctrl + alt + q          alacritty-tweak-tool
+  ctrl + alt + s          fish-tweak-tool
+  ctrl + alt + p          pamac-manager
+  ctrl + alt + i          kiro-iso-builder
+  ctrl + alt + m          mintstick -m iso
+  ctrl + alt + ,          mintstick -m iso
+  ctrl + shift + Escape   xfce4-taskmanager
+  alt + F2                xfce4-appfinder (collapsed)
+  alt + F3                xfce4-appfinder
+  super + v               pavucontrol
+  ctrl + alt + u          pavucontrol
+  super + alt + space     ohmychadwm rofi menu
+  alt + t                 variety: trash wallpaper
+  alt + n                 variety: next wallpaper
+  alt + p                 variety: previous wallpaper
+  alt + f                 variety: favorite wallpaper
+  alt + Left              variety: previous wallpaper
+  alt + Right             variety: next wallpaper
+  alt + Up                variety: toggle pause
+  alt + Down              variety: resume
+  super + ctrl + space    variety: wallpaper selector
+  alt + shift + t         variety trash + pywal recolor
+  alt + shift + n         variety next + pywal recolor
+  alt + shift + p         variety previous + pywal recolor
+  alt + shift + f         variety favorite + pywal recolor
+  alt + shift + u         pywal recolor from current wallpaper
 
 ── 2. Window Management ───────────────────────────────────────────────────────
-  super + f                 toggle fullscreen
-  super + q                 close focused window
-  super + shift + q         close focused window
-  super + shift + c         close focused window
-  super + ctrl + q          close all windows
-  super + shift + j         move window down the stack
-  super + shift + k         move window up the stack
-  super + ctrl + j          rotate stack forward
-  super + ctrl + k          rotate stack backward
-  super + Tab               view previous tag
-  super + Left              shift view to previous tag
-  super + Right             shift view to next tag
-  super + alt + o           increase window opacity
-  super + alt + shift + o   decrease window opacity
-  super + shift + Escape    xkill
-  ctrl + alt + Delete       close all windows
+  super + q               close focused window
+  super + shift + q       close focused window
+  super + shift + c       close focused window
+  super + ctrl + q        kill all windows
+  super + f               toggle fullscreen
+  super + shift + j       move window down in stack
+  super + shift + k       move window up in stack
+  super + ctrl + j        rotate stack forward
+  super + ctrl + k        rotate stack backward
+  super + ctrl + shift + Return  promote window to master (zoom)
+  super + ctrl + w        toggle tab mode
+  super + alt + o         increase window opacity
+  super + alt + shift + o  decrease window opacity
+  super + Mouse1 (drag)   move / place window
+  super + Mouse2          toggle floating
+  super + Mouse3 (drag)   adjust master/stack ratio
+  super + shift + Mouse3  resize window
+  Mouse3 on desktop       open ohmychadwm menu
 
-── 3. Workspaces / Tags / Groups ──────────────────────────────────────────────
-  super + 1..9              view tag 1..9
-  super + ctrl + 1..9       toggle view of tag 1..9
-  super + shift + 1..9      move window to tag 1..9
-  super + ctrl + shift + 1..9  toggle tag 1..9 on window
-  super + agrave            view all tags
-  super + shift + agrave    move window to all tags
+── 3. Workspaces / Tags / Groups ─────────────────────────────────────────────
+  super + 1..9            switch to tag 1–9
+  super + shift + 1..9    send window to tag 1–9
+  super + ctrl + 1..9     toggle tag 1–9 in view
+  super + ctrl + shift + 1..9  toggle tag 1–9 on window
+  super + agrave               view all tags
+  super + shift + agrave       send window to all tags
+  super + Tab             toggle to previous tag
+  super + Left            view previous tag
+  super + Right           view next tag
 
 ── 4. Layout & Tiling ─────────────────────────────────────────────────────────
-  super + i                 increase master count
-  super + n                 decrease master count
-  super + h                 shrink master area
-  super + l                 grow master area
-  super + shift + h         grow client factor
-  super + shift + l         shrink client factor
-  super + shift + o         reset client factor
-  super + b                 toggle bar
-  super + shift + space     toggle bar
-  super + ctrl + t          toggle gaps
-  super + ctrl + w          toggle tab mode
-  super + ctrl + shift + Return  zoom (promote to master)
-  super + ctrl + i          increase gaps
-  super + ctrl + d          decrease gaps
-  super + shift + i         increase inner gaps
+  super + ctrl + F1..F12  select layout 1–12 (dwindle..cfloat)
+  super + ctrl + m        cycle to next layout
+  super + ctrl + p        cycle to previous layout
+  super + h               shrink master area
+  super + l               grow master area
+  super + shift + h       grow focused window (cfact)
+  super + shift + l       shrink focused window (cfact)
+  super + shift + o       reset window size factor (cfact)
+  super + i               increase master count (nmaster)
+  super + n               decrease master count (nmaster)
+  super + ctrl + t        toggle gaps on/off
+  super + ctrl + i        increase all gaps
+  super + ctrl + d        decrease all gaps
+  super + shift + i       increase inner gaps
   super + ctrl + shift + i  decrease inner gaps
-  super + ctrl + o          increase outer gaps
+  super + ctrl + o        increase outer gaps
   super + ctrl + shift + o  decrease outer gaps
-  super + ctrl + section    increase inner horizontal gaps
+  super + ctrl + section        increase inner horizontal gaps
   super + ctrl + shift + section  decrease inner horizontal gaps
-  super + ctrl + egrave     increase inner vertical gaps
+  super + ctrl + egrave        increase inner vertical gaps
   super + ctrl + shift + egrave  decrease inner vertical gaps
-  super + ctrl + exclam     increase outer horizontal gaps
+  super + ctrl + exclam        increase outer horizontal gaps
   super + ctrl + shift + exclam  decrease outer horizontal gaps
-  super + ctrl + ccedilla   increase outer vertical gaps
+  super + ctrl + ccedilla        increase outer vertical gaps
   super + ctrl + shift + ccedilla  decrease outer vertical gaps
-  super + ctrl + shift + d  default gaps
-  super + ctrl + F1         set layout dwindle
-  super + ctrl + F2         set layout tile
-  super + ctrl + F3         set layout spiral
-  super + ctrl + F4         set layout deck
-  super + ctrl + F5         set layout bottom stack
-  super + ctrl + F6         set layout bottom stack horizontal
-  super + ctrl + F7         set layout grid
-  super + ctrl + F8         set layout nrow grid
-  super + ctrl + F9         set layout horizontal grid
-  super + ctrl + F10        set layout gapless grid
-  super + ctrl + F11        set layout centered master
-  super + ctrl + F12        set layout centered floating master
-  super + ctrl + p          cycle layout previous
-  super + ctrl + m          cycle layout next
-  super + shift + minus     decrease border size
-  super + shift + p         increase border size
-  super + shift + w         reset border size
+  super + ctrl + shift + d  reset gaps to default
+  super + shift + minus   decrease border width
+  super + shift + p       increase border width
+  super + shift + w       reset border to default width
 
 ── 5. Multi-monitor ───────────────────────────────────────────────────────────
-  super + comma             focus previous monitor
-  super + semicolon         focus next monitor
-  super + shift + Left      send window to previous monitor
-  super + shift + Right     send window to next monitor
+  super + comma           focus previous monitor
+  super + semicolon          focus next monitor
+  super + shift + Left    send window to previous monitor
+  super + shift + Right   send window to next monitor
 
 ── 6. Multimedia & Hardware ───────────────────────────────────────────────────
-  XF86AudioLowerVolume      pactl set-sink-volume -5%
-  XF86AudioMute             pactl set-sink-mute toggle
-  XF86AudioRaiseVolume      pactl set-sink-volume +5%
-  XF86MonBrightnessUp       light -A 5
-  XF86MonBrightnessDown     light -U 5
-  XF86AudioRaiseVolume      pamixer -i 10
-  XF86AudioLowerVolume      pamixer -d 10
-  XF86AudioMute             pamixer -t
-  XF86AudioPlay             playerctl play-pause
-  XF86AudioNext             playerctl next
-  XF86AudioPrev             playerctl previous
-  XF86AudioStop             playerctl stop
-  XF86MonBrightnessUp       xbacklight -inc 10
-  XF86MonBrightnessDown     xbacklight -dec 10
+  XF86AudioRaiseVolume    raise volume
+  XF86AudioLowerVolume    lower volume
+  XF86AudioMute           toggle mute
+  XF86AudioPlay           play / pause (playerctl)
+  XF86AudioNext           next track (playerctl)
+  XF86AudioPrev           previous track (playerctl)
+  XF86AudioStop           stop (playerctl)
+  XF86MonBrightnessUp     increase screen brightness
+  XF86MonBrightnessDown   decrease screen brightness
 
 ── 7. Screenshots ─────────────────────────────────────────────────────────────
-  super + ctrl + u          maim full screen to clipboard
-  super + u                 maim region select to clipboard
-  Print                     scrot (save to Pictures)
-  ctrl + Print              xfce4-screenshooter
-  ctrl + shift + Print      gnome-screenshot -i
-  ctrl + super + Print      flameshot gui
+  super + u               region screenshot to clipboard (maim)
+  super + ctrl + u        fullscreen screenshot to clipboard (maim)
+  Print                   full screenshot to Pictures (scrot)
+  ctrl + Print            xfce4-screenshooter
+  ctrl + shift + Print    gnome-screenshot (interactive)
+  ctrl + super + Print    flameshot gui
 
 ── 8. System & Session ────────────────────────────────────────────────────────
-  super + x                 archlinux-logout
-  super + shift + x         edu-powermenu
-  super + Escape            ohmychadwm menu (system)
-  alt + x                   ohmychadwm menu (system)
-  alt + shift + x           ohmychadwm menu (system)
-  super + shift + s         reload sxhkd
-  super + g                 toggle compositor (fastcompmgr)
-  super + p                 toggle compositor (picom)
-  ctrl + alt + k            archlinux-logout
-  ctrl + alt + l            archlinux-logout
-  ctrl + shift + Escape     xfce4-taskmanager
-  ctrl + alt + shift + F1   update-system
-  super + ctrl + shift + F1  update-system
-  super + shift + r         restart ohmychadwm
-  super + ctrl + shift + r  rebuild ohmychadwm (rebuild.sh)
+  super + x               archlinux-logout
+  ctrl + alt + k          archlinux-logout
+  ctrl + alt + l          archlinux-logout
+  super + shift + x       edu-powermenu
+  super + Escape          ohmychadwm system menu
+  alt + x                 ohmychadwm system menu
+  alt + shift + x         ohmychadwm system menu
+  super + ctrl + s        kiro-keybindings (show this cheatsheet)
+  super + b               toggle bar
+  super + shift + space   toggle bar
+  super + g               toggle compositor (fastcompmgr)
+  super + p               toggle compositor (picom)
+  super + shift + s       reload sxhkd
+  super + shift + r       restart ohmychadwm
+  super + ctrl + shift + r  rebuild ohmychadwm
+  super + shift + Escape  xkill (force-kill a window)
+  ctrl + alt + Delete     kill all windows
   ctrl + alt + shift + Delete  quit ohmychadwm
+  ctrl + alt + shift + F1  update-system
+  super + ctrl + shift + F1  update-system

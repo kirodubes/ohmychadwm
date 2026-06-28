@@ -92,11 +92,29 @@ rebuild_wm() {
 
 swap_cheatsheet() {
     local variant="$KB_DIR/keybindings-$TARGET.txt"
-    if [ -f "$variant" ]; then
-        log_info "Swapping keybindings cheatsheet -> $TARGET"
-        $DRYRUN || cp -f "$variant" "$KB_DIR/keybindings.txt"
-    else
+    if [ ! -f "$variant" ]; then
         log_warn "No keybindings-$TARGET.txt found; cheatsheet left unchanged"
+        return 0
+    fi
+    log_info "Swapping keybindings cheatsheet -> $TARGET"
+    $DRYRUN && return 0
+    cp -f "$variant" "$KB_DIR/keybindings.txt"
+    regen_cheatsheet
+}
+
+regen_cheatsheet() {
+    # Re-render HTML + PDF from the freshly swapped .txt so all three stay in sync.
+    local gen=""
+    if command -v kiro-keybindings-html.py >/dev/null 2>&1; then
+        gen="kiro-keybindings-html.py"
+    elif [ -x "$HOME/.bin/kiro-keybindings-html.py" ]; then
+        gen="$HOME/.bin/kiro-keybindings-html.py"
+    fi
+    if [ -n "$gen" ]; then
+        log_info "Regenerating keybindings.html + keybindings.pdf"
+        "$gen" "$KB_DIR/keybindings.txt" || log_warn "cheatsheet HTML/PDF regen failed"
+    else
+        log_warn "kiro-keybindings-html.py not found; HTML/PDF not regenerated"
     fi
 }
 
