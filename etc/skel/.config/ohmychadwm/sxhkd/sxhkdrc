@@ -177,6 +177,10 @@ ctrl + alt + c
 ctrl + alt + g
     chromium -no-default-browser-check
 
+#RESERVED: ctrl + alt + h — reserved for hyprland-tweak-tool on Hyprland, do not reuse
+#ctrl + alt + h
+#    hyprland-tweak-tool
+
 #Kiro Iso Builder
 ctrl + alt + i
     kiro-iso-builder
@@ -212,9 +216,9 @@ ctrl + alt + u
 alt + r
   rofi-theme-selector
 
-#Spotify
+#fish-tweak-tool
 ctrl + alt + s
-   spotify
+   fish-tweak-tool
 
 #alacritty
 ctrl + alt + Return
