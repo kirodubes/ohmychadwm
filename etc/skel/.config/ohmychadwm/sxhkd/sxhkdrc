@@ -224,6 +224,10 @@ ctrl + alt + s
 ctrl + alt + Return
     alacritty
 
+#archlinux-betterlockscreen
+ctrl + alt + r
+    archlinux-betterlockscreen
+
 #alacritty
 ctrl + alt + t
     alacritty
