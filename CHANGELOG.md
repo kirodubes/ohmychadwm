@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026.06.29
+
+### What Changed
+- Added a `ctrl + alt + w` partner binding for `fastfetch-tweak-tool` in `sxhkd/sxhkdrc` (previously bound to `ctrl + alt + z` only). On AZERTY the `z` and `w` keys swap physical position relative to QWERTY, so a `z`-only binding fired on the wrong physical key (or not at all) depending on the layout sxhkd loaded under.
+
+### Technical Details
+- sxhkd resolves keysyms to keycodes at load time and grabs the keycode for its lifetime; under a layout switch the bound keysym moves to a different physical key. The fix follows the existing layout-robustness pattern in this file — `a`+`q` and `m`+`,` are already double-bound to the same command for the same reason. `z`+`w` was the missing pair. `ctrl + alt + w` was confirmed free before adding.
+
+### Files Modified
+- `etc/skel/.config/ohmychadwm/sxhkd/sxhkdrc`
+
 ## 2026.06.28
 
 ### What Changed

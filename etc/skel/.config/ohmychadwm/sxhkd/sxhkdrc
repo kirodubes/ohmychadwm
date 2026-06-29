@@ -224,6 +224,10 @@ ctrl + alt + s
 ctrl + alt + z
    fastfetch-tweak-tool
 
+#fastfetch-tweak-tool (azerty/qwerty z<->w swap partner)
+ctrl + alt + w
+   fastfetch-tweak-tool
+
 #alacritty
 ctrl + alt + Return
     alacritty
