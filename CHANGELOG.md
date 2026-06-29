@@ -4,12 +4,19 @@
 
 ### What Changed
 - Added a `ctrl + alt + w` partner binding for `fastfetch-tweak-tool` in `sxhkd/sxhkdrc` (previously bound to `ctrl + alt + z` only). On AZERTY the `z` and `w` keys swap physical position relative to QWERTY, so a `z`-only binding fired on the wrong physical key (or not at all) depending on the layout sxhkd loaded under.
+- Regenerated all three keybindings cheatsheets (`keybindings.txt` / `-qwerty.txt` / `-azerty.txt`) plus `keybindings.html` + `keybindings.pdf` to catch up with the sxhkd changes since the 2026.06.28 generation. Four deltas folded in: `ctrl + alt + z` and `ctrl + alt + w` → `fastfetch-tweak-tool` (new), `ctrl + alt + r` → `archlinux-betterlockscreen` (new), and `ctrl + alt + l` → `archlinux-logout --settings` (was plain `archlinux-logout`). 160 bindings, 8 sections.
 
 ### Technical Details
 - sxhkd resolves keysyms to keycodes at load time and grabs the keycode for its lifetime; under a layout switch the bound keysym moves to a different physical key. The fix follows the existing layout-robustness pattern in this file — `a`+`q` and `m`+`,` are already double-bound to the same command for the same reason. `z`+`w` was the missing pair. `ctrl + alt + w` was confirmed free before adding.
+- Cheatsheets regenerated via `/kiro-create-keybindings`: edited the QWERTY `keybindings.txt`, mirrored it to `-qwerty.txt`, and applied the same layout-independent sxhkd deltas to `-azerty.txt` (preserving its AZERTY tag/gap key names), then ran `~/.bin/kiro-keybindings-html.py` to re-emit HTML + PDF. Also patched that generator to `resolve()` its input/output paths so a relative `keybindings.txt` argument no longer crashes in `Path.as_uri()` (the generator lives in `~/.bin`, outside this repo, so that fix is not part of this commit).
 
 ### Files Modified
 - `etc/skel/.config/ohmychadwm/sxhkd/sxhkdrc`
+- `etc/skel/.config/ohmychadwm/keybindings.txt`
+- `etc/skel/.config/ohmychadwm/keybindings-qwerty.txt`
+- `etc/skel/.config/ohmychadwm/keybindings-azerty.txt`
+- `etc/skel/.config/ohmychadwm/keybindings.html`
+- `etc/skel/.config/ohmychadwm/keybindings.pdf`
 
 ## 2026.06.28
 

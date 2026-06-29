@@ -1,7 +1,7 @@
 ###############################################################################
 #  KEYBINDINGS — ohmychadwm
 #  Source: ~/.config/ohmychadwm/chadwm/config.def.h (QWERTY) + ~/.config/ohmychadwm/sxhkd/sxhkdrc
-#  Generated: 2026.06.28 by /kiro-create-keybindings — DO NOT EDIT BY HAND
+#  Generated: 2026.06.29 by /kiro-create-keybindings — DO NOT EDIT BY HAND
 ###############################################################################
 
 ── 1. Applications & Launchers ───────────────────────────────────────────────
@@ -43,6 +43,8 @@
   ctrl + alt + a          alacritty-tweak-tool
   ctrl + alt + q          alacritty-tweak-tool
   ctrl + alt + s          fish-tweak-tool
+  ctrl + alt + z          fastfetch-tweak-tool
+  ctrl + alt + w          fastfetch-tweak-tool
   ctrl + alt + p          pamac-manager
   ctrl + alt + i          kiro-iso-builder
   ctrl + alt + m          mintstick -m iso
@@ -158,7 +160,8 @@
 ── 8. System & Session ────────────────────────────────────────────────────────
   super + x               archlinux-logout
   ctrl + alt + k          archlinux-logout
-  ctrl + alt + l          archlinux-logout
+  ctrl + alt + l          archlinux-logout --settings
+  ctrl + alt + r          archlinux-betterlockscreen (lock screen)
   super + shift + x       edu-powermenu
   super + Escape          ohmychadwm system menu
   alt + x                 ohmychadwm system menu
