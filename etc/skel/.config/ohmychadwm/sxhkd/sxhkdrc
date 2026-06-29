@@ -220,6 +220,10 @@ alt + r
 ctrl + alt + s
    fish-tweak-tool
 
+#fastfetch-tweak-tool
+ctrl + alt + z
+   fastfetch-tweak-tool
+
 #alacritty
 ctrl + alt + Return
     alacritty
