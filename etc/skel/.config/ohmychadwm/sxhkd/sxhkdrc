@@ -195,7 +195,7 @@ ctrl + alt + k
 
 #archlinux-logout
 ctrl + alt + l
-    archlinux-logout
+    archlinux-logout --settings
 
 #Pamac-manager
 ctrl + alt + p

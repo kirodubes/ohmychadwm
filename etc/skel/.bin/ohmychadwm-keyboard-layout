@@ -14,7 +14,7 @@ set -euo pipefail
 #   matching keybindings cheatsheet, and tells you to reload.
 #
 # Why:
-#   ohmychadwm ships AZERTY by default; QWERTY users (most of the world)
+#   ohmychadwm ships QWERTY by default; AZERTY users (e.g. Belgium/France)
 #   need a one-command way to switch without hand-editing C and rebuilding.
 #
 # Usage:
