@@ -1,7 +1,7 @@
 ###############################################################################
 #  KEYBINDINGS — ohmychadwm
 #  Source: ~/.config/ohmychadwm/chadwm/config.def.h (QWERTY) + ~/.config/ohmychadwm/sxhkd/sxhkdrc
-#  Generated: 2026.06.29 by /kiro-create-keybindings — DO NOT EDIT BY HAND
+#  Generated: 2026.06.30 by /kiro-create-keybindings — DO NOT EDIT BY HAND
 ###############################################################################
 
 ── 1. Applications & Launchers ───────────────────────────────────────────────
@@ -14,30 +14,30 @@
   ctrl + alt + End        alacritty -e btop (system monitor)
   super + shift + Return  thunar (file manager)
   super + shift + KP_Enter  thunar (file manager)
-  super + F8              thunar (file manager)
   super + space           rofi drun (app launcher, fullscreen)
-  super + F11             rofi drun (app launcher, fullscreen)
-  super + F12             rofi drun (app launcher)
   super + r               rofi drun (app launcher)
   super + d               rofi drun (app launcher, large)
   super + shift + d       dmenu_run (app launcher)
   alt + r                 rofi-theme-selector
   super + e               code (editor)
-  super + F2              code (editor)
   super + F1              vivaldi-stable (browser)
+  super + F2              code (editor)
+  super + F3              inkscape
+  super + F4              gimp
+  super + F5              meld
+  super + F6              vlc
+  super + F7              virtualbox
+  super + F8              thunar (file manager)
+  super + F9              virt-manager
+  super + F10             spotify
+  super + F11             rofi drun (app launcher, fullscreen)
+  super + F12             rofi drun (app launcher)
   ctrl + alt + v          vivaldi-stable (browser)
   ctrl + alt + f          firefox (browser)
   ctrl + alt + b          brave (browser)
   ctrl + alt + c          chromium (browser)
   ctrl + alt + g          chromium (browser)
   ctrl + alt + o          opera (browser)
-  super + F3              inkscape
-  super + F4              gimp
-  super + F5              meld
-  super + F6              vlc
-  super + F7              virtualbox
-  super + F9              virt-manager
-  super + F10             spotify
   ctrl + alt + d          obs
   ctrl + alt + e          archlinux-tweak-tool
   ctrl + alt + a          alacritty-tweak-tool
@@ -177,5 +177,3 @@
   super + shift + Escape  xkill (force-kill a window)
   ctrl + alt + Delete     kill all windows
   ctrl + alt + shift + Delete  quit ohmychadwm
-  ctrl + alt + shift + F1  update-system
-  super + ctrl + shift + F1  update-system

@@ -427,10 +427,3 @@ super + g
 #Picom Toggle
 super + p
     ~/.config/ohmychadwm/scripts/picom-toggle.sh
-
-#update
-ctrl + alt + shift + F1
-   update-system
-
-super + ctrl + shift + F1
-   update-system
