@@ -117,10 +117,10 @@ ensure_git_remote_configured() {
 ensure_qwerty_default() {
     # ohmychadwm ships QWERTY by default. Local layout testing must never leak
     # into the published repo, so pin config.def.h + the active cheatsheet to
-    # QWERTY before every commit/push.
+    # QWERTY before every commit/push. HTML/PDF cheatsheet generation is left to
+    # the user.
     local cfg="${SCRIPT_DIR}/etc/skel/.config/ohmychadwm/chadwm/config.def.h"
     local kb_dir="${SCRIPT_DIR}/etc/skel/.config/ohmychadwm"
-    local gen=""
 
     log_section "Pinning repo to QWERTY default"
 
@@ -130,16 +130,6 @@ ensure_qwerty_default() {
 
     if [[ -f "${kb_dir}/keybindings-qwerty.txt" ]]; then
         cp -f "${kb_dir}/keybindings-qwerty.txt" "${kb_dir}/keybindings.txt"
-        if command -v kiro-keybindings-html.py >/dev/null 2>&1; then
-            gen="kiro-keybindings-html.py"
-        elif [[ -x "${HOME}/.bin/kiro-keybindings-html.py" ]]; then
-            gen="${HOME}/.bin/kiro-keybindings-html.py"
-        fi
-        if [[ -n "${gen}" ]]; then
-            "${gen}" "${kb_dir}/keybindings.txt" || log_warn "cheatsheet HTML/PDF regen failed"
-        else
-            log_warn "kiro-keybindings-html.py not found; HTML/PDF not regenerated"
-        fi
     fi
 
     log_success "Repo pinned to QWERTY default"
