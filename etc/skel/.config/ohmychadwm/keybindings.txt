@@ -1,7 +1,7 @@
 ###############################################################################
-#  KEYBINDINGS — ohmychadwm
-#  Source: ~/.config/ohmychadwm/chadwm/config.def.h (QWERTY) + ~/.config/ohmychadwm/sxhkd/sxhkdrc
-#  Generated: 2026.06.30 by /kiro-create-keybindings — DO NOT EDIT BY HAND
+#  KEYBINDINGS — ohmychadwm (QWERTY)
+#  Source: etc/skel/.config/ohmychadwm/chadwm/config.def.h (QWERTY) + etc/skel/.config/ohmychadwm/sxhkd/sxhkdrc
+#  Generated: 2026.06.30 by /kiro-keybindings-all — DO NOT EDIT BY HAND
 ###############################################################################
 
 ── 1. Applications & Launchers ───────────────────────────────────────────────

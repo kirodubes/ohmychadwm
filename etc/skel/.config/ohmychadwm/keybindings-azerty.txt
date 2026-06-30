@@ -1,7 +1,7 @@
 ###############################################################################
 #  KEYBINDINGS — ohmychadwm (AZERTY)
-#  Source: ~/.config/ohmychadwm/chadwm/config.def.h (AZERTY) + ~/.config/ohmychadwm/sxhkd/sxhkdrc
-#  Generated: 2026.06.30 by /kiro-create-keybindings — DO NOT EDIT BY HAND
+#  Source: etc/skel/.config/ohmychadwm/chadwm/config.def.h (AZERTY) + etc/skel/.config/ohmychadwm/sxhkd/sxhkdrc
+#  Generated: 2026.06.30 by /kiro-keybindings-all — DO NOT EDIT BY HAND
 ###############################################################################
 
 ── 1. Applications & Launchers ───────────────────────────────────────────────
@@ -91,12 +91,12 @@
   Mouse3 on desktop       open ohmychadwm menu
 
 ── 3. Workspaces / Tags / Groups ─────────────────────────────────────────────
-  super + 1..9            switch to tag 1–9
-  super + shift + 1..9    send window to tag 1–9
-  super + ctrl + 1..9     toggle tag 1–9 in view
-  super + ctrl + shift + 1..9  toggle tag 1–9 on window
-  super + agrave               view all tags
-  super + shift + agrave       send window to all tags
+  super + ampersand..ccedilla  switch to tag 1–9
+  super + shift + ampersand..ccedilla  send window to tag 1–9
+  super + ctrl + ampersand..ccedilla  toggle tag 1–9 in view
+  super + ctrl + shift + ampersand..ccedilla  toggle tag 1–9 on window
+  super + agrave          view all tags
+  super + shift + agrave  send window to all tags
   super + Tab             toggle to previous tag
   super + Left            view previous tag
   super + Right           view next tag
@@ -119,13 +119,13 @@
   super + ctrl + shift + i  decrease inner gaps
   super + ctrl + o        increase outer gaps
   super + ctrl + shift + o  decrease outer gaps
-  super + ctrl + section        increase inner horizontal gaps
+  super + ctrl + section  increase inner horizontal gaps
   super + ctrl + shift + section  decrease inner horizontal gaps
-  super + ctrl + egrave        increase inner vertical gaps
+  super + ctrl + egrave   increase inner vertical gaps
   super + ctrl + shift + egrave  decrease inner vertical gaps
-  super + ctrl + exclam        increase outer horizontal gaps
+  super + ctrl + exclam   increase outer horizontal gaps
   super + ctrl + shift + exclam  decrease outer horizontal gaps
-  super + ctrl + ccedilla        increase outer vertical gaps
+  super + ctrl + ccedilla  increase outer vertical gaps
   super + ctrl + shift + ccedilla  decrease outer vertical gaps
   super + ctrl + shift + d  reset gaps to default
   super + shift + minus   decrease border width
@@ -134,7 +134,7 @@
 
 ── 5. Multi-monitor ───────────────────────────────────────────────────────────
   super + comma           focus previous monitor
-  super + semicolon          focus next monitor
+  super + semicolon       focus next monitor
   super + shift + Left    send window to previous monitor
   super + shift + Right   send window to next monitor
 
