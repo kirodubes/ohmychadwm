@@ -1,5 +1,20 @@
 # Changelog
 
+## 2026.08.16
+
+### What Changed
+- **Made the bar menu-launcher icon match the size of the rest of the bar.** The launcher glyph was `󱪾` (U+F1ABE), which is drawn far smaller than its neighbours and looked shrunken next to the tags. Swapped it for the Arch logo `󰣇` (U+F08C7), which fills its cell.
+- **Corrected the misleading font-chain comment** above `fonts[]`, which claimed bar icons are "always rendered at THEME_ICONSIZE". That is false for every theme whose `THEME_FONT` is itself a Nerd Font (all of them except `hippo.h`): fontconfig only falls through to a later font for codepoints the earlier ones do not cover, so the size-`THEME_ICONSIZE` entry is never reached and icons render at `THEME_FONTSIZE`.
+
+### Technical Details
+- Glyph outlines measured in `JetBrainsMonoNerdFontMono-Bold.ttf` (1000 units/em): U+F1ABE is 428 x 308 units, while the other Material Design icons in the same font (U+F08C7, U+F003B, U+F07C4, U+F0C9E) are a full 600 x 600 — roughly twice the drawn area. The Nerd Font *Mono* variant additionally squeezes double-width Material Design glyphs into a single character cell, compounding the effect.
+- Rejected the alternatives deliberately: raising `THEME_FONTSIZE` would enlarge every bar element and shift `bh` (derived from `drw->fonts->h`, `dwm.c`), and moving `fonts[0]` off the `Mono` variant would change icon spacing across the whole bar. The glyph swap is scoped to the one element that was wrong.
+- The new comment also records the `Mono`-variant caveat so future launcher/tag glyph picks account for it.
+
+### Files Modified
+- `etc/skel/.config/ohmychadwm/chadwm/config.def.h`
+- `etc/skel/.config/ohmychadwm/chadwm/config.def.h.default`
+
 ## 2026.06.30
 
 ### What Changed

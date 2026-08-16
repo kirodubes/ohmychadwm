@@ -171,7 +171,12 @@ static const int new_window_attach_on_end = 0 ; /*  1 means the new window will 
 #define ICONSIZE 19   /* icon size */
 #define ICONSPACING 8 /* space between icon and title */
 
-/* primary font + Nerd Font fallback for bar icons (always rendered at THEME_ICONSIZE) */
+/* Font chain. Fontconfig only falls through to a later entry for codepoints the
+ * previous ones do not cover, so the THEME_ICONSIZE entry below is reached only
+ * when THEME_FONT is *not* itself a Nerd Font (currently just hippo.h). With a
+ * Nerd THEME_FONT every bar icon renders at THEME_FONTSIZE, not THEME_ICONSIZE.
+ * Note also that the Nerd Font *Mono* variant squeezes double-width Material
+ * Design glyphs into one cell — pick launcher/tag glyphs that fill their box. */
 static const char *fonts[] = {
     THEME_FONT ":style=" THEME_FONTSTYLE ":size=" _STR(THEME_FONTSIZE),
     "JetBrainsMono Nerd Font Mono:style=Bold:size=" _STR(THEME_ICONSIZE),
@@ -247,7 +252,7 @@ static const char* pavucontrol[] = { "pavucontrol", NULL };
 
 static const Launcher launchers[] = {
     /* command     name to display */
-    { ohmychadwm_menu, "󱪾" },
+    { ohmychadwm_menu, "󰣇" },
 
     //{ discord,       "ﱲ" },
     //{ firefox,       "" },
