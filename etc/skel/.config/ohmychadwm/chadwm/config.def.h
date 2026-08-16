@@ -429,7 +429,7 @@ static const Layout layouts[] = {
 #define false 0
 #endif
 
-#define KIRO_AZERTY true
+#define KIRO_AZERTY false
 
 #if KIRO_AZERTY
 /* AZERTY (Belgium) */
