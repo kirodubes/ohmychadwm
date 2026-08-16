@@ -7,7 +7,13 @@
 - **Swapped the launcher glyph** from `󱪾` (U+F1ABE) to the Arch logo `󰣇` (U+F08C7), which is drawn about twice as large inside its cell.
 - **Corrected the misleading font-chain comment** above `fonts[]`, which claimed bar icons are "always rendered at THEME_ICONSIZE". Fontconfig only falls through to a later font entry for codepoints the earlier ones do not cover, and `THEME_FONT` is itself a Nerd Font in every theme except `hippo.h` — so that entry was never reached. This is the root cause the two items above address.
 
+- **Landed the ARGB bar-transparency work in the package.** `THEME_BAROPACITY` and `THEME_BORDEROPACITY` existed only in the local working copy and had never been committed, so the shipped build had no code behind them — setting either in a theme did nothing on a fresh install. The ARGB visual plumbing (`xinitvisual()`, `systraybgpixmap()`, the per-scheme `alphas[]`, and the `Drw` visual/depth/cmap fields) is now in the repo, and `THEME_BAROPACITY` is a real knob, defaulting to 85.
+- **Corrected the compositor note** in `config.def.h`: it claimed "ohmychadwm autostarts picom", but `scripts/run.sh` autostarts `fastcompmgr -c`.
+
 ### Technical Details
+- Merge direction for the transparency copy-forward was verified rather than assumed: the repo had no independent commits on `dwm.c`/`drw.c`/`drw.h` since 2026-04-09, and every repo-only line was the pre-transparency version of a line the working copy had changed. No `config.mk` or `Makefile` change was needed — both were already byte-identical and already linked `-lXrender -lImlib2 -lXext`.
+- Measured whether fastcompmgr actually composites the ARGB bar, since only picom had ever been tested. Sampling the mean colour of the bar strip: picom 62,58,87 — fastcompmgr 62,58,87 — no compositor 42,44,57 (the opaque `#282A36` background). fastcompmgr blends identically, so the shipped `run.sh` default and the `optdepends` entry both stay as they are.
+- All 45 themes were compile-checked against the merged tree, not just a sample: every one builds with 0 warnings. The `#ifndef` guards mean no theme file needed editing.
 - `drw_fontset_create()` assigns `drw->fonts` as a side effect, so `setup()` saves the main fontset and restores it after building `menufnt`. `menufnt` is released in `cleanup()` before `drw_free()`, which only frees `drw->fonts`.
 - Two helpers in `dwm.c` swap `drw->fonts` around the launcher: `launcherw()` for width and `drawlauncher()` for the draw. **Both** are required — the three former `TEXTW(launchers[i].name)` call sites (`buttonpress`, `drawbar`, `motionnotify`) feed the bar hit-test, so measuring with one font and drawing with another would shift every tag hit-box by the width delta.
 - Sizing verified against real Xft metrics rather than font-table arithmetic: at 18pt the font height is 33px and the launcher is drawn into a `bh - 2 * borderpx` = 37px box, so it does not clip. 20pt would not fit; drop `THEME_MENUICONSIZE` to 16 if a theme uses a taller face.
@@ -16,8 +22,12 @@
 
 ### Files Modified
 - `etc/skel/.config/ohmychadwm/chadwm/dwm.c`
+- `etc/skel/.config/ohmychadwm/chadwm/drw.c`
+- `etc/skel/.config/ohmychadwm/chadwm/drw.h`
 - `etc/skel/.config/ohmychadwm/chadwm/config.def.h`
 - `etc/skel/.config/ohmychadwm/chadwm/config.def.h.default`
+- `etc/skel/.config/ohmychadwm/chadwm/themes/dracul.h`
+- `KIRO-PKG-BUILD-APPS/ohmychadwm/PKGBUILD` (pkgrel 112 -> 113)
 
 ## 2026.06.30
 

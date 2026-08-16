@@ -137,6 +137,7 @@ enum {
   NetSystemTrayOP,
   NetSystemTrayOrientation,
   NetSystemTrayOrientationHorz,
+  NetSystemTrayVisual,
   NetWMFullscreen,
   NetActiveWindow,
   NetWMWindowType,
@@ -341,6 +342,7 @@ static void setcfact(const Arg *arg);
 static void setmfact(const Arg *arg);
 static void setnumdesktops(void);
 static void setup(void);
+static void xinitvisual(void);
 static void setviewport(void);
 static void seturgent(Client *c, int urg);
 static void show(Client *c);
@@ -350,6 +352,7 @@ static void sigchld(int unused);
 static void spawn(const Arg *arg);
 static void switchtag(void);
 static Monitor *systraytomon(Monitor *m);
+static Pixmap systraybgpixmap(int x, int y, unsigned int w, unsigned int h);
 static void tabmode(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
@@ -391,6 +394,7 @@ static void zoom(const Arg *arg);
 
 /* variables */
 static Systray *systray = NULL;
+static Atom xrootpmap, esetrootpmap; /* wallpaper pixmap atoms, for the tray's pseudo-transparent background */
 static const char broken[] = "broken";
 static char stext[1024];
 static int screen;
@@ -429,6 +433,12 @@ static Drw *drw;
 static Fnt *menufnt; /* fontset for the bar menu launcher only, see menufonts[] */
 static Monitor *mons, *selmon;
 static Window root, wmcheckwin;
+
+/* ARGB bar transparency (see THEME_BAROPACITY in config.def.h) */
+static int useargb = 0;
+static Visual *visual;
+static int depth;
+static Colormap cmap;
 
 #define hiddenWinStackMax 100
 static int hiddenWinStackTop = -1;
@@ -1176,13 +1186,13 @@ int drawstatusbar(Monitor *m, int bh, char *stext) {
           char buf[8];
           memcpy(buf, (char *)text + i + 1, 7);
           buf[7] = '\0';
-          drw_clr_create(drw, &drw->scheme[ColFg], buf);
+          drw_clr_create(drw, &drw->scheme[ColFg], buf, OPAQUE);
           i += 7;
         } else if (text[i] == 'b') {
           char buf[8];
           memcpy(buf, (char *)text + i + 1, 7);
           buf[7] = '\0';
-          drw_clr_create(drw, &drw->scheme[ColBg], buf);
+          drw_clr_create(drw, &drw->scheme[ColBg], buf, BARALPHA);
           i += 7;
         } else if (text[i] == 'd') {
           drw->scheme[ColFg] = scheme[SchemeNorm][ColFg];
@@ -2616,6 +2626,9 @@ void propertynotify(XEvent *e) {
   }
   if ((ev->window == root) && (ev->atom == XA_WM_NAME))
     updatestatus();
+  else if ((ev->window == root) &&
+           (ev->atom == xrootpmap || ev->atom == esetrootpmap))
+    updatesystray(); /* wallpaper changed — reblend the tray background */
   else if (ev->state == PropertyDelete)
     return; /* ignore */
   else if ((c = wintoclient(ev->window))) {
@@ -3105,6 +3118,41 @@ void setmfact(const Arg *arg) {
   arrange(selmon);
 }
 
+void xinitvisual(void) {
+  XVisualInfo *infos;
+  XRenderPictFormat *fmt;
+  int nitems;
+  int i;
+
+  XVisualInfo tpl = {
+      .screen = screen,
+      .depth = 32,
+      .class = TrueColor
+  };
+  long masks = VisualScreenMask | VisualDepthMask | VisualClassMask;
+
+  infos = XGetVisualInfo(dpy, masks, &tpl, &nitems);
+  visual = NULL;
+  for (i = 0; i < nitems; i++) {
+    fmt = XRenderFindVisualFormat(dpy, infos[i].visual);
+    if (fmt->type == PictTypeDirect && fmt->direct.alphaMask) {
+      visual = infos[i].visual;
+      depth = infos[i].depth;
+      cmap = XCreateColormap(dpy, root, visual, AllocNone);
+      useargb = 1;
+      break;
+    }
+  }
+
+  XFree(infos);
+
+  if (!visual) {
+    visual = DefaultVisual(dpy, screen);
+    depth = DefaultDepth(dpy, screen);
+    cmap = DefaultColormap(dpy, screen);
+  }
+}
+
 void setup(void) {
   int i;
   XSetWindowAttributes wa;
@@ -3118,7 +3166,8 @@ void setup(void) {
   sw = DisplayWidth(dpy, screen);
   sh = DisplayHeight(dpy, screen);
   root = RootWindow(dpy, screen);
-  drw = drw_create(dpy, screen, root, sw, sh);
+  xinitvisual();
+  drw = drw_create(dpy, screen, root, sw, sh, visual, depth, cmap);
   if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
     die("no fonts could be loaded.");
   lrpad = drw->fonts->h;
@@ -3148,6 +3197,8 @@ void setup(void) {
       XInternAtom(dpy, "_NET_SYSTEM_TRAY_ORIENTATION", False);
   netatom[NetSystemTrayOrientationHorz] =
       XInternAtom(dpy, "_NET_SYSTEM_TRAY_ORIENTATION_HORZ", False);
+  netatom[NetSystemTrayVisual] =
+      XInternAtom(dpy, "_NET_SYSTEM_TRAY_VISUAL", False);
   netatom[NetWMName] = XInternAtom(dpy, "_NET_WM_NAME", False);
  	netatom[NetWMIcon] = XInternAtom(dpy, "_NET_WM_ICON", False);
   netatom[NetWMState] = XInternAtom(dpy, "_NET_WM_STATE", False);
@@ -3162,6 +3213,8 @@ void setup(void) {
   xatom[Manager] = XInternAtom(dpy, "MANAGER", False);
   xatom[Xembed] = XInternAtom(dpy, "_XEMBED", False);
   xatom[XembedInfo] = XInternAtom(dpy, "_XEMBED_INFO", False);
+  xrootpmap = XInternAtom(dpy, "_XROOTPMAP_ID", False);
+  esetrootpmap = XInternAtom(dpy, "ESETROOT_PMAP_ID", False);
   netatom[NetDesktopViewport] = XInternAtom(dpy, "_NET_DESKTOP_VIEWPORT", False);
   netatom[NetNumberOfDesktops] = XInternAtom(dpy, "_NET_NUMBER_OF_DESKTOPS", False);
   netatom[NetCurrentDesktop] = XInternAtom(dpy, "_NET_CURRENT_DESKTOP", False);
@@ -3175,10 +3228,10 @@ void setup(void) {
   cursor[CurResizeVertArrow] = drw_cur_create(drw, XC_sb_v_double_arrow);
   /* init appearance */
   scheme = ecalloc(LENGTH(colors) + 1, sizeof(Clr *));
-  scheme[LENGTH(colors)] = drw_scm_create(drw, colors[0], 3);
+  scheme[LENGTH(colors)] = drw_scm_create(drw, colors[0], alphas, 3);
   for (i = 0; i < LENGTH(colors); i++)
-    scheme[i] = drw_scm_create(drw, colors[i], 3);
-  drw_clr_create(drw, &clrborder, col_borderbar);
+    scheme[i] = drw_scm_create(drw, colors[i], alphas, 3);
+  drw_clr_create(drw, &clrborder, col_borderbar, BORDERALPHA);
   /* init system tray */
   updatesystray();
   /* init bars */
@@ -3268,7 +3321,8 @@ showtagpreview(int tag)
 
         if (selmon->tagmap[tag]) {
 		XSetWindowBackgroundPixmap(dpy, selmon->tagwin, selmon->tagmap[tag]);
-		XCopyArea(dpy, selmon->tagmap[tag], selmon->tagwin, drw->gc, 0, 0, selmon->mw / scalepreview, selmon->mh / scalepreview, 0, 0);
+		/* tagmap + tagwin are default-depth; drw->gc is 32-bit now, so use the screen GC */
+		XCopyArea(dpy, selmon->tagmap[tag], selmon->tagwin, DefaultGC(dpy, screen), 0, 0, selmon->mw / scalepreview, selmon->mh / scalepreview, 0, 0);
 		XSync(dpy, False);
 		XMapWindow(dpy, selmon->tagwin);
 	} else
@@ -3546,7 +3600,9 @@ void updatebars(void) {
   unsigned int w;
   Monitor *m;
   XSetWindowAttributes wa = {.override_redirect = True,
-                             .background_pixmap = ParentRelative,
+                             .background_pixel = 0,
+                             .border_pixel = 0,
+                             .colormap = cmap,
                               .event_mask = ButtonPressMask|ExposureMask|PointerMotionMask|EnterWindowMask|LeaveWindowMask};
 
   XClassHint ch = {"dwm", "dwm"};
@@ -3558,8 +3614,8 @@ void updatebars(void) {
       w -= getsystraywidth();
     m->barwin = XCreateWindow(
         dpy, root, m->wx + m->gappov, m->by, w - 2 * m->gappov, bh, 0,
-        DefaultDepth(dpy, screen), CopyFromParent, DefaultVisual(dpy, screen),
-        CWOverrideRedirect | CWBackPixmap | CWEventMask, &wa);
+        depth, InputOutput, visual,
+        CWOverrideRedirect | CWBackPixel | CWBorderPixel | CWColormap | CWEventMask, &wa);
     XDefineCursor(dpy, m->barwin, cursor[CurNormal]->cursor);
     if (showsystray && m == systraytomon(m))
       XMapRaised(dpy, systray->win);
@@ -3575,9 +3631,9 @@ void updatebars(void) {
         CWOverrideRedirect | CWEventMask, &hwa);
       /* starts unmapped; only raised when bar auto-hides */
     }
-    m->tabwin = XCreateWindow(dpy, root, m->wx + m->gappov, m->ty, m->ww - 2 * m->gappov, th, 0, DefaultDepth(dpy, screen),
-						CopyFromParent, DefaultVisual(dpy, screen),
-						CWOverrideRedirect|CWBackPixmap|CWEventMask, &wa);
+    m->tabwin = XCreateWindow(dpy, root, m->wx + m->gappov, m->ty, m->ww - 2 * m->gappov, th, 0, depth,
+						InputOutput, visual,
+						CWOverrideRedirect|CWBackPixel|CWBorderPixel|CWColormap|CWEventMask, &wa);
 	XDefineCursor(dpy, m->tabwin, cursor[CurNormal]->cursor);
 	XMapRaised(dpy, m->tabwin);
     XSetClassHint(dpy, m->barwin, &ch);
@@ -3846,10 +3902,83 @@ void updatesystrayiconstate(Client *i, XPropertyEvent *ev) {
             systray->win, XEMBED_EMBEDDED_VERSION);
 }
 
+/* Compose the tray's pseudo-transparent background into a default-depth
+ * pixmap: the wallpaper region under the tray (from _XROOTPMAP_ID /
+ * ESETROOT_PMAP_ID) with the bar color blended over it at BARALPHA and the
+ * frame strips at BORDERALPHA — the same math the compositor applies to the
+ * ARGB bar, precomputed server-side. This keeps the tray on the 24-bit
+ * visual (a real ARGB tray turns alpha-less XEmbed icons into garbage
+ * squares) while the strip visually matches the translucent bar. Falls back
+ * to the opaque bar color when no usable wallpaper pixmap exists. */
+Pixmap systraybgpixmap(int x, int y, unsigned int w, unsigned int h) {
+  Pixmap bgpm, rootpm = None;
+  Picture pic;
+  GC gc;
+  XRenderColor rc;
+  Atom type, props[2] = { xrootpmap, esetrootpmap };
+  int di, rx, ry;
+  unsigned int rw = 0, rh = 0, rb, rd = 0;
+  unsigned long n, extra;
+  unsigned char *p = NULL;
+  Window dw;
+  size_t i;
+
+  bgpm = XCreatePixmap(dpy, root, w, h, DefaultDepth(dpy, screen));
+  gc = XCreateGC(dpy, bgpm, 0, NULL);
+  for (i = 0; i < LENGTH(props) && rootpm == None; i++)
+    if (XGetWindowProperty(dpy, root, props[i], 0, 1, False, XA_PIXMAP, &type,
+                           &di, &n, &extra, &p) == Success && p) {
+      if (type == XA_PIXMAP && n == 1)
+        rootpm = *(Pixmap *)p;
+      XFree(p);
+      p = NULL;
+    }
+  /* the advertised pixmap may be stale or oddly sized — probe with errors muted */
+  XSetErrorHandler(xerrordummy);
+  if (rootpm != None &&
+      (!XGetGeometry(dpy, rootpm, &dw, &rx, &ry, &rw, &rh, &rb, &rd) ||
+       rd != (unsigned int)DefaultDepth(dpy, screen) || x < 0 || y < 0 ||
+       x + w > rw || y + h > rh))
+    rootpm = None;
+  if (rootpm != None)
+    XCopyArea(dpy, rootpm, bgpm, gc, x, y, w, h, 0, 0);
+  XSync(dpy, False);
+  XSetErrorHandler(xerror);
+  if (rootpm == None) {
+    XSetForeground(dpy, gc, scheme[SchemeNorm][ColBg].pixel);
+    XFillRectangle(dpy, bgpm, gc, 0, 0, w, h);
+  }
+  XFreeGC(dpy, gc);
+
+  pic = XRenderCreatePicture(
+      dpy, bgpm, XRenderFindVisualFormat(dpy, DefaultVisual(dpy, screen)), 0,
+      NULL);
+  /* bar color over the wallpaper, inside the frame (premultiplied) */
+  rc.alpha = BARALPHA * 0x101;
+  rc.red = scheme[SchemeNorm][ColBg].color.red * BARALPHA / 0xff;
+  rc.green = scheme[SchemeNorm][ColBg].color.green * BARALPHA / 0xff;
+  rc.blue = scheme[SchemeNorm][ColBg].color.blue * BARALPHA / 0xff;
+  XRenderFillRectangle(dpy, PictOpOver, pic, &rc, 0, borderpx, w - borderpx,
+                       h - 2 * borderpx);
+  /* frame strips over the wallpaper — top, bottom, right (left joins the bar) */
+  rc.alpha = BORDERALPHA * 0x101;
+  rc.red = scheme[SchemeTitle][ColBorder].color.red * BORDERALPHA / 0xff;
+  rc.green = scheme[SchemeTitle][ColBorder].color.green * BORDERALPHA / 0xff;
+  rc.blue = scheme[SchemeTitle][ColBorder].color.blue * BORDERALPHA / 0xff;
+  XRenderFillRectangle(dpy, PictOpOver, pic, &rc, 0, 0, w, borderpx);
+  XRenderFillRectangle(dpy, PictOpOver, pic, &rc, 0, h - borderpx, w, borderpx);
+  XRenderFillRectangle(dpy, PictOpOver, pic, &rc, w - borderpx, borderpx,
+                       borderpx, h - 2 * borderpx);
+  XRenderFreePicture(dpy, pic);
+  return bgpm;
+}
+
 void updatesystray(void) {
   XSetWindowAttributes wa;
+  XWindowAttributes iwa;
   XWindowChanges wc;
   Client *i;
+  Pixmap bgpm;
   Monitor *m = systraytomon(NULL);
   unsigned int x = floatbar?m->mx + m->mw - m->gappov:m->mx + m->mw;
   unsigned int w = 1;
@@ -3860,15 +3989,28 @@ void updatesystray(void) {
     /* init systray */
     if (!(systray = (Systray *)calloc(1, sizeof(Systray))))
       die("fatal: could not malloc() %u bytes\n", sizeof(Systray));
-    systray->win = XCreateSimpleWindow(dpy, root, x, m->by, w, bh, 0, 0,
-                                       scheme[SchemeSel][ColBg].pixel);
     wa.event_mask = ButtonPressMask | ExposureMask;
     wa.override_redirect = True;
     wa.background_pixel = scheme[SchemeNorm][ColBg].pixel;
+    /* the tray must stay on the default 24-bit visual: XEmbed icon windows
+     * have no alpha channel, so hosting them in the 32-bit ARGB bar visual
+     * makes the compositor blend undefined alpha — icons turn into
+     * wallpaper-dependent white/dark squares. Translucency is faked instead:
+     * systraybgpixmap() blends the wallpaper into the tray background at the
+     * bar's alpha, so the strip matches the ARGB bar without touching the
+     * icons' visual. */
+    systray->win = XCreateWindow(
+        dpy, root, x, m->by, w, bh, 0, DefaultDepth(dpy, screen), InputOutput,
+        DefaultVisual(dpy, screen),
+        CWOverrideRedirect | CWBackPixel | CWEventMask, &wa);
     XSelectInput(dpy, systray->win, SubstructureNotifyMask);
     XChangeProperty(dpy, systray->win, netatom[NetSystemTrayOrientation],
                     XA_CARDINAL, 32, PropModeReplace,
                     (unsigned char *)&netatom[NetSystemTrayOrientationHorz], 1);
+    VisualID trayvisual = XVisualIDFromVisual(DefaultVisual(dpy, screen));
+    XChangeProperty(dpy, systray->win, netatom[NetSystemTrayVisual],
+                    XA_VISUALID, 32, PropModeReplace,
+                    (unsigned char *)&trayvisual, 1);
     XChangeWindowAttributes(
         dpy, systray->win, CWEventMask | CWOverrideRedirect | CWBackPixel, &wa);
     XMapRaised(dpy, systray->win);
@@ -3885,9 +4027,15 @@ void updatesystray(void) {
     }
   }
   for (w = 0, i = systray->icons; i; i = i->next) {
-    /* make sure the background color stays the same */
-    wa.background_pixel = scheme[SchemeNorm][ColBg].pixel;
-    XChangeWindowAttributes(dpy, i->win, CWBackPixel, &wa);
+    /* icons inherit the tray's pseudo-transparent background; ParentRelative
+     * needs a matching depth, so odd-depth icons keep a solid fallback */
+    if (XGetWindowAttributes(dpy, i->win, &iwa) &&
+        iwa.depth == DefaultDepth(dpy, screen))
+      XSetWindowBackgroundPixmap(dpy, i->win, ParentRelative);
+    else {
+      wa.background_pixel = scheme[SchemeNorm][ColBg].pixel;
+      XChangeWindowAttributes(dpy, i->win, CWBackPixel, &wa);
+    }
     XMapRaised(dpy, i->win);
     w += systrayspacing;
     i->x = w;
@@ -3914,16 +4062,15 @@ void updatesystray(void) {
                    &wc);
   XMapWindow(dpy, systray->win);
   XMapSubwindows(dpy, systray->win);
-  /* redraw background */
-  XSetForeground(dpy, drw->gc, scheme[SchemeNorm][ColBg].pixel);
-  XFillRectangle(dpy, systray->win, drw->gc, 0, 0, w, bh);
-
-  /* top, bottom, left, and right borders for systray area */
-  XSetForeground(dpy, drw->gc, scheme[SchemeTitle][ColBorder].pixel);
-  XFillRectangle(dpy, systray->win, drw->gc, 0, 0, w, borderpx);
-  XFillRectangle(dpy, systray->win, drw->gc, 0, bh - borderpx, w, borderpx);
-
-  XFillRectangle(dpy, systray->win, drw->gc, w - borderpx, 0, borderpx, bh);
+  /* pseudo-transparent background with the frame baked in — set as the
+   * window background so the server repaints it on expose and the
+   * ParentRelative icons show it behind their glyphs */
+  bgpm = systraybgpixmap(x, m->by, w, bh);
+  XSetWindowBackgroundPixmap(dpy, systray->win, bgpm);
+  XFreePixmap(dpy, bgpm);
+  XClearWindow(dpy, systray->win);
+  for (i = systray->icons; i; i = i->next)
+    XClearArea(dpy, i->win, 0, 0, 0, 0, True); /* expose → icon redraws */
 
   XSync(dpy, False);
 }

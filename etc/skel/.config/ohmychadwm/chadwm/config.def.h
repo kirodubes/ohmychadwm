@@ -205,6 +205,41 @@ static const char *menufonts[] = {
     THEME_MENUICONFONT ":style=" THEME_MENUICONSTYLE ":size=" _STR(THEME_MENUICONSIZE),
 };
 
+/* ── Bar transparency ─────────────────────────────────────────────────────────
+ * 0 = fully transparent … 100 = fully opaque. Applies to the background of the
+ * bar, the tab bar and the systray strip; text and tray icons stay opaque.
+ * XEmbed icons have no alpha channel and render as garbage squares on a real
+ * ARGB tray window, so the tray fakes it: the wallpaper is blended into its
+ * background at this opacity (updates automatically on wallpaper change).
+ * True ARGB transparency built into chadwm itself — no picom opacity rules
+ * needed. A running compositor is required to blend the alpha channel;
+ * without one the bar renders opaque. ohmychadwm autostarts fastcompmgr (see
+ * scripts/run.sh); picom blends the bar identically if you prefer it.
+ * Themes may override with #define THEME_BAROPACITY before this point. */
+#ifndef THEME_BAROPACITY
+#define THEME_BAROPACITY 85
+#endif
+/* Opacity of every border element drawn on the bar — the col_borderbar frame,
+ * the menu-button box, the layout underline, and the status/title border
+ * lines (all painted from the schemes' border column). Same 0–100 scale;
+ * defaults to the bar opacity so borders match the background. Themes may
+ * override with #define THEME_BORDEROPACITY. The systray frame follows it
+ * too (blended into the tray's wallpaper background). Client window borders
+ * are 24-bit windows: the alpha byte is truncated there, so they stay opaque
+ * regardless of this value.
+ * At low values the border's RGB still blends in, so a bright border color
+ * can leave a faint glow — pick a color close to the wallpaper/bar for a
+ * clean fade-out. */
+#ifndef THEME_BORDEROPACITY
+#define THEME_BORDEROPACITY THEME_BAROPACITY
+#endif
+#define OPAQUE   0xffU
+#define BARALPHA (THEME_BAROPACITY * 0xffU / 100)
+#define BORDERALPHA (THEME_BORDEROPACITY * 0xffU / 100)
+
+/* alpha per color column, applied to every scheme */
+static const unsigned int alphas[3] = { OPAQUE, BARALPHA, BORDERALPHA }; /* fg, bg, border */
+
 static const char *colors[][3] = {
     /*                     fg                bg                border */
     [SchemeNorm]       = { SchemeNormfg,     SchemeNormbg,     SchemeNormbr },
@@ -394,7 +429,7 @@ static const Layout layouts[] = {
 #define false 0
 #endif
 
-#define KIRO_AZERTY false
+#define KIRO_AZERTY true
 
 #if KIRO_AZERTY
 /* AZERTY (Belgium) */

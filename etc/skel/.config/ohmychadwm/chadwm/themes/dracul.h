@@ -13,6 +13,7 @@
 #define THEME_FONTSTYLE "Bold"
 #define THEME_FONTSIZE 13
 #define THEME_ICONSIZE    18
+#define THEME_BORDEROPACITY 85
 
 /* background=#282A36  foreground=#F8F8F2  selection=#44475A  comment=#6272A4 */
 /* red=#FF5555  orange=#FFB86C  yellow=#F1FA8C  green=#50FA7B */
