@@ -426,6 +426,7 @@ static Cur *cursor[CurLast];
 static Clr **scheme, clrborder;
 static Display *dpy;
 static Drw *drw;
+static Fnt *menufnt; /* fontset for the bar menu launcher only, see menufonts[] */
 static Monitor *mons, *selmon;
 static Window root, wmcheckwin;
 
@@ -435,6 +436,31 @@ static Client* hiddenWinStack[hiddenWinStackMax];
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
+
+/* The bar menu launcher renders from menufnt rather than the main fontset, so
+ * its font and size are independent of the bar font. Width and draw must both
+ * go through these or the tag hit-boxes shift by the width delta. */
+static unsigned int
+launcherw(const char *text)
+{
+	Fnt *prev = drw->fonts;
+	unsigned int w;
+
+	drw->fonts = menufnt;
+	w = drw_fontset_getwidth(drw, text) + lrpad;
+	drw->fonts = prev;
+	return w;
+}
+
+static void
+drawlauncher(int x, int y, unsigned int w, unsigned int h, const char *text, int invert)
+{
+	Fnt *prev = drw->fonts;
+
+	drw->fonts = menufnt;
+	drw_text(drw, x, y, w, h, lrpad / 2, text, invert);
+	drw->fonts = prev;
+}
 
 typedef struct Pertag Pertag;
 struct Monitor {
@@ -662,7 +688,7 @@ void buttonpress(XEvent *e) {
     if (showmenu)
     for(i = 0; i < LENGTH(launchers); i++) {
       if (!launchers[i].command) break;
-      x += TEXTW(launchers[i].name);
+      x += launcherw(launchers[i].name);
       if (ev->x < x) {
         Arg a;
         a.v = launchers[i].command;
@@ -767,6 +793,7 @@ void cleanup(void) {
     free(scheme[i]);
   free(scheme);
   XDestroyWindow(dpy, wmcheckwin);
+  drw_fontset_free(menufnt);
   drw_free(drw);
   XSync(dpy, False);
   XSetInputFocus(dpy, PointerRoot, RevertToPointerRoot, CurrentTime);
@@ -1561,14 +1588,14 @@ void drawbar(Monitor *m) {
         drw_setscheme(drw, scheme[SchemeLayoutVV]);
     }
 
-    w = TEXTW(launchers[i].name);
+    w = launcherw(launchers[i].name);
     if (launchers[i].command == ohmychadwm_menu) {
         /* draw SchemeMenubr border, then icon inset by 1px */
         XSetForeground(drw->dpy, drw->gc, scheme[SchemeMenu][ColBorder].pixel);
         XFillRectangle(drw->dpy, drw->drawable, drw->gc, x, 0, w, bh);
-        drw_text(drw, x + borderpx, borderpx, w - 2 * borderpx, bh - 2 * borderpx, lrpad / 2, launchers[i].name, urg & 1 << i);
+        drawlauncher(x + borderpx, borderpx, w - 2 * borderpx, bh - 2 * borderpx, launchers[i].name, urg & 1 << i);
     } else {
-        drw_text(drw, x, 0, w, bh, lrpad / 2, launchers[i].name, urg & 1 << i);
+        drawlauncher(x, 0, w, bh, launchers[i].name, urg & 1 << i);
     }
     x += w;
 }
@@ -2321,7 +2348,7 @@ void motionnotify(XEvent *e) {
 		if (showmenu)
 		for(i = 0; i < LENGTH(launchers); i++) {
 			if (!launchers[i].command) break;
-			x += TEXTW(launchers[i].name);
+			x += launcherw(launchers[i].name);
 		}
 		i = 0;
 		do
@@ -3096,6 +3123,14 @@ void setup(void) {
     die("no fonts could be loaded.");
   lrpad = drw->fonts->h;
   bh = drw->fonts->h + 2 + vertpadbar + borderpx * 2;
+  {
+    /* drw_fontset_create() reassigns drw->fonts, so restore the main fontset
+     * after building the launcher's */
+    Fnt *mainfnt = drw->fonts;
+    if (!(menufnt = drw_fontset_create(drw, menufonts, LENGTH(menufonts))))
+      die("no menu icon font could be loaded.");
+    drw->fonts = mainfnt;
+  }
   th = vertpadtab;
  // bh_n = vertpadtab;
   updategeom();

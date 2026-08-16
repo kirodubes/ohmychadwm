@@ -185,6 +185,26 @@ static const char *fonts[] = {
     "Noto Sans CJK JP:size=" _STR(THEME_FONTSIZE),
 };
 
+/* Bar menu-launcher font — font *and* size for that one icon.
+ * The launcher is drawn from its own fontset (drawlauncher()/launcherw() in
+ * dwm.c) instead of the fonts[] chain above. It has to be: fonts[0] is itself
+ * a Nerd Font, so it already covers the launcher glyph and fontconfig never
+ * falls through to the THEME_ICONSIZE entry — the icon would render at
+ * THEME_FONTSIZE and sit visibly smaller than the tags beside it.
+ * Themes may override any of the three defines below. */
+#ifndef THEME_MENUICONFONT
+#define THEME_MENUICONFONT "JetBrainsMono Nerd Font Mono"
+#endif
+#ifndef THEME_MENUICONSTYLE
+#define THEME_MENUICONSTYLE "Bold"
+#endif
+#ifndef THEME_MENUICONSIZE
+#define THEME_MENUICONSIZE THEME_ICONSIZE
+#endif
+static const char *menufonts[] = {
+    THEME_MENUICONFONT ":style=" THEME_MENUICONSTYLE ":size=" _STR(THEME_MENUICONSIZE),
+};
+
 static const char *colors[][3] = {
     /*                     fg                bg                border */
     [SchemeNorm]       = { SchemeNormfg,     SchemeNormbg,     SchemeNormbr },

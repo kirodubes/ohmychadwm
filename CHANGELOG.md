@@ -3,18 +3,19 @@
 ## 2026.08.16
 
 ### What Changed
-- **Investigated the undersized menu-launcher icon in the chadwm bar.** Swapped the launcher glyph from `󱪾` (U+F1ABE) to the Arch logo `󰣇` (U+F08C7), which is drawn about twice as large inside its cell. This helps but does **not** fully close the gap — see below.
-- **Corrected the misleading font-chain comment** above `fonts[]`, which claimed bar icons are "always rendered at THEME_ICONSIZE". Fontconfig only falls through to a later font entry for codepoints the earlier ones do not cover, and `THEME_FONT` is itself a Nerd Font in every theme except `hippo.h` — so the `THEME_ICONSIZE` entry is never reached and every bar icon renders at `THEME_FONTSIZE`.
-
-### Known Remaining Issue
-The launcher icon is still visibly smaller than its neighbours. The comment fix above documents the actual root cause: the icon renders at `THEME_FONTSIZE` (13) rather than `THEME_ICONSIZE` (18). Measured against `JetBrainsMonoNerdFontMono-Bold.ttf`, the Arch glyph draws ~10.4px at 13pt where a CJK tag on the same line draws ~15.2px; at 18pt it would be ~14.4px, which matches. No glyph swap can close that gap on its own — nothing in the Nerd range is drawn taller than ~600 units except powerline separators. The fix requires rendering the launcher through a second fontset built from `fonts[1]`, which is a change to `dwm.c` and is not yet made.
+- **The bar menu launcher now has its own font and size, independent of the bar font.** It was rendering at `THEME_FONTSIZE` (13) and sat visibly smaller than the tags beside it. Three new overridable defines — `THEME_MENUICONFONT`, `THEME_MENUICONSTYLE`, `THEME_MENUICONSIZE` — drive a dedicated `menufonts[]` fontset used for that one icon. `THEME_MENUICONSIZE` defaults to `THEME_ICONSIZE` (18), which takes the icon from 11px to 15px of drawn ink against 17px for a CJK tag.
+- **Swapped the launcher glyph** from `󱪾` (U+F1ABE) to the Arch logo `󰣇` (U+F08C7), which is drawn about twice as large inside its cell.
+- **Corrected the misleading font-chain comment** above `fonts[]`, which claimed bar icons are "always rendered at THEME_ICONSIZE". Fontconfig only falls through to a later font entry for codepoints the earlier ones do not cover, and `THEME_FONT` is itself a Nerd Font in every theme except `hippo.h` — so that entry was never reached. This is the root cause the two items above address.
 
 ### Technical Details
-- Glyph outlines measured in `JetBrainsMonoNerdFontMono-Bold.ttf` (1000 units/em): U+F1ABE is 428 x 308 units, while U+F08C7, U+F003B, U+F07C4 and U+F0C9E all fill a full 600 x 600. The Nerd Font *Mono* variant additionally squeezes double-width Material Design glyphs into a single character cell.
-- Rejected alternatives: raising `THEME_FONTSIZE` enlarges every bar element and shifts `bh` (derived from `drw->fonts->h`); pointing `fonts[0]` at a non-Nerd family is unsafe because plain `JetBrainsMono` is not installed, so `fc-match` silently falls back to Noto Sans Mono and changes the bar typeface.
-- The new comment records the `Mono`-variant caveat so future launcher/tag glyph picks account for it.
+- `drw_fontset_create()` assigns `drw->fonts` as a side effect, so `setup()` saves the main fontset and restores it after building `menufnt`. `menufnt` is released in `cleanup()` before `drw_free()`, which only frees `drw->fonts`.
+- Two helpers in `dwm.c` swap `drw->fonts` around the launcher: `launcherw()` for width and `drawlauncher()` for the draw. **Both** are required — the three former `TEXTW(launchers[i].name)` call sites (`buttonpress`, `drawbar`, `motionnotify`) feed the bar hit-test, so measuring with one font and drawing with another would shift every tag hit-box by the width delta.
+- Sizing verified against real Xft metrics rather than font-table arithmetic: at 18pt the font height is 33px and the launcher is drawn into a `bh - 2 * borderpx` = 37px box, so it does not clip. 20pt would not fit; drop `THEME_MENUICONSIZE` to 16 if a theme uses a taller face.
+- Glyph outlines measured in `JetBrainsMonoNerdFontMono-Bold.ttf` (1000 units/em): U+F1ABE is 428 x 308 units where U+F08C7, U+F003B, U+F07C4 and U+F0C9E fill a full 600 x 600. Nothing in the Nerd range is drawn taller than ~600 units except powerline separators, so the glyph swap alone could not have closed the gap — hence the fontset change.
+- Rejected alternatives: raising `THEME_FONTSIZE` enlarges every bar element and shifts `bh`; pointing `fonts[0]` at a non-Nerd family is unsafe because plain `JetBrainsMono` is not installed, so `fc-match` silently falls back to Noto Sans Mono and changes the bar typeface.
 
 ### Files Modified
+- `etc/skel/.config/ohmychadwm/chadwm/dwm.c`
 - `etc/skel/.config/ohmychadwm/chadwm/config.def.h`
 - `etc/skel/.config/ohmychadwm/chadwm/config.def.h.default`
 
