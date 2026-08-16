@@ -3,13 +3,16 @@
 ## 2026.08.16
 
 ### What Changed
-- **Made the bar menu-launcher icon match the size of the rest of the bar.** The launcher glyph was `󱪾` (U+F1ABE), which is drawn far smaller than its neighbours and looked shrunken next to the tags. Swapped it for the Arch logo `󰣇` (U+F08C7), which fills its cell.
-- **Corrected the misleading font-chain comment** above `fonts[]`, which claimed bar icons are "always rendered at THEME_ICONSIZE". That is false for every theme whose `THEME_FONT` is itself a Nerd Font (all of them except `hippo.h`): fontconfig only falls through to a later font for codepoints the earlier ones do not cover, so the size-`THEME_ICONSIZE` entry is never reached and icons render at `THEME_FONTSIZE`.
+- **Investigated the undersized menu-launcher icon in the chadwm bar.** Swapped the launcher glyph from `󱪾` (U+F1ABE) to the Arch logo `󰣇` (U+F08C7), which is drawn about twice as large inside its cell. This helps but does **not** fully close the gap — see below.
+- **Corrected the misleading font-chain comment** above `fonts[]`, which claimed bar icons are "always rendered at THEME_ICONSIZE". Fontconfig only falls through to a later font entry for codepoints the earlier ones do not cover, and `THEME_FONT` is itself a Nerd Font in every theme except `hippo.h` — so the `THEME_ICONSIZE` entry is never reached and every bar icon renders at `THEME_FONTSIZE`.
+
+### Known Remaining Issue
+The launcher icon is still visibly smaller than its neighbours. The comment fix above documents the actual root cause: the icon renders at `THEME_FONTSIZE` (13) rather than `THEME_ICONSIZE` (18). Measured against `JetBrainsMonoNerdFontMono-Bold.ttf`, the Arch glyph draws ~10.4px at 13pt where a CJK tag on the same line draws ~15.2px; at 18pt it would be ~14.4px, which matches. No glyph swap can close that gap on its own — nothing in the Nerd range is drawn taller than ~600 units except powerline separators. The fix requires rendering the launcher through a second fontset built from `fonts[1]`, which is a change to `dwm.c` and is not yet made.
 
 ### Technical Details
-- Glyph outlines measured in `JetBrainsMonoNerdFontMono-Bold.ttf` (1000 units/em): U+F1ABE is 428 x 308 units, while the other Material Design icons in the same font (U+F08C7, U+F003B, U+F07C4, U+F0C9E) are a full 600 x 600 — roughly twice the drawn area. The Nerd Font *Mono* variant additionally squeezes double-width Material Design glyphs into a single character cell, compounding the effect.
-- Rejected the alternatives deliberately: raising `THEME_FONTSIZE` would enlarge every bar element and shift `bh` (derived from `drw->fonts->h`, `dwm.c`), and moving `fonts[0]` off the `Mono` variant would change icon spacing across the whole bar. The glyph swap is scoped to the one element that was wrong.
-- The new comment also records the `Mono`-variant caveat so future launcher/tag glyph picks account for it.
+- Glyph outlines measured in `JetBrainsMonoNerdFontMono-Bold.ttf` (1000 units/em): U+F1ABE is 428 x 308 units, while U+F08C7, U+F003B, U+F07C4 and U+F0C9E all fill a full 600 x 600. The Nerd Font *Mono* variant additionally squeezes double-width Material Design glyphs into a single character cell.
+- Rejected alternatives: raising `THEME_FONTSIZE` enlarges every bar element and shifts `bh` (derived from `drw->fonts->h`); pointing `fonts[0]` at a non-Nerd family is unsafe because plain `JetBrainsMono` is not installed, so `fc-match` silently falls back to Noto Sans Mono and changes the bar typeface.
+- The new comment records the `Mono`-variant caveat so future launcher/tag glyph picks account for it.
 
 ### Files Modified
 - `etc/skel/.config/ohmychadwm/chadwm/config.def.h`
