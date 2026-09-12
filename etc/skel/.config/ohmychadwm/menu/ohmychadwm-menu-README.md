@@ -50,7 +50,7 @@ ohmychadwm-menu screenrecord    # open screen-record menu
 ohmychadwm-menu lock            # lock screen immediately
 ohmychadwm-menu system          # power menu only
 ohmychadwm-menu install         # install menu only
-ohmychadwm-menu toggle          # toggle menu (nightlight, polybar, autolock)
+ohmychadwm-menu toggle          # toggle menu (night light, auto-lock, picom, fastcompmgr)
 ohmychadwm-menu ai              # AI tools submenu
 ```
 

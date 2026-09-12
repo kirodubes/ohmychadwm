@@ -1,5 +1,23 @@
 # Changelog
 
+## 2026.09.12
+
+### What Changed
+- **The menu README advertised a polybar toggle that `ohmychadwm-menu` has never implemented.** The
+  usage line for `ohmychadwm-menu toggle` read `# toggle menu (nightlight, polybar, autolock)`; the
+  actual `show_toggle_menu()` offers **night light, auto-lock, picom and fastcompmgr**. The line now
+  names those four. Surfaced while auditing why `kiro-polybar` was on the ISO at all — polybar's
+  binary was never shipped, so the advertised toggle could not have worked even if it existed.
+
+### Technical Details
+- Documentation only; `ohmychadwm-menu.sh` is unchanged and was already correct.
+- The remaining `polybar` mention (the Omarchy/Wayland → X11 equivalence table, `waybar` signals →
+  `polybar IPC / pkill -SIGUSR1`) is left in place — it names the generic X11 counterpart to a
+  Wayland mechanism, not a feature of this menu.
+
+### Files Modified
+- `etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu-README.md`
+
 ## 2026.08.16
 
 ### What Changed
