@@ -154,7 +154,7 @@ git_commit_and_push() {
     if [[ -z "$(git -C "${SCRIPT_DIR}" status --porcelain)" ]]; then
         log_info "Nothing to commit — working tree clean"
     else
-        git -C "${SCRIPT_DIR}" commit -m "update" || log_error "Git commit failed"
+        git -C "${SCRIPT_DIR}" commit -m "${COMMIT_MSG:-update}" || log_error "Git commit failed"
     fi
 
     branch="$(git -C "${SCRIPT_DIR}" rev-parse --abbrev-ref HEAD)"
