@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026.09.27
+
+### What Changed
+- Reworded the `keybindings.txt` header: dropped "DO NOT EDIT BY HAND" and the generator name, added a line telling users it lists the default bindings and they can edit it to match their own. A user changed a binding, expected the file to update itself, and went looking for a generator that isn't part of Kiro.
+
+### Technical Details
+- `Generated:` now carries only the date, so the kiro-keybindings HTML/PDF footer (which prints everything after `Generated:`) shows a clean date. The new line is a `#` comment, which both kiro-keybindings parsers skip. Bindings unchanged.
+
+### Files Modified
+- `etc/skel/.config/ohmychadwm/keybindings.txt`
+
 ## 2026.09.12
 
 ### What Changed
