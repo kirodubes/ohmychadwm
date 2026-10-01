@@ -1,5 +1,20 @@
 # Changelog
 
+## 2026.10.01
+
+### What Changed
+- New keybinding **Ctrl+Alt+X** launches `oma` (ohmychadwm Appearance: GTK theme, icons, cursor, font and bar theme in one place). Ctrl+Alt+M was the first choice but belongs to mintstick, so X was picked from the four free Ctrl+Alt letters (j, n, x, y).
+
+### Technical Details
+- X sits in the same place on AZERTY and QWERTY, so it needs no swap-partner binding (unlike z/w and m/,). dwm itself grabs only Ctrl+Alt+Delete, so there's no clash with `keys[]`.
+- Added to `sxhkdrc` next to the other tweak tools, and to all three cheatsheets.
+
+### Files Modified
+- `etc/skel/.config/ohmychadwm/sxhkd/sxhkdrc`
+- `etc/skel/.config/ohmychadwm/keybindings.txt`
+- `etc/skel/.config/ohmychadwm/keybindings-azerty.txt`
+- `etc/skel/.config/ohmychadwm/keybindings-qwerty.txt`
+
 ## 2026.09.27
 
 ### What Changed

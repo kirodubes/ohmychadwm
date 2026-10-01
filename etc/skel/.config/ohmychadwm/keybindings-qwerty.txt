@@ -45,6 +45,7 @@
   ctrl + alt + s          fish-tweak-tool
   ctrl + alt + z          fastfetch-tweak-tool
   ctrl + alt + w          fastfetch-tweak-tool
+  ctrl + alt + x          ohmychadwm-appearance (oma)
   ctrl + alt + p          pamac-manager
   ctrl + alt + i          kiro-iso-builder
   ctrl + alt + m          mintstick -m iso
