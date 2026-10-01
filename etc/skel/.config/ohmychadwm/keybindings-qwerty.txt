@@ -1,7 +1,8 @@
 ###############################################################################
 #  KEYBINDINGS — ohmychadwm (QWERTY)
-#  Source: etc/skel/.config/ohmychadwm/chadwm/config.def.h (QWERTY) + etc/skel/.config/ohmychadwm/sxhkd/sxhkdrc
-#  Generated: 2026.06.30 by /kiro-keybindings-all — DO NOT EDIT BY HAND
+#  Source: ~/.config/ohmychadwm/chadwm/config.def.h (QWERTY) + ~/.config/ohmychadwm/sxhkd/sxhkdrc
+#  Generated: 2026.10.01
+#  Reference for the default bindings. Changed yours? Edit this file to match.
 ###############################################################################
 
 ── 1. Applications & Launchers ───────────────────────────────────────────────
@@ -43,9 +44,9 @@
   ctrl + alt + a          alacritty-tweak-tool
   ctrl + alt + q          alacritty-tweak-tool
   ctrl + alt + s          fish-tweak-tool
+  ctrl + alt + x          oma (ohmychadwm appearance)
   ctrl + alt + z          fastfetch-tweak-tool
   ctrl + alt + w          fastfetch-tweak-tool
-  ctrl + alt + x          ohmychadwm-appearance (oma)
   ctrl + alt + p          pamac-manager
   ctrl + alt + i          kiro-iso-builder
   ctrl + alt + m          mintstick -m iso

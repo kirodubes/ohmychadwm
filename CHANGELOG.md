@@ -8,6 +8,7 @@
 ### Technical Details
 - X sits in the same place on AZERTY and QWERTY, so it needs no swap-partner binding (unlike z/w and m/,). dwm itself grabs only Ctrl+Alt+Delete, so there's no clash with `keys[]`.
 - Added to `sxhkdrc` next to the other tweak tools, and to all three cheatsheets.
+- Regenerated the three cheatsheets from `config.def.h` + `sxhkdrc`: the Ctrl+Alt+X line now sits with the other Ctrl+Alt tweak tools, and the header is the user-friendly one again ("Reference for the default bindings. Changed yours? Edit this file to match.") — the 2026.09.27 header fix had been lost. `keybindings.txt` stays the QWERTY copy because the shipped `config.def.h` has `KIRO_AZERTY false`.
 
 ### Files Modified
 - `etc/skel/.config/ohmychadwm/sxhkd/sxhkdrc`
