@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026.10.03
+
+### What Changed
+- Fixed the Catppuccin bar theme, which stopped ohmychadwm from starting. `THEME_ICONSIZE` was defined as `18   18`, so the compiled icon font became `JetBrainsMono Nerd Font Mono:style=Bold:size=18 18`. It compiled fine but broke at login. Reported by a user on YouTube.
+
+### Technical Details
+- `config.def.h` turns `THEME_ICONSIZE` into text with `_STR()`, so the compiler never sees the duplicate. It only shows up as an invalid fontconfig size at runtime. The bad value had been there since 2026-04-07 (`d7fa16a`). No other theme header has it.
+- Existing users keep their broken copy in `~/.config/ohmychadwm/chadwm/themes/catppuccin.h`. They need to fix that line by hand and rebuild.
+
+### Files Modified
+- `etc/skel/.config/ohmychadwm/chadwm/themes/catppuccin.h`
+
 ## 2026.10.01
 
 ### What Changed
