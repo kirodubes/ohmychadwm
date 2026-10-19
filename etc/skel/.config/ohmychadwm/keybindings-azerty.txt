@@ -60,6 +60,7 @@
   alt + F3                xfce4-appfinder
   super + v               pavucontrol
   super + ctrl + a        pavucontrol
+  super + ctrl + shift + a  alacritty -e claude (AI agent)
   ctrl + alt + u          pavucontrol
   super + alt + space     ohmychadwm rofi menu
   alt + t                 variety: trash wallpaper

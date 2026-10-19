@@ -114,6 +114,10 @@ super + ctrl + a
 super + ctrl + l
     archlinux-betterlockscreen
 
+#AI agent
+super + ctrl + shift + a
+    alacritty -e claude
+
 #alacritty
 super + Return
     alacritty
