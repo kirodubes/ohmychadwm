@@ -70,6 +70,10 @@ super + alt + space
 super + ctrl + s
     kiro-keybindings
 
+#show keybindings
+super + k
+    kiro-keybindings
+
 #Code
 super + e
     code
@@ -102,6 +106,14 @@ super + t
 super + v
     pavucontrol
 
+#Pavucontrol
+super + ctrl + a
+    pavucontrol
+
+#Lock screen
+super + ctrl + l
+    archlinux-betterlockscreen
+
 #alacritty
 super + Return
     alacritty
@@ -131,6 +143,22 @@ super + shift + Return
 #File-Manager
 super + shift + KP_Enter
 	thunar
+
+#File-Manager
+super + shift + f
+	thunar
+
+#Browser
+super + shift + b
+	vivaldi-stable
+
+#Editor
+super + shift + n
+	code
+
+#Spotify
+super + shift + m
+	spotify
 
 #dmenu
 super + shift + d
@@ -375,6 +403,15 @@ XF86AudioLowerVolume
 #Mute
 XF86AudioMute
     pamixer -t
+
+XF86AudioMicMute
+    pamixer --default-source -t
+
+alt + XF86AudioRaiseVolume
+    pamixer -i 1
+
+alt + XF86AudioLowerVolume
+    pamixer -d 1
 
 #Playerctl works for Pragha, Spotify and others
 #Delete the line for playerctl if you want to use mpc

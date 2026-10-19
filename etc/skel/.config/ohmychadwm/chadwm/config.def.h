@@ -496,6 +496,8 @@ static const Key keys[] = {
     { MODKEY|ControlMask,               XK_w,       tabmode,        { -1 } },
     //{ MODKEY,                           XK_j,       focusstack,     {.i = +1 } },
     //{ MODKEY,                           XK_k,       focusstack,     {.i = -1 } },
+    { MODKEY,                           XK_Up,      focusstack,     {.i = +1 } },
+    { MODKEY,                           XK_Down,    focusstack,     {.i = -1 } },
     { MODKEY,                           XK_i,       incnmaster,     {.i = +1 } },
     { MODKEY,                           XK_n,       incnmaster,     {.i = -1 } },
 
@@ -582,6 +584,7 @@ static const Key keys[] = {
     { MODKEY,                           XK_q,       killclient,     {0} },
     { MODKEY|ShiftMask,                 XK_q,       killclient,     {0} },
     { MODKEY|ShiftMask,                 XK_c,       killclient,     {0} },
+    { MODKEY,                           XK_w,       killclient,     {0} },
     { MODKEY|ControlMask,               XK_q,       killall,        {0} },
 
     // restart

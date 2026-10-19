@@ -1,5 +1,31 @@
 # Changelog
 
+## 2026.10.19
+
+### What Changed
+- Added 13 Omarchy-style keybindings so people coming from Omarchy find their habits work. Only combinations that were free in ohmychadwm, and only apps it already uses, so no new packages and no existing binding changed:
+  - Super+K shows keybindings (Super+Ctrl+S still works)
+  - Super+W closes a window
+  - Super+Up / Super+Down move focus up and down the stack
+  - Super+Ctrl+L locks the screen
+  - Super+Ctrl+A opens pavucontrol
+  - Super+Shift+F opens thunar, Super+Shift+B vivaldi, Super+Shift+N code, Super+Shift+M spotify
+  - XF86AudioMicMute mutes the microphone
+  - Alt+volume keys change the volume by 1%
+
+### Technical Details
+- Super+W and Super+Up/Down live in `config.def.h` (`killclient`, `focusstack`) and need a rebuild (Super+Ctrl+Shift+R). The rest are in `sxhkdrc` and work after an sxhkd reload.
+- Letter keys use their keysym on both layouts, like the existing dwm letter bindings, so the AZERTY build needs no extra macros. Super+Ctrl+A has no AZERTY swap partner: Super+Ctrl+Q already kills all windows.
+- dwm grabs XF86AudioRaise/LowerVolume only without modifiers, so the Alt variants in sxhkd don't clash. Mic mute uses `pamixer --default-source -t`, the same tool as the other volume keys.
+- Omarchy keys that do something else in ohmychadwm (Super+Shift+Return, Super+Left/Right, Super+V, Super+X, Super+T, Super+G) were left alone.
+
+### Files Modified
+- `etc/skel/.config/ohmychadwm/sxhkd/sxhkdrc`
+- `etc/skel/.config/ohmychadwm/chadwm/config.def.h`
+- `etc/skel/.config/ohmychadwm/keybindings.txt`
+- `etc/skel/.config/ohmychadwm/keybindings-qwerty.txt`
+- `etc/skel/.config/ohmychadwm/keybindings-azerty.txt`
+
 ## 2026.10.03
 
 ### What Changed

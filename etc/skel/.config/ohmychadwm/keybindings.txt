@@ -1,7 +1,7 @@
 ###############################################################################
 #  KEYBINDINGS — ohmychadwm (QWERTY)
 #  Source: ~/.config/ohmychadwm/chadwm/config.def.h (QWERTY) + ~/.config/ohmychadwm/sxhkd/sxhkdrc
-#  Generated: 2026.10.01
+#  Generated: 2026.10.19
 #  Reference for the default bindings. Changed yours? Edit this file to match.
 ###############################################################################
 
@@ -15,6 +15,10 @@
   ctrl + alt + End        alacritty -e btop (system monitor)
   super + shift + Return  thunar (file manager)
   super + shift + KP_Enter  thunar (file manager)
+  super + shift + f       thunar (file manager)
+  super + shift + b       vivaldi-stable (browser)
+  super + shift + n       code (editor)
+  super + shift + m       spotify
   super + space           rofi drun (app launcher, fullscreen)
   super + r               rofi drun (app launcher)
   super + d               rofi drun (app launcher, large)
@@ -55,6 +59,7 @@
   alt + F2                xfce4-appfinder (collapsed)
   alt + F3                xfce4-appfinder
   super + v               pavucontrol
+  super + ctrl + a        pavucontrol
   ctrl + alt + u          pavucontrol
   super + alt + space     ohmychadwm rofi menu
   alt + t                 variety: trash wallpaper
@@ -76,10 +81,13 @@
   super + q               close focused window
   super + shift + q       close focused window
   super + shift + c       close focused window
+  super + w               close focused window
   super + ctrl + q        kill all windows
   super + f               toggle fullscreen
   super + shift + j       move window down in stack
   super + shift + k       move window up in stack
+  super + Up              focus next window
+  super + Down            focus previous window
   super + ctrl + j        rotate stack forward
   super + ctrl + k        rotate stack backward
   super + ctrl + shift + Return  promote window to master (zoom)
@@ -144,6 +152,9 @@
   XF86AudioRaiseVolume    raise volume
   XF86AudioLowerVolume    lower volume
   XF86AudioMute           toggle mute
+  XF86AudioMicMute        toggle microphone mute
+  alt + XF86AudioRaiseVolume  raise volume by 1%
+  alt + XF86AudioLowerVolume  lower volume by 1%
   XF86AudioPlay           play / pause (playerctl)
   XF86AudioNext           next track (playerctl)
   XF86AudioPrev           previous track (playerctl)
@@ -164,11 +175,13 @@
   ctrl + alt + k          archlinux-logout
   ctrl + alt + l          archlinux-logout --settings
   ctrl + alt + r          archlinux-betterlockscreen (lock screen)
+  super + ctrl + l        archlinux-betterlockscreen (lock screen)
   super + shift + x       edu-powermenu
   super + Escape          ohmychadwm system menu
   alt + x                 ohmychadwm system menu
   alt + shift + x         ohmychadwm system menu
   super + ctrl + s        kiro-keybindings (show this cheatsheet)
+  super + k               kiro-keybindings (show this cheatsheet)
   super + b               toggle bar
   super + shift + space   toggle bar
   super + g               toggle compositor (fastcompmgr)
