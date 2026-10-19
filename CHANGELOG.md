@@ -13,6 +13,7 @@
   - XF86AudioMicMute mutes the microphone
   - Alt+volume keys change the volume by 1%
   - Super+Ctrl+Shift+A opens an AI agent (`alacritty -e claude`). Claude Code is not part of Kiro; without it the terminal closes straight away
+- Super+Ctrl+Shift+R was bound twice in `config.def.h`, so one press started two rebuilds at once. Kept only the one that rebuilds inside an alacritty window, so the build output stays visible
 
 ### Technical Details
 - Super+W and Super+Up/Down live in `config.def.h` (`killclient`, `focusstack`) and need a rebuild (Super+Ctrl+Shift+R). The rest are in `sxhkdrc` and work after an sxhkd reload.
