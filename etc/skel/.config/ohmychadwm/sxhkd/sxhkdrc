@@ -84,7 +84,7 @@ super + x
 
 #powermenu
 super + shift + x
-    edu-powermenu
+    kiro-powermenu
 
 #menu system
 alt + shift + x

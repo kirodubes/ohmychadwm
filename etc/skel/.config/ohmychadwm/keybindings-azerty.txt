@@ -177,7 +177,7 @@
   ctrl + alt + l          archlinux-logout --settings
   ctrl + alt + r          archlinux-betterlockscreen (lock screen)
   super + ctrl + l        archlinux-betterlockscreen (lock screen)
-  super + shift + x       edu-powermenu
+  super + shift + x       kiro-powermenu
   super + Escape          ohmychadwm system menu
   alt + x                 ohmychadwm system menu
   alt + shift + x         ohmychadwm system menu

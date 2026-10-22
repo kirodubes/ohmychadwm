@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026.10.22
+
+### Power menu key calls kiro-powermenu
+
+**What Changed.** Super+Shift+X now runs `kiro-powermenu` instead of the old name `edu-powermenu`, and the keybindings cheatsheet says so. The package now depends on `kiro-powermenu`, so the menu is always installed with this desktop.
+
+**Technical Details.** Plain rename of the command. `kiro-powermenu` still ships `edu-powermenu` as a second command, so configs users already have in `~/.config` keep working.
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/keybindings.txt`, `etc/skel/.config/ohmychadwm/sxhkd/sxhkdrc`, `etc/skel/.config/ohmychadwm/keybindings-qwerty.txt`, `etc/skel/.config/ohmychadwm/keybindings-azerty.txt`
+
 ## 2026.10.19
 
 ### What Changed
