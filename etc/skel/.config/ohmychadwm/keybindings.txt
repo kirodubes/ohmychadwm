@@ -48,7 +48,6 @@
   ctrl + alt + a          alacritty-tweak-tool
   ctrl + alt + q          alacritty-tweak-tool
   ctrl + alt + s          fish-tweak-tool
-  ctrl + alt + x          ohmychadwm-tweak-tool
   ctrl + alt + h          ohmychadwm-tweak-tool
   ctrl + alt + z          fastfetch-tweak-tool
   ctrl + alt + w          fastfetch-tweak-tool

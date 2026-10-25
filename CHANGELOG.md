@@ -2,11 +2,11 @@
 
 ## 2026.10.25
 
-### Ctrl+Alt+H and Ctrl+Alt+X open the Ohmychadwm Tweak Tool
+### Ctrl+Alt+H opens the Ohmychadwm Tweak Tool
 
-**What Changed.** Ohmychadwm Appearance became the Ohmychadwm Tweak Tool (Look, bar & windows, wallpaper, displays, mouse & touchpad, startup apps, default apps, keys). Ctrl+Alt+X now starts it by its own name, and the new Ctrl+Alt+H does too, the same key the Hyprland editions use for their settings app. The keybindings cheatsheets list both.
+**What Changed.** Ohmychadwm Appearance became the Ohmychadwm Tweak Tool (Look, bar & windows, wallpaper, displays, mouse & touchpad, startup apps, default apps, keys). Ctrl+Alt+H starts it, the same key the Hyprland editions use for their settings app and now XFCE too. Ctrl+Alt+X, the old Ohmychadwm Appearance key, is gone, and the keybindings cheatsheets list only Ctrl+Alt+H.
 
-**Technical Details.** The package also depends on `ohmychadwm-tweak-tool` now (KIRO-PKG-BUILD-APPS). Existing users keep their own sxhkdrc with `oma`, which the new package still ships as a command, so their key keeps working.
+**Technical Details.** The package also depends on `ohmychadwm-tweak-tool` now (KIRO-PKG-BUILD-APPS). Ctrl+Alt+H sits where a commented-out "RESERVED for hyprland-tweak-tool" entry was; that reservation was for exactly this kind of settings app. Existing users keep their own sxhkdrc, where Ctrl+Alt+X runs `oma`, which the new package still ships, so that key keeps working for them.
 
 **Files Modified.** `etc/skel/.config/ohmychadwm/sxhkd/sxhkdrc`, `etc/skel/.config/ohmychadwm/keybindings.txt`, `etc/skel/.config/ohmychadwm/keybindings-qwerty.txt`, `etc/skel/.config/ohmychadwm/keybindings-azerty.txt`
 
