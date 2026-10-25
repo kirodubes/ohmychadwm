@@ -2,9 +2,9 @@
 
 ## 2026.10.25
 
-### Ctrl+Alt+X opens the Ohmychadwm Tweak Tool
+### Ctrl+Alt+H and Ctrl+Alt+X open the Ohmychadwm Tweak Tool
 
-**What Changed.** Ohmychadwm Appearance became the Ohmychadwm Tweak Tool (Look, bar & windows, wallpaper, displays, mouse & touchpad, startup apps, default apps, keys). Ctrl+Alt+X now starts it by its own name, and the keybindings cheatsheets say so.
+**What Changed.** Ohmychadwm Appearance became the Ohmychadwm Tweak Tool (Look, bar & windows, wallpaper, displays, mouse & touchpad, startup apps, default apps, keys). Ctrl+Alt+X now starts it by its own name, and the new Ctrl+Alt+H does too, the same key the Hyprland editions use for their settings app. The keybindings cheatsheets list both.
 
 **Technical Details.** The package also depends on `ohmychadwm-tweak-tool` now (KIRO-PKG-BUILD-APPS). Existing users keep their own sxhkdrc with `oma`, which the new package still ships as a command, so their key keeps working.
 
