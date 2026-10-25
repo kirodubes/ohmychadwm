@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026.10.25
+
+### Variety + pywal keys recolour from the new wallpaper
+
+**What Changed.** Alt+Shift+T/N/P/F wait 3 seconds before running `wal`. `variety` returns before it writes the new wallpaper, so `wal` often took its colours from the previous one.
+
+**Technical Details.** Same fix as kiro-wayfire: `variety -X && sleep 3 && wal -i ...`. Alt+Shift+U runs only `wal` and needs no wait. pywal16 (replaces pywal 3.3) also stops `wal` failing on flat wallpapers.
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/sxhkd/sxhkdrc`
+
 ## 2026.10.22
 
 ### Power menu key calls kiro-powermenu
