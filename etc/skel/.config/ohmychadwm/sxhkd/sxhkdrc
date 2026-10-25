@@ -252,9 +252,9 @@ alt + r
 ctrl + alt + s
    fish-tweak-tool
 
-#ohmychadwm-appearance
+#ohmychadwm-tweak-tool
 ctrl + alt + x
-   oma
+   ohmychadwm-tweak-tool
 
 #fastfetch-tweak-tool
 ctrl + alt + z

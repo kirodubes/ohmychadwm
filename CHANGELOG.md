@@ -2,6 +2,14 @@
 
 ## 2026.10.25
 
+### Ctrl+Alt+X opens the Ohmychadwm Tweak Tool
+
+**What Changed.** Ohmychadwm Appearance became the Ohmychadwm Tweak Tool (Look, bar & windows, wallpaper, displays, mouse & touchpad, startup apps, default apps, keys). Ctrl+Alt+X now starts it by its own name, and the keybindings cheatsheets say so.
+
+**Technical Details.** The package also depends on `ohmychadwm-tweak-tool` now (KIRO-PKG-BUILD-APPS). Existing users keep their own sxhkdrc with `oma`, which the new package still ships as a command, so their key keeps working.
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/sxhkd/sxhkdrc`, `etc/skel/.config/ohmychadwm/keybindings.txt`, `etc/skel/.config/ohmychadwm/keybindings-qwerty.txt`, `etc/skel/.config/ohmychadwm/keybindings-azerty.txt`
+
 ### Variety + pywal keys recolour from the new wallpaper
 
 **What Changed.** Alt+Shift+T/N/P/F wait 3 seconds before running `wal`. `variety` returns before it writes the new wallpaper, so `wal` often took its colours from the previous one.
