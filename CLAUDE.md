@@ -104,7 +104,7 @@ config.def.h, a theme or slstatus. `up.sh` runs it before every push and blocks 
   matching the yellow question line. It checks the written theme, config.def.h, the chadwm build and text contrast
   (title 3:1, tags 1.5:1 — what the hand-made themes meet). Themes, previews and `overview.png` are kept in
   `~/.cache/ohmychadwm/theme-gen/<time>/`; `--recover <dir> [--as name]` installs one into the real config, listed
-  but not active. Not part of check.sh yet: the generator still fails it.
+  but not active. check.sh step 6 runs it (`--quick` there = synthetic wallpapers only).
 - Showcase scripts for videos live in `usr/share/ohmychadwm/showcase/` (packaged as `/usr/share/ohmychadwm/showcase/`,
   never in skel: they are not user config). Not part of check.sh.
   - `showcase-languages.sh [-t] [-k] [-i sec] [-s dir]` shows the menu in every shipped language on the running

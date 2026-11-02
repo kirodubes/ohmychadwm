@@ -72,7 +72,7 @@ extract_colors() {
 
     magick "$wallpaper" \
         -resize 200x200^ -gravity Center -extent 200x200 \
-        +dither -colors "$count" -unique-colors txt:- \
+        +dither -colors "$count" -unique-colors -depth 8 txt:- \
         2>/dev/null \
         | grep -oE '#[0-9A-Fa-f]{6}' \
         | head -"$count"
@@ -125,21 +125,31 @@ lighten() {
     printf '#%02x%02x%02x' $r $g $b
 }
 
-# ensure a foreground color is at least 10% (26 lum units) brighter than bg.
-# lightens in steps of 8 until the threshold is met, capping at white.
-ensure_min_contrast() {
-    local fg="$1" bg="$2"
-    local threshold=26   # 10% of 255
-    local lum_fg lum_bg diff
-    lum_bg=$(luminance "$bg")
-    lum_fg=$(luminance "$fg")
-    diff=$(( lum_fg - lum_bg ))
-    while [[ $diff -lt $threshold ]]; do
-        fg=$(lighten "$fg" 8)
-        lum_fg=$(luminance "$fg")
-        diff=$(( lum_fg - lum_bg ))
-        # stop if we've hit pure white
-        if [[ "$fg" == "#ffffff" ]]; then break; fi
+# WCAG contrast ratio between two hex colors, e.g. 4.50
+contrast_ratio() {
+    local a="${1#'#'}" b="${2#'#'}"
+    awk -v r1=$((16#${a:0:2})) -v g1=$((16#${a:2:2})) -v b1=$((16#${a:4:2})) \
+        -v r2=$((16#${b:0:2})) -v g2=$((16#${b:2:2})) -v b2=$((16#${b:4:2})) '
+        function lin(c) { c /= 255; return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ^ 2.4 }
+        function lum(r, g, b) { return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b) }
+        BEGIN {
+            x = lum(r1, g1, b1); y = lum(r2, g2, b2)
+            if (x < y) { t = x; x = y; y = t }
+            printf "%.2f\n", (x + 0.05) / (y + 0.05)
+        }'
+}
+
+# move a foreground color toward white (dark bg) or black (light bg) until it reaches
+# the given contrast ratio against bg; lighten-only made text unreadable on light bars
+ensure_contrast() {
+    local fg="$1" bg="$2" min="$3" step=lighten end="#ffffff"
+    if awk -v w="$(contrast_ratio "#ffffff" "$bg")" -v k="$(contrast_ratio "#000000" "$bg")" \
+        'BEGIN { exit !(k > w) }'; then
+        step=darken; end="#000000"
+    fi
+    while awk -v r="$(contrast_ratio "$fg" "$bg")" -v m="$min" 'BEGIN { exit !(r < m) }'; do
+        [[ "$fg" == "$end" ]] && break
+        fg=$("$step" "$fg" 8)
     done
     echo "$fg"
 }
@@ -207,17 +217,6 @@ build_palette() {
         TAG+=("${range_colors[$pick]}")
     done
 
-    # ── enforce minimum contrast: every fg must be ≥10% brighter than BG ────
-    DIM_FG=$(ensure_min_contrast "$DIM_FG" "$BG")
-    NORM_FG=$(ensure_min_contrast "$NORM_FG" "$BG")
-    BRIGHT=$(ensure_min_contrast "$BRIGHT" "$BG")
-    ACCENT=$(ensure_min_contrast "$ACCENT" "$BG")
-    local new_tags=()
-    for t in "${TAG[@]}"; do
-        new_tags+=("$(ensure_min_contrast "$t" "$BG")")
-    done
-    TAG=("${new_tags[@]}")
-
     # ── enforce minimum luminance step between adjacent tags ─────────────────
     # tags are ordered dark→light; each must be ≥8 lum units above the previous
     local min_tag_step=8
@@ -238,6 +237,17 @@ build_palette() {
     done
     TAG=("${distinct_tags[@]}")
 
+    # ── enforce contrast against the bar (WCAG ratios) — runs last so nothing undoes it
+    DIM_FG=$(ensure_contrast "$DIM_FG" "$BG" 1.2)
+    NORM_FG=$(ensure_contrast "$NORM_FG" "$BG" 2.0)
+    BRIGHT=$(ensure_contrast "$BRIGHT" "$BG" 4.5)
+    ACCENT=$(ensure_contrast "$ACCENT" "$BG" 1.5)
+    local new_tags=()
+    for t in "${TAG[@]}"; do
+        new_tags+=("$(ensure_contrast "$t" "$BG" 2.0)")
+    done
+    TAG=("${new_tags[@]}")
+
     # ── SchemeMenu fg: must be brighter than every tag color ─────────────────
     # find the highest luminance among all tag colors
     local max_tag_lum=0
@@ -253,6 +263,8 @@ build_palette() {
         MENU_FG=$(lighten "$MENU_FG" 8)
         if [[ "$MENU_FG" == "#ffffff" ]]; then break; fi
     done
+    # the menu button sits on the bar too (rofi gets its own lighter copy in update_config)
+    MENU_FG=$(ensure_contrast "$MENU_FG" "$BG" 3.0)
 }
 
 # ── truecolor palette preview ─────────────────────────────────────────────────

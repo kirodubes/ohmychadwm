@@ -17,7 +17,10 @@ set -euo pipefail
 #   4. run two rebuilds at once (the second must wait, not wreck the first)
 #   5. click through every row of the Super+Alt+Space menu in a throwaway home
 #      (tests/menu_crawl.py) and report each action that errors or does nothing
-#   Builds run in temporary copies; nothing is installed. --quick skips step 2.
+#   6. create themes from wallpapers with the theme generator in throwaway homes
+#      (tests/theme_gen.py): theme file, config.def.h, chadwm build, readable bar text
+#   Builds run in temporary copies; nothing is installed. --quick skips step 2
+#   and runs step 6 on the synthetic wallpapers only.
 #
 # Why: menu entries broke silently (Tags, Border, Gaps, Master area, Back to
 #   default) because nothing exercised them after the config moved to THEME_* defines.
@@ -212,6 +215,15 @@ crawl_menu() {
     (( rc == 0 )) || fail "menu crawl (see FAIL lines above)"
 }
 
+generate_themes() {
+    log_info "6. Create themes from wallpapers with the theme generator"
+    local out rc args=(--out "${WORK}/theme-gen")
+    (( $1 )) && args+=(--quick)
+    out="$(python3 -I "${SCRIPT_DIR}/theme_gen.py" "${args[@]}" 2>&1)" && rc=0 || rc=$?
+    grep -v -e '^ok ' -e '^keep one:' <<< "$out" || true
+    (( rc == 0 )) || fail "theme generator (see FAIL lines above)"
+}
+
 #####################################################################
 # Main
 #####################################################################
@@ -232,6 +244,7 @@ main() {
     build_slstatus
     race_rebuilds
     crawl_menu
+    generate_themes "$quick"
 
     if (( FAILED > 0 )); then
         log_error "${FAILED} check(s) failed"

@@ -2,6 +2,18 @@
 
 ## 2026.11.02
 
+### Theme generator: readable bars on every wallpaper, right colours from 16-bit PNGs
+
+**What Changed.** Two bugs the new theme generator test found are fixed:
+- A 16-bit PNG wallpaper no longer gives random colours. A dark blue picture now gets the same theme as the same picture saved as a normal 8-bit image.
+- The window title and tags stay readable on bright, very dark and low-contrast wallpapers. A light bar now gets dark text instead of white on light grey.
+
+After the fix all 31 test themes pass, and the test is now step 6 of `tests/check.sh`.
+
+**Technical Details.** `extract_colors()` passes `-depth 8` before `txt:-`, so ImageMagick prints `#RRGGBB` and not `#RRRRGGGGBBBB`. The old `ensure_min_contrast()` only made a colour lighter until it was 26 luminance units above the bar. `ensure_contrast()` replaces it: it measures the WCAG contrast ratio (`contrast_ratio()`, in awk) and moves the colour toward black or white, whichever reaches the ratio against the bar. Ratios: title 4.5, tags and normal text 2.0, accent 1.5, empty tags 1.2, menu button 3.0. The check now runs after the tag spacing step, because that step makes tags lighter and could undo it on a light bar. The rofi accent keeps its own lightening in `update_config()`. `check.sh` runs `theme_gen.py` with `--out` in its temp folder and adds `--quick` (synthetic wallpapers only) to `--quick`.
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/scripts/generate-chadwm-theme.sh`, `tests/check.sh`, `CLAUDE.md`
+
 ### Test for the theme generator
 
 **What Changed.** New test `tests/theme_gen.py` creates themes with the theme generator ("create theme from wallpaper") the way a user does, without touching your config. It runs on a few made-up wallpapers (very dark, very bright, grey, colourful, a 16-bit PNG, one solid colour) and on every shipped wallpaper, builds chadwm with each new theme and checks the bar text can be read. Every theme it makes is kept with a preview picture and one overview image, and `--recover` puts one you like into your own theme list.
@@ -10,8 +22,7 @@ First run: 25 of 31 themes pass. It found two problems in the generator:
 - A 16-bit PNG wallpaper gives random colours (a dark blue picture became green and purple).
 - On very bright, very dark or low-contrast wallpapers (and the tiger and doors wallpapers) the window title and some tags are hard to read: the generator only makes text lighter, never darker.
 
-**Technical Details.** Each case gets its own home with a copy of the skel config and a `.fehbg` pointing at the wallpaper. `feh`, `fzf`, `sudo`, `notify-send` and `xdotool` are stubs, and the rebuild question is answered "n". The script answers each question when the generator prints a line in its question colour (`\033[1;33m`). It varies bar position, gaps, layout and tag style per case and checks they land in the theme. The first case also tries the built-in name `dracula`, which must be refused. The contrast limits come from the 45 hand-made themes: `SchemeSel` is only the focused window border and `SchemeNormfg` may fade into the bar, so neither is checked. The 16-bit bug: `magick … txt:-` prints `#RRRRGGGGBBBB` for 16-bit images and the generator's `grep '#[0-9A-Fa-f]{6}'` keeps the first six digits. Not in `check.sh` yet, because it would block `up.sh` until the generator is fixed.
-
+**Technical Details.** Each case gets its own home with a copy of the skel config and a `.fehbg` pointing at the wallpaper. `feh`, `fzf`, `sudo`, `notify-send` and `xdotool` are stubs, and the rebuild question is answered "n". The script answers each question when the generator prints a line in its question colour (`\033[1;33m`). It varies bar position, gaps, layout and tag style per case and checks they land in the theme. The first case also tries the built-in name `dracula`, which must be refused. The contrast limits come from the 45 hand-made themes: `SchemeSel` is only the focused window border and `SchemeNormfg` may fade into the bar, so neither is checked. The 16-bit bug: `magick … txt:-` prints `#RRRRGGGGBBBB` for 16-bit images and the generator's `grep '#[0-9A-Fa-f]{6}'` keeps the first six digits.
 **Files Modified.** `tests/theme_gen.py` (new), `CLAUDE.md`
 
 ### Bar border is one unbroken line in one color

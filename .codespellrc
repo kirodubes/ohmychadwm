@@ -2,3 +2,5 @@
 # The .po catalogs carry every translation of the system menu; codespell only knows English typos.
 # The English source (menu/ohmychadwm-menu.sh) is still checked.
 skip = *.po,*.pot,*.mo
+# "ans" is the answer variable in generate-chadwm-theme.sh; "lightening" = making a colour lighter.
+ignore-words-list = ans,lightening
