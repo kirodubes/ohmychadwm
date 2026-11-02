@@ -310,10 +310,18 @@ the skel, like the menu itself: existing users get them by running `kiro-skell`.
 | English: main menu | Dutch: Appearance |
 |:---:|:---:|
 | ![The system menu in English](previews/menu/menu-en-1-main.jpg) | ![Appearance menu in Dutch](previews/menu/menu-nl-2-appearance.jpg) |
-| **Japanese: typing `setup` finds 設定** | **German: Setup** |
-| ![Searching in English in the Japanese menu](previews/menu/menu-ja-4-search.jpg) | ![Setup menu in German](previews/menu/menu-de-5-setup.jpg) |
-| **Russian: Theme** | **Chinese (simplified): main menu** |
-| ![Theme menu in Russian](previews/menu/menu-ru-3-theme.jpg) | ![The system menu in Chinese](previews/menu/menu-zh_CN-1-main.jpg) |
+| **German: Setup** | **Spanish: Theme** |
+| ![Setup menu in German](previews/menu/menu-de-5-setup.jpg) | ![Theme menu in Spanish](previews/menu/menu-es-3-theme.jpg) |
+| **French: Windows** | **Portuguese (Brazil): main menu** |
+| ![Windows menu in French](previews/menu/menu-fr-6-windows.jpg) | ![The system menu in Brazilian Portuguese](previews/menu/menu-pt_BR-1-main.jpg) |
+| **Russian: Theme** | **Hungarian: Appearance** |
+| ![Theme menu in Russian](previews/menu/menu-ru-3-theme.jpg) | ![Appearance menu in Hungarian](previews/menu/menu-hu-2-appearance.jpg) |
+| **Italian: Setup** | **Turkish: Windows** |
+| ![Setup menu in Italian](previews/menu/menu-it-5-setup.jpg) | ![Windows menu in Turkish](previews/menu/menu-tr-6-windows.jpg) |
+| **Polish: main menu** | **Japanese: typing `setup` finds 設定** |
+| ![The system menu in Polish](previews/menu/menu-pl-1-main.jpg) | ![Searching in English in the Japanese menu](previews/menu/menu-ja-4-search.jpg) |
+| **Chinese (simplified): main menu** | **Romanian: Appearance** |
+| ![The system menu in Chinese](previews/menu/menu-zh_CN-1-main.jpg) | ![Appearance menu in Romanian](previews/menu/menu-ro-2-appearance.jpg) |
 
 `tests/showcase-languages.sh -t` replays this tour in every language (for videos; `-s <folder>` saves the
 screenshots).

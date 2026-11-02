@@ -2,13 +2,13 @@
 
 ## 2026.11.02
 
-### README shows the menu in six languages
+### README shows the menu in every language
 
-**What Changed.** The README's "Search and languages" section shows six screenshots from the menu tour, two per row: English main menu, Dutch Appearance, Japanese with "setup" typed into the search line (it finds 設定), German Setup, Russian Theme and Chinese main menu. Each is a full desktop on a different wallpaper. A line points to `tests/showcase-languages.sh -t` for replaying the tour.
+**What Changed.** The README's "Search and languages" section shows one screenshot per language from the menu tour: all 14, two per row. The steps vary across the table (main menu, Appearance, Theme, Setup, Windows), and the Japanese one shows "setup" typed into the search line finding 設定. Each is a full desktop on a different wallpaper. A line points to `tests/showcase-languages.sh -t` for replaying the tour.
 
-**Technical Details.** The images are in `previews/menu/`, next to the theme previews, at 1280×720 JPG (about 40–170 KB each). `previews/` is not packaged. They are 6 of the 84 tour screenshots; the full set is kept outside the repo.
+**Technical Details.** The images are in `previews/menu/`, next to the theme previews, at 1280×720 JPG (1.3 MB for all 14). `previews/` is not packaged. They are 14 of the 84 tour screenshots; the full set is kept outside the repo.
 
-**Files Modified.** `README.md`, `previews/menu/` (new, 6 images)
+**Files Modified.** `README.md`, `previews/menu/` (new, 14 images)
 
 ### Showcase script: the menu in every language
 
