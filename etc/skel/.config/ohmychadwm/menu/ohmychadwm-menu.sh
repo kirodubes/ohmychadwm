@@ -585,9 +585,15 @@ _customise_reset_defaults() {
     # The packaged skel copy always matches the installed dwm.c; the .default copy can lag behind it.
     local default="${OHMYCHADWM_SKEL:-/etc/skel/.config/ohmychadwm}/chadwm/config.def.h"
     [[ -f "$default" ]] || default="${OHMYCHADWM_CONFIG}/chadwm/config.def.h.default"
+    # Border, gaps, tags, bar position and master area live in the theme files, so those
+    # are reset too: every shipped theme comes back from skel; themes you made stay.
+    local default_themes
+    default_themes="$(dirname "$default")/themes"
     present_terminal "bash -c '
         config=\"${config}\"
         default=\"${default}\"
+        themes=\"${OHMYCHADWM_CONFIG}/chadwm/themes\"
+        default_themes=\"${default_themes}\"
 
         if [[ ! -f \"\$default\" ]]; then
             echo \"ERROR: \$default not found.\"
@@ -600,25 +606,31 @@ _customise_reset_defaults() {
         echo \"\"
         echo \"  This will overwrite:\"
         echo \"    \$config\"
-        echo \"  with:\"
-        echo \"    \$default\"
+        echo \"    the shipped theme files in \$themes\"
+        echo \"  with the defaults from:\"
+        echo \"    \$(dirname \"\$default\")\"
         echo \"\"
-        echo \"  Only the chadwm config is reset.\"
-        echo \"  Themes, wallpapers and other settings are untouched.\"
+        echo \"  Themes you created yourself, wallpapers and other settings are untouched.\"
         echo \"\"
-        echo \"  A backup will be saved as:\"
+        echo \"  Backups will be saved as:\"
         ts=\$(date +%Y%m%d-%H%M%S)
         backup=\"\${config}.\${ts}\"
         echo \"    \$backup\"
+        echo \"    \${themes}.\${ts}\"
         echo \"\"
         read -rp \"  Continue? [y/N] \" answer
         [[ \"\$answer\" =~ ^[Yy]\$ ]] || { echo \"Cancelled.\"; exit 0; }
 
         cp \"\$config\" \"\$backup\"
+        cp -a \"\$themes\" \"\${themes}.\${ts}\"
         echo \"\"
-        echo \"  Backup created.\"
+        echo \"  Backups created.\"
         cp \"\$default\" \"\$config\"
         echo \"  config.def.h restored.\"
+        if [[ -d \"\$default_themes\" ]]; then
+            cp -f \"\$default_themes\"/*.h \"\$themes\"/
+            echo \"  Shipped theme files restored.\"
+        fi
         echo \"\"
         cd \"${OHMYCHADWM_CONFIG}/chadwm\" && bash rebuild.sh
     '"

@@ -103,6 +103,8 @@ config.def.h, a theme or slstatus. `up.sh` runs it before every push and blocks 
   recorder stubs on an allowlisted PATH, so nothing touches the machine; terminal commands and rebuilds run for real.
   A row fails on errors, critical notifications, a ✓/✗ row that does not flip, or a value menu where no choice changes
   a setting before the rebuild.
+- `SCENARIOS` in `menu_crawl.py` chain several menu trips in one home and check the end state (e.g. Border 10 →
+  Back to default must restore the border). Add one whenever a bug only shows across two actions.
 - Menu rows dispatch on keys from `pick`; never match on a label (labels are translated).
 - Tags, border, gaps, smart gaps, systray, bar position and master area are `THEME_*` defines in the active theme;
   change them with `_set_theme_define`, never by editing the `config.def.h` lines that read them.

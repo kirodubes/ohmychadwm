@@ -3,6 +3,7 @@
 
 import argparse
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -278,9 +279,10 @@ def _sources(home: Path) -> dict[str, bytes]:
     return {str(p): p.read_bytes() for p in files}
 
 
-def run_path(root: Path, bin_dir: Path, seq: list[int], timeout: int) -> dict:
-    """Run the menu once with a list of row choices; return what happened."""
-    home = make_home(root)
+def run_path(root: Path, bin_dir: Path, seq: list[int], timeout: int, home: Path | None = None) -> dict:
+    """Run the menu once with a list of row choices; return what happened. A given home is reused and kept."""
+    keep_home = home is not None
+    home = home or make_home(root)
     before = _sources(home)
     crawl = Path(tempfile.mkdtemp(dir=root, prefix="crawl-"))
     (crawl / "actions.log").touch()
@@ -327,9 +329,82 @@ def run_path(root: Path, bin_dir: Path, seq: list[int], timeout: int) -> dict:
     if (crawl / "menu.txt").exists():
         kind, *rows = (crawl / "menu.txt").read_text().rstrip("\n").split("\n")
         result["menu"] = (kind, rows)
-    shutil.rmtree(home, ignore_errors=True)
+    if not keep_home:
+        shutil.rmtree(home, ignore_errors=True)
     shutil.rmtree(crawl, ignore_errors=True)
     return result
+
+
+def _define(home: Path, name: str) -> str:
+    """Value of a THEME_* define in the active theme of a home (or of the skel when home is OHM's parent)."""
+    base = home / ".config/ohmychadwm/chadwm" if home != SKEL else OHM / "chadwm"
+    config = (base / "config.def.h").read_text()
+    theme = re.search(r'^#include "themes/([^"]+)\.h"', config, re.MULTILINE).group(1)
+    m = re.search(rf"^#define {name}\s+(\S+)", (base / f"themes/{theme}.h").read_text(), re.MULTILINE)
+    return m.group(1) if m else ""
+
+
+def _autostart(home: Path) -> str:
+    """Which compositor run.sh starts at login."""
+    run = (home / ".config/ohmychadwm/scripts/run.sh").read_text()
+    started = [c for c in ("picom", "fastcompmgr") if re.search(rf"^run {c}\b", run, re.MULTILINE)]
+    return ",".join(started) or "none"
+
+
+# Things a user does over several menu trips, and what must be true afterwards.
+SCENARIOS = [
+    (
+        "Border 10, then Appearance › Back to default restores the border",
+        [("Appearance", "Windows", "Border", "10"), ("Appearance", "Back to default")],
+        lambda h: (
+            _define(h, "THEME_BORDER") == _define(SKEL, "THEME_BORDER")
+            or f"border is {_define(h, 'THEME_BORDER')}, shipped is {_define(SKEL, 'THEME_BORDER')}"
+        ),
+    ),
+    (
+        "Tags › Purpose, then Back to default restores the tag style",
+        [("Appearance", "Tags", "Purpose (home, chat, surf…)"), ("Appearance", "Back to default")],
+        lambda h: _define(h, "THEME_TAGS") == _define(SKEL, "THEME_TAGS") or f"tags are {_define(h, 'THEME_TAGS')}",
+    ),
+    (
+        "Update › Process › Picom makes run.sh start picom at login",
+        [("Update", "Process", "Picom")],
+        lambda h: _autostart(h) == "picom" or f"run.sh starts {_autostart(h)}",
+    ),
+    (
+        "…and Fastcompmgr switches run.sh back",
+        [("Update", "Process", "Picom"), ("Update", "Process", "Fastcompmgr")],
+        lambda h: _autostart(h) == "fastcompmgr" or f"run.sh starts {_autostart(h)}",
+    ),
+]
+
+
+def run_scenarios(root: Path, bin_dir: Path, timeout: int, by_label: dict[tuple, tuple]) -> int:
+    """Run each scenario in one shared home; return the number that failed."""
+    failed = 0
+    for title, steps, check in SCENARIOS:
+        home = make_home(root)
+        problems_found = []
+        for step in steps:
+            seq = by_label.get(step)
+            if seq is None:
+                problems_found.append(f"menu path not found: {' › '.join(step)}")
+                break
+            res = run_path(root, bin_dir, list(seq), timeout, home=home)
+            problems_found += problems(res)
+        if not problems_found:
+            verdict = check(home)
+            if verdict is not True:
+                problems_found.append(str(verdict))
+        shutil.rmtree(home, ignore_errors=True)
+        if problems_found:
+            failed += 1
+            print(f"FAIL  scenario: {title}")
+            for p in dict.fromkeys(problems_found):
+                print(f"        {p}")
+        else:
+            print(f"ok    scenario: {title}")
+    return failed
 
 
 def problems(res: dict, toggled: bool | None = None) -> list[str]:
@@ -409,6 +484,8 @@ def crawl(jobs: int, timeout: int, max_depth: int) -> int:
                 failures += 1
                 label = " › ".join(names[parent[:n]] for n in range(1, len(parent) + 1))
                 print(f"FAIL  {label}\n        no choice in this menu changes any setting before the rebuild")
+        by_label = {tuple(names[s[:n]] for n in range(1, len(s) + 1)): s for s in names if s}
+        failures += run_scenarios(root, bin_dir, timeout, by_label)
     finally:
         shutil.rmtree(root, ignore_errors=True)
     print(f"\n{leaves} menu actions tried, {failures} failed")

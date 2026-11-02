@@ -2,6 +2,20 @@
 
 ## 2026.11.02
 
+### Back to default resets border, gaps, tags, bar and master area again
+
+**What Changed.** Appearance › Back to default restored only `config.def.h`. Border, gaps, tags, bar position, systray and master area now live in the theme file, so after Border 10 the reset left the border at 10. The reset now also puts back every shipped theme file from skel. Themes you created yourself stay, and a backup of the themes folder is made first (`themes.<timestamp>`). This was found on a test box and reproduced in the sandbox.
+
+**Technical Details.**
+- **The fix:** `_customise_reset_defaults` copies `<skel>/chadwm/themes/*.h` over the user's themes after restoring `config.def.h`, so user-made themes are never touched.
+- **Scenarios:** `tests/menu_crawl.py` gained scenarios, menu trips a user makes one after another in the same home with a check at the end:
+  - Border 10, then Back to default.
+  - Tags › Purpose, then Back to default.
+  - Update › Process › Picom and Fastcompmgr, which must switch the compositor `run.sh` starts.
+- **They catch the old bugs:** against the menu from before these fixes they fail with "border is 10", "tags are TAGS_PURPOSE" and "run.sh starts fastcompmgr".
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh`, `tests/menu_crawl.py`, `CLAUDE.md`
+
 ### Bar and tray: one strip, no shadow, under fastcompmgr, picom and picom-git
 
 **What Changed.** The tray icons sat in a block with a drop shadow, while the bar had none. Under picom it was worse: bar and tray were rounded separately, which left a notch where they meet. Bar and tray now read as one square strip with no shadow under fastcompmgr, picom (extra) and picom-git. The fix was checked on a white wallpaper on a test box with all three compositors, and the tray apps survived a restart under each one.
