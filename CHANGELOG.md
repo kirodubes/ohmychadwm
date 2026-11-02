@@ -2,6 +2,17 @@
 
 ## 2026.11.02
 
+### Bluetooth tray icon is white like the others
+
+**What Changed.** The Bluetooth icon in the tray was dark grey and hard to see against the bar. It is now white, like the other Surfn tray icons.
+
+**Technical Details.**
+- **Cause:** blueberry defaults to `use-symbolic-icons=true`. GTK recolours symbolic icons with the widget's text colour, and an XEmbed tray icon has no theme colour to borrow, so GTK falls back to its default dark grey.
+- **Fix:** `run.sh` sets `org.blueberry use-symbolic-icons false` just before it starts `blueberry-tray`, so the tray uses Surfn's plain white `blueberry-tray*` icons. Checked on a test box.
+- **Crawler options:** `tests/menu_crawl.py` gains `--home` (a home path with a space) and `--lang` (another locale) for hostile-user runs.
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/scripts/run.sh`, `tests/menu_crawl.py`
+
 ### Rebuild stops when the build fails
 
 **What Changed.** `chadwm/rebuild.sh` and `slstatus/rebuild.sh` stop with "Build failed — nothing was installed" when `make` fails. Before, they went on to `sudo make install`, which failed with the same errors a second time, and then offered a reboot (chadwm) or restarted the old slstatus. That made a failed rebuild look finished.

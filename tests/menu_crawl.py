@@ -15,6 +15,8 @@ REPO = Path(__file__).resolve().parent.parent
 SKEL = REPO / "etc/skel"
 OHM = SKEL / ".config/ohmychadwm"
 MENU = OHM / "menu/ohmychadwm-menu.sh"
+# Hostile-user settings, changed by --home and --lang.
+SETTINGS = {"home_prefix": "home-", "lang": "C.UTF-8"}
 
 # Real tools the menu may run inside the sandbox. Everything else is a recorder stub or "command not found".
 REAL_TOOLS = [
@@ -256,7 +258,7 @@ def build_bin(root: Path) -> Path:
 
 def make_home(root: Path) -> Path:
     """Fresh user home: the repo skel (two wallpapers only) plus a Kiro-like alacritty config."""
-    home = Path(tempfile.mkdtemp(dir=root, prefix="home-"))
+    home = Path(tempfile.mkdtemp(dir=root, prefix=SETTINGS["home_prefix"]))
     shutil.copytree(SKEL, home, dirs_exist_ok=True, symlinks=True, ignore=shutil.ignore_patterns("wallpapers"))
     walls = home / ".config/ohmychadwm/wallpapers"
     walls.mkdir(parents=True, exist_ok=True)
@@ -290,7 +292,8 @@ def run_path(root: Path, bin_dir: Path, seq: list[int], timeout: int) -> dict:
         "TERMINAL": "alacritty",
         "EDITOR": "nano",
         "BROWSER": "firefox",
-        "LANG": "C.UTF-8",
+        "LANG": SETTINGS["lang"],
+        "LC_ALL": SETTINGS["lang"],
         "OHMYCHADWM_SKEL": str(OHM),
     }
     menu = home / ".config/ohmychadwm/menu/ohmychadwm-menu.sh"
@@ -418,10 +421,13 @@ def main() -> int:
     ap.add_argument("-j", "--jobs", type=int, default=os.cpu_count() or 4)
     ap.add_argument("--timeout", type=int, default=180)
     ap.add_argument("--max-depth", type=int, default=6)
+    ap.add_argument("--home", default="home-", help='home folder name prefix, e.g. "my home " (with a space)')
+    ap.add_argument("--lang", default="C.UTF-8", help="locale to run the menu in, e.g. de_DE.UTF-8")
     args = ap.parse_args()
     if not MENU.exists():
         print(f"menu not found: {MENU}", file=sys.stderr)
         return 2
+    SETTINGS.update(home_prefix=args.home, lang=args.lang)
     return crawl(args.jobs, args.timeout, args.max_depth)
 
 

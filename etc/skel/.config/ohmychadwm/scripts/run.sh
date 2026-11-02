@@ -46,6 +46,8 @@ run pamac-tray                                        # Manjaro/Arch package man
 run flameshot                                         # Screenshot tool (tray + daemon)
 run xfce4-power-manager                               # Battery / display power management
 run xfce4-clipman                                     # Clipboard manager
+# Symbolic tray icons render dark grey in the X11 tray; the plain Surfn ones are white like the rest.
+gsettings set org.blueberry use-symbolic-icons false 2>/dev/null
 run blueberry-tray                                    # Bluetooth manager tray
 # Corsair keyboard control (RGB + remap) — only if the package is installed.
 # run()'s exact-match pgrep -x now tells the ckb-next GUI from ckb-next-daemon,
