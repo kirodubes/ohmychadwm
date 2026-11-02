@@ -2,6 +2,18 @@
 
 ## 2026.11.02
 
+### Super+Shift+R no longer kills the tray apps
+
+**What Changed.** Restarting ohmychadwm with Super+Shift+R used to close nm-applet, pamac-tray, blueberry-tray, volctl and xfce4-clipman, so their icons vanished until the next login. They now stay running and their icons come back in the new tray.
+
+**Technical Details.**
+- **Cause:** on restart, `cleanup()` destroyed the tray window while the apps' icon windows were still reparented inside it. Destroying a parent destroys its children, and GTK tray apps exit on the X error that follows.
+- **Fix:** `cleanup()` now unmaps each icon and reparents it to the root window first. When the new ohmychadwm claims the tray, the apps re-dock.
+- **Tested on a test box:** four restarts, all five apps alive and every icon back each time (the order of the icons may change).
+- **Upgrade note:** the first restart after this update still runs the old code, so the apps die that one last time.
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/chadwm/dwm.c`
+
 ### Bluetooth tray icon is white like the others
 
 **What Changed.** The Bluetooth icon in the tray was dark grey and hard to see against the bar. It is now white, like the other Surfn tray icons.

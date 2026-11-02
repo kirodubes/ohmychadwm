@@ -793,6 +793,13 @@ void cleanup(void) {
   while (mons)
     cleanupmon(mons);
   if (showsystray) {
+    /* Hand the icons back to the root window first: destroying the tray would destroy
+     * their windows too, and GTK tray apps exit on that X error (Super+Shift+R killed
+     * nm-applet, volctl, ...). Back on root they re-dock when the next tray appears. */
+    for (Client *i = systray->icons; i; i = i->next) {
+      XUnmapWindow(dpy, i->win);
+      XReparentWindow(dpy, i->win, root, 0, 0);
+    }
     XUnmapWindow(dpy, systray->win);
     XDestroyWindow(dpy, systray->win);
     free(systray);
