@@ -179,7 +179,7 @@ We have 43 themes or create one more on the fly with our theme generator.
 
 ### Switch theme via menu
 
-`Style → ohmychadwm → Theme`
+`Appearance → Theme → Choose theme`
 
 ### Switch theme manually
 
@@ -201,7 +201,7 @@ Then run `./rebuild.sh`.
 
 The script extracts colors from your current wallpaper and generates a complete `.h` theme file.
 
-Or run it from the menu in Style/Chadwm
+Or run it from the menu: Appearance → Theme → Create your own theme.
 
 ### Theme parameters
 
@@ -269,32 +269,32 @@ Open with `Super + Alt + Space`.
 ```text
 ohmychadwm
 ├── Apps          — rofi app launcher
-├── Style
-│   ├── ohmychadwm  — theme, tags, gaps, border, font …
-│   ├── Alacritty   — terminal color scheme
+├── Appearance    — how things look
+│   ├── Theme       — choose, create, delete, random
 │   ├── Wallpaper   — browse and set wallpapers
-│   ├── Slstatus    — toggle bar modules
-│   ├── Picom       — compositor config
-│   └── Menu theme  — edit the rofi menu theme
-├── Learn         — keybindings, Arch Wiki, Fish, Bash, man pages
+│   ├── Font        — bar font, apply everywhere
+│   ├── Bar         — position, padding, systray, status modules, launcher icons
+│   ├── Windows     — border, gaps, smart gaps
+│   ├── Tags        — tag label style
+│   ├── Alacritty   — theme, font, size, opacity
+│   └── Back to default
+├── Learn         — keybindings, Ohmychadwm, Arch Wiki, Bash, Fish, man pages
 ├── Trigger
 │   ├── Capture     — screenshot, region, screen record, color picker
-│   ├── Toggle      — night light, auto-lock, picom, fastcompmgr
-│   └── Keybindings — searchable cheatsheet (kiro-keybindings)
-├── Setup         — sxhkd, slstatus config
-├── Install       — apps, browser, dev tools, AI tools, fonts, gaming
+│   └── Toggle      — night light, auto-lock, picom, fastcompmgr
+├── Setup         — how things behave
+│   ├── Keybinding set — AZERTY or QWERTY
+│   ├── Keyboard    — keyboard layout
+│   ├── Windows     — new window position, master area
+│   ├── Display · Network · Defaults (terminal, editor, browser, shell)
+│   ├── Timezone · Time sync
+│   ├── Config      — edit autostart, alacritty, picom, rofi, sxhkd, config.def.h, menu theme
+│   └── Hard reset
+├── Install       — package managers, AUR, AI tools, browser, dev, editor, extras, gaming, terminal
 ├── Remove        — packages, dev environments
-├── Update        — system, AUR, full update, keyboard layout, time sync
-├── Info
-│   ├── System      — inxi full hardware info
-│   ├── Btop        — process manager
-│   ├── Disk overview — df sorted
-│   ├── Disk explorer — ncdu interactive
-│   ├── Temperatures  — lm_sensors
-│   ├── Battery     — upower battery info (laptops)
-│   ├── Logs        — journalctl / dmesg viewer
-│   └── Keybindings — searchable cheatsheet (kiro-keybindings)
-└── System        — lock, suspend, restart, shutdown
+├── Update        — full update, AUR, restart a process or hardware
+├── Info          — system, btop, disks, temperatures, battery, logs
+└── System        — lock, logout, suspend, hibernate, reboot, shutdown
 ```
 
 ### Extending the menu

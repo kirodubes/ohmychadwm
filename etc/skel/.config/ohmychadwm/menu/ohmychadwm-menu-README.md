@@ -1,4 +1,4 @@
-# ohmyohmychadwm-menu
+# ohmychadwm-menu
 
 A hierarchical system menu for **ohmychadwm / X11**, inspired by Omarchy's `omarchy-menu`.
 Renders via **rofi** (the X11 equivalent of Omarchy's Walker).
@@ -49,6 +49,7 @@ ohmychadwm-menu screenshot      # take a screenshot immediately
 ohmychadwm-menu screenrecord    # open screen-record menu
 ohmychadwm-menu lock            # lock screen immediately
 ohmychadwm-menu system          # power menu only
+ohmychadwm-menu appearance      # appearance menu only ("style" still works)
 ohmychadwm-menu install         # install menu only
 ohmychadwm-menu toggle          # toggle menu (night light, auto-lock, picom, fastcompmgr)
 ohmychadwm-menu ai              # AI tools submenu
@@ -70,14 +71,14 @@ MENU_WIDTH=300            # rofi menu width in px
 ```
 ~/.config/ohmychadwm/
 ├── menu.conf           # optional user overrides (TERMINAL, EDITOR, etc.)
-├── menu-extension.sh   # optional: override/extend any menu function
+├── menu/menu-extension.sh # optional: override/extend any menu function
 ├── keybindings.txt     # shown by Learn > Keybindings
-├── autostart.sh        # edited by Setup > Autostart
-├── themes/             # themes for Style > Theme
+├── scripts/run.sh      # autostart, edited by Setup > Config > Autostart
+├── themes/             # themes for Appearance > Theme
 │   └── my-theme/
 │       ├── colors.Xresources
 │       └── alacritty-colors.toml
-├── wallpapers/         # images for Style > Wallpaper
+├── wallpapers/         # images for Appearance > Wallpaper
 ├── hooks/
 │   ├── theme-set       # runs after a theme is applied ($1 = theme name)
 │   └── font-set        # runs after a font is set ($1 = font family)
@@ -94,26 +95,32 @@ Add to your `config.h` rules array so install/update progress windows float:
 
 ## Extending the menu
 
-Create `~/.config/ohmychadwm/menu-extension.sh`. Any function you define there
+Create `~/.config/ohmychadwm/menu/menu-extension.sh`. Any function you define there
 **replaces** the function of the same name in the main script.
 Any new function you add can be called from overridden menus.
+
+Menus are built with `pick`: each row is a **key** and a **label**, and `pick` prints the
+key of the chosen row. Dispatch on the key, never on the label — labels are translated.
 
 ```bash
 # Example: override show_install_menu to add your own section
 show_install_menu() {
-    case $(menu "Install" "󰣇 Package\n󰣇 AUR package\n My custom tools") in
-        *Package*)      present_terminal 'pacman -Slq | fzf | xargs -ro sudo pacman -S --needed' ;;
-        *AUR*)          present_terminal 'yay -Slq | fzf | xargs -ro yay -S' ;;
-        *"custom tools"*) show_my_custom_tools ;;
-        *)              go_back ;;
+    case $(pick "Install" \
+            package "Package" \
+            aur     "AUR package" \
+            mine    "My custom tools") in
+        package) present_terminal 'pacman -Slq | fzf | xargs -ro sudo pacman -S --needed' ;;
+        aur)     present_terminal 'yay -Slq | fzf | xargs -ro yay -S' ;;
+        mine)    show_my_custom_tools ;;
+        *)       return 1 ;;
     esac
 }
 
 show_my_custom_tools() {
-    case $(menu "My tools" " Tool A\n Tool B") in
-        *"Tool A"*) present_terminal "tool-a --setup" ;;
-        *"Tool B"*) notify-send "ohmychadwm" "Tool B launched" ;;
-        *)          go_back ;;
+    case $(pick "My tools" a "Tool A" b "Tool B") in
+        a) present_terminal "tool-a --setup" ;;
+        b) notify-send "ohmychadwm" "Tool B launched" ;;
+        *) return 1 ;;
     esac
 }
 ```

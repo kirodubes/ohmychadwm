@@ -113,6 +113,39 @@ menu() {
 }
 
 # ---------------------------------------------------------------------------
+# Translation: labels go through gettext (domain ohmychadwm-menu); English is the fallback.
+# ---------------------------------------------------------------------------
+export TEXTDOMAIN=ohmychadwm-menu
+if command -v gettext &>/dev/null; then
+    _t() { gettext "$1"; }
+else
+    _t() { printf '%s' "$1"; }
+fi
+
+# ---------------------------------------------------------------------------
+# Keyed menu: pick "Prompt" key1 "Label 1" key2 "Label 2" ...
+# Prints the key of the chosen row, so dispatch never depends on the (translated) label.
+# An optional trailing "--" followed by rofi args is passed through.
+# ---------------------------------------------------------------------------
+pick() {
+    local prompt="$1"; shift
+    local -a _pk=() _pl=()
+    while (( $# >= 2 )) && [[ "$1" != "--" ]]; do
+        _pk+=("$1"); _pl+=("$2"); shift 2
+    done
+    [[ "${1:-}" == "--" ]] && shift
+    local extra="-format i $*"
+    local options="" label
+    for label in "${_pl[@]}"; do
+        options+=" ${label//\\/\\\\}\n"
+    done
+    local idx
+    idx=$(menu "$prompt" "${options%\\n}" "$extra") || return 1
+    [[ "$idx" =~ ^[0-9]+$ ]] && (( idx < ${#_pk[@]} )) || return 1
+    echo "${_pk[$idx]}"
+}
+
+# ---------------------------------------------------------------------------
 # Terminal helpers
 # ---------------------------------------------------------------------------
 
@@ -191,14 +224,20 @@ remove_pkg() {
 # Learn
 # ---------------------------------------------------------------------------
 show_learn_menu() {
-    case $(menu "Learn" " Keybindings\n Arch Wiki\n Chadwm source\n Bash\n Fish shell\n Man pages") in
-        *Keybindings*)  kiro-keybindings ;;
-        *"Arch Wiki"*)  setsid "$BROWSER" "https://wiki.archlinux.org" >/dev/null 2>&1 & disown ;;
-        *Chadwm*)       setsid "$BROWSER" "https://github.com/erikdubois/ohmychadwm" >/dev/null 2>&1 & disown ;;
-        *Bash*)         setsid "$BROWSER" "https://devhints.io/bash" >/dev/null 2>&1 & disown ;;
-        *Fish*)         setsid "$BROWSER" "https://fishshell.com/" >/dev/null 2>&1 & disown ;;
-        *"Man pages"*)  present_terminal "man -k . &>/dev/null || { echo 'Building man database (first run)...'; sudo mandb; }; man -k . | fzf --preview 'man {1}' | awk '{print \$1}' | xargs -r man" ;;
-        *)              return 1 ;;
+    case $(pick "$(_t "Learn")" \
+            keybindings "$(_t "Keybindings")" \
+            ohmychadwm  "Ohmychadwm" \
+            archwiki    "Arch Wiki" \
+            bash        "Bash" \
+            fish        "Fish shell" \
+            man         "$(_t "Man pages")") in
+        keybindings) kiro-keybindings ;;
+        ohmychadwm)  setsid "$BROWSER" "https://github.com/erikdubois/ohmychadwm" >/dev/null 2>&1 & disown ;;
+        archwiki)    setsid "$BROWSER" "https://wiki.archlinux.org" >/dev/null 2>&1 & disown ;;
+        bash)        setsid "$BROWSER" "https://devhints.io/bash" >/dev/null 2>&1 & disown ;;
+        fish)        setsid "$BROWSER" "https://fishshell.com/" >/dev/null 2>&1 & disown ;;
+        man)         present_terminal "man -k . &>/dev/null || { echo 'Building man database (first run)...'; sudo mandb; }; man -k . | fzf --preview 'man {1}' | awk '{print \$1}' | xargs -r man" ;;
+        *)           return 1 ;;
     esac
 }
 
@@ -207,24 +246,30 @@ show_learn_menu() {
 # ---------------------------------------------------------------------------
 show_trigger_menu() {
     while true; do
-        case $(menu "Trigger" " Capture\n Toggle\n Keybindings") in
-            *Capture*)      show_capture_menu || continue; return 0 ;;
-            *Toggle*)       show_toggle_menu  || continue; return 0 ;;
-            *Keybindings*)  kiro-keybindings; return 0 ;;
-            *)              return 1 ;;
+        case $(pick "$(_t "Trigger")" \
+                capture "$(_t "Capture")" \
+                toggle  "$(_t "Toggle")") in
+            capture) show_capture_menu || continue; return 0 ;;
+            toggle)  show_toggle_menu  || continue; return 0 ;;
+            *)       return 1 ;;
         esac
     done
 }
 
 show_capture_menu() {
     while true; do
-        case $(menu "Capture" " Screenshot\n Screenshot → clipboard\n Screenshot region\n Simplescreenrecorder\n Colour picker") in
-            *"Screenshot →"*)      _screenshot_clipboard; return 0 ;;
-            *"Screenshot region"*) _screenshot_region;    return 0 ;;
-            *"Screenshot"*)        _screenshot_smart;     return 0 ;;
-            *"Simple"*)            show_screenrecord_menu || continue; return 0 ;;
-            *"Colour picker"*)     _colour_picker;        return 0 ;;
-            *)                     return 1 ;;
+        case $(pick "$(_t "Capture")" \
+                screenshot "$(_t "Screenshot")" \
+                clipboard  "$(_t "Screenshot → clipboard")" \
+                region     "$(_t "Screenshot region")" \
+                record     "$(_t "Screenrecord")" \
+                color      "$(_t "Color picker")") in
+            screenshot) _screenshot_smart;     return 0 ;;
+            clipboard)  _screenshot_clipboard; return 0 ;;
+            region)     _screenshot_region;    return 0 ;;
+            record)     show_screenrecord_menu; return 0 ;;
+            color)      _colour_picker;        return 0 ;;
+            *)          return 1 ;;
         esac
     done
 }
@@ -286,22 +331,26 @@ show_screenrecord_menu() {
 
 
 show_toggle_menu() {
-    local _nightlight_state="Enable"
-    local _autolock_state="Enable"
-    local _picom_state="Start"
-    local _fastcompmgr_state="Start"
+    local nightlight autolock picom fastcompmgr
+    nightlight=$(_t "Enable night light")
+    autolock=$(_t "Enable auto-lock")
+    picom=$(_t "Start picom")
+    fastcompmgr=$(_t "Start fastcompmgr")
+    [[ -f "${HOME}/.local/state/ohmychadwm/toggles/nightlight-on" ]] && nightlight=$(_t "Disable night light")
+    [[ -f "${HOME}/.local/state/ohmychadwm/toggles/autolock-on" ]]   && autolock=$(_t "Disable auto-lock")
+    pgrep -x picom       &>/dev/null && picom=$(_t "Stop picom")
+    pgrep -x fastcompmgr &>/dev/null && fastcompmgr=$(_t "Stop fastcompmgr")
 
-    [[ -f "${HOME}/.local/state/ohmychadwm/toggles/nightlight-on" ]] && _nightlight_state="Disable"
-    [[ -f "${HOME}/.local/state/ohmychadwm/toggles/autolock-on" ]]   && _autolock_state="Disable"
-    pgrep -x picom       &>/dev/null && _picom_state="Stop"
-    pgrep -x fastcompmgr &>/dev/null && _fastcompmgr_state="Stop"
-
-    case $(menu "Toggle" "${_nightlight_state} night light\n ${_autolock_state} auto-lock\n ${_picom_state} picom\n ${_fastcompmgr_state} fastcompmgr") in
-        *"night light"*) _toggle_nightlight ;;
-        *"auto-lock"*)   _toggle_autolock ;;
-        *picom*)         _toggle_picom ;;
-        *fastcompmgr*)   _toggle_fastcompmgr ;;
-        *)               return 1 ;;
+    case $(pick "$(_t "Toggle")" \
+            nightlight  "$nightlight" \
+            autolock    "$autolock" \
+            picom       "$picom" \
+            fastcompmgr "$fastcompmgr") in
+        nightlight)  _toggle_nightlight ;;
+        autolock)    _toggle_autolock ;;
+        picom)       _toggle_picom ;;
+        fastcompmgr) _toggle_fastcompmgr ;;
+        *)           return 1 ;;
     esac
 }
 
@@ -366,19 +415,91 @@ _toggle_autolock() {
 }
 
 # ---------------------------------------------------------------------------
-# Style
+# Appearance — how things look
 # ---------------------------------------------------------------------------
-show_style_menu() {
+show_appearance_menu() {
     while true; do
-        case $(menu "Style" " Ohmychadwm\n Alacritty\n Slstatus\n Wallpaper\n Apply font globally\n Hard Reset") in
-            *Ohmychadwm*)           show_chadwm_menu        || continue; return 0 ;;
-            *Alacritty*)            show_alacritty_menu     || continue; return 0 ;;
-            *Wallpaper*)            show_wallpaper_menu     || continue; return 0 ;;
-            *Slstatus*)             show_slstatus_menu      || continue; return 0 ;;
+        case $(pick "$(_t "Appearance")" \
+                theme     "$(_t "Theme")" \
+                wallpaper "$(_t "Wallpaper")" \
+                font      "$(_t "Font")" \
+                bar       "$(_t "Bar")" \
+                windows   "$(_t "Windows")" \
+                tags      "$(_t "Tags")" \
+                alacritty "Alacritty" \
+                default   "$(_t "Back to default")") in
+            theme)     show_themes_menu     || continue; return 0 ;;
+            wallpaper) show_wallpaper_menu  || continue; return 0 ;;
+            font)      show_fonts_menu      || continue; return 0 ;;
+            bar)       show_bar_menu        || continue; return 0 ;;
+            windows)   show_windows_look_menu || continue; return 0 ;;
+            tags)      show_tags_menu       || continue; return 0 ;;
+            alacritty) show_alacritty_menu  || continue; return 0 ;;
+            default)   _customise_reset_defaults; return 0 ;;
+            *)         return 1 ;;
+        esac
+    done
+}
 
-            *"Apply font globally"*) present_terminal "bash ${OHMYCHADWM_CONFIG}/scripts/apply-font-globally.sh"; return 0 ;;
-            *"Hard Reset"*)          present_terminal "bash ${OHMYCHADWM_CONFIG}/scripts/backup-originals.sh --restore"; return 0 ;;
-            *)                      return 1 ;;
+# Old name, kept for user extensions and the "style" shortcut.
+show_style_menu() { show_appearance_menu "$@"; }
+
+show_themes_menu() {
+    while true; do
+        case $(pick "$(_t "Theme")" \
+                choose "$(_t "Choose theme")" \
+                create "$(_t "Create your own theme")" \
+                delete "$(_t "Delete theme")" \
+                random "$(_t "Random theme")") in
+            choose) show_theme_menu        || continue; return 0 ;;
+            create) setsid "$TERMINAL" -e bash -c "${OHMYCHADWM_CONFIG}/scripts/generate-chadwm-theme.sh; exec bash" >/dev/null 2>&1 & return 0 ;;
+            delete) show_delete_theme_menu || continue; return 0 ;;
+            random) _random_theme; return 0 ;;
+            *)      return 1 ;;
+        esac
+    done
+}
+
+show_fonts_menu() {
+    while true; do
+        case $(pick "$(_t "Font")" \
+                bar        "$(_t "Bar font")" \
+                everywhere "$(_t "Apply everywhere")") in
+            bar)        show_font_menu || continue; return 0 ;;
+            everywhere) present_terminal "bash ${OHMYCHADWM_CONFIG}/scripts/apply-font-globally.sh"; return 0 ;;
+            *)          return 1 ;;
+        esac
+    done
+}
+
+show_bar_menu() {
+    while true; do
+        case $(pick "$(_t "Bar")" \
+                position  "$(_t "Position")" \
+                padding   "$(_t "Padding")" \
+                systray   "$(_t "Hide systray")" \
+                modules   "$(_t "Status modules")" \
+                launchers "$(_t "Launcher icons")") in
+            position)  show_barpos_menu    || continue; return 0 ;;
+            padding)   show_barpad_menu    || continue; return 0 ;;
+            systray)   show_systray_menu   || continue; return 0 ;;
+            modules)   show_slstatus_menu  || continue; return 0 ;;
+            launchers) show_launchers_menu || continue; return 0 ;;
+            *)         return 1 ;;
+        esac
+    done
+}
+
+show_windows_look_menu() {
+    while true; do
+        case $(pick "$(_t "Windows")" \
+                border    "$(_t "Border")" \
+                gaps      "$(_t "Gaps")" \
+                smartgaps "$(_t "Smart gaps")") in
+            border)    show_border_menu    || continue; return 0 ;;
+            gaps)      show_gaps_menu      || continue; return 0 ;;
+            smartgaps) show_smartgaps_menu || continue; return 0 ;;
+            *)         return 1 ;;
         esac
     done
 }
@@ -388,58 +509,54 @@ show_slstatus_menu() {
     local config="${OHMYCHADWM_CONFIG}/slstatus/config.def.h"
     local -a names=(datetime uptime cpu_perc disk_free disk_used hostname kernel_release load_avg netspeed_rx netspeed_tx ram_free ram_perc ram_used swap_free swap_perc)
     local -A labels=(
-        [datetime]="Date & time"
-        [uptime]="Uptime"
-        [cpu_perc]="CPU usage %"
-        [disk_free]="Disk free"
-        [disk_used]="Disk used"
-        [hostname]="Hostname"
-        [kernel_release]="Kernel"
-        [load_avg]="Load average"
-        [netspeed_rx]="Net download speed"
-        [netspeed_tx]="Net upload speed"
-        [ram_free]="RAM free"
-        [ram_perc]="RAM usage %"
-        [ram_used]="RAM used"
-        [swap_free]="Swap free"
-        [swap_perc]="Swap usage %"
+        [datetime]="$(_t "Date & time")"
+        [uptime]="$(_t "Uptime")"
+        [cpu_perc]="$(_t "CPU usage %")"
+        [disk_free]="$(_t "Disk free")"
+        [disk_used]="$(_t "Disk used")"
+        [hostname]="$(_t "Hostname")"
+        [kernel_release]="$(_t "Kernel")"
+        [load_avg]="$(_t "Load average")"
+        [netspeed_rx]="$(_t "Net download speed")"
+        [netspeed_tx]="$(_t "Net upload speed")"
+        [ram_free]="$(_t "RAM free")"
+        [ram_perc]="$(_t "RAM usage %")"
+        [ram_used]="$(_t "RAM used")"
+        [swap_free]="$(_t "Swap free")"
+        [swap_perc]="$(_t "Swap usage %")"
     )
 
     local selected_row=0
 
     while true; do
-        local options=""
+        local -a rows=()
+        local name i
         for name in "${names[@]}"; do
             if grep -qP "^\s*\{\s*${name}," "$config"; then
-                options+="✓ ${labels[$name]}\n"
+                rows+=("$name" "✓ ${labels[$name]}")
             else
-                options+="✗ ${labels[$name]}\n"
+                rows+=("$name" "✗ ${labels[$name]}")
             fi
         done
-        options+=" Apply & rebuild"
+        rows+=(apply "$(_t "Apply & rebuild")")
 
         local chosen
-        chosen=$(menu "slstatus" "$options" "-lines 16 -selected-row ${selected_row}") || return 1
+        chosen=$(pick "$(_t "Status modules")" "${rows[@]}" -- "-lines 16 -selected-row ${selected_row}") || return 1
 
-        if [[ "$chosen" == *"Apply"* ]]; then
-            selected_row=$(( ${#names[@]} ))
+        if [[ "$chosen" == apply ]]; then
             (cd "${OHMYCHADWM_CONFIG}/slstatus" && alacritty -e bash -c './rebuild.sh; exec bash')
-            notify-send "ohmychadwm" "slstatus updated"
+            notify-send "ohmychadwm" "$(_t "slstatus updated")"
             return 0
         fi
 
         for i in "${!names[@]}"; do
-            local name="${names[$i]}"
-            if [[ "$chosen" == *"${labels[$name]}"* ]]; then
-                selected_row=$i
-                if grep -qP "^\s*\{\s*${name}," "$config"; then
-                    sed -i "s|^\(\s*\){ ${name},|\1//{ ${name},|" "$config"
-                else
-                    sed -i "s|^\(\s*\)//{ ${name},|\1{ ${name},|" "$config"
-                fi
-                break
-            fi
+            [[ "${names[$i]}" == "$chosen" ]] && selected_row=$i
         done
+        if grep -qP "^\s*\{\s*${chosen}," "$config"; then
+            sed -i "s|^\(\s*\){ ${chosen},|\1//{ ${chosen},|" "$config"
+        else
+            sed -i "s|^\(\s*\)//{ ${chosen},|\1{ ${chosen},|" "$config"
+        fi
     done
 }
 
@@ -459,18 +576,9 @@ _random_theme() {
     _apply_theme "$pick"
 }
 
-show_chadwm_menu() {
-    while true; do
-        case $(menu "chadwm" " Choose theme\n Create your own theme\n Delete theme\n Customise\n Random theme") in
-            *Choose*)           show_theme_menu        || continue; return 0 ;;
-            *"Delete theme"*)   show_delete_theme_menu || continue; return 0 ;;
-            *"Create your own theme"*) setsid "$TERMINAL" -e bash -c "${OHMYCHADWM_CONFIG}/scripts/generate-chadwm-theme.sh; exec bash" >/dev/null 2>&1 & return 0 ;;
-            *Customise*)        show_customise_menu    || continue; return 0 ;;
-            *"Random theme"*)   _random_theme; return 0 ;;
-            *)                  return 1 ;;
-        esac
-    done
-}
+# Old names, kept for user extensions: their entries now live under Appearance and Setup.
+show_chadwm_menu()    { show_themes_menu "$@"; }
+show_customise_menu() { show_appearance_menu "$@"; }
 
 _customise_reset_defaults() {
     local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
@@ -501,8 +609,8 @@ _customise_reset_defaults() {
         backup=\"\${config}.\${ts}\"
         echo \"    \$backup\"
         echo \"\"
-        read -rp \"  Continue? [y/N] \" ans
-        [[ \"\$ans\" =~ ^[Yy]\$ ]] || { echo \"Cancelled.\"; exit 0; }
+        read -rp \"  Continue? [y/N] \" answer
+        [[ \"\$answer\" =~ ^[Yy]\$ ]] || { echo \"Cancelled.\"; exit 0; }
 
         cp \"\$config\" \"\$backup\"
         echo \"\"
@@ -514,81 +622,54 @@ _customise_reset_defaults() {
     '"
 }
 
-show_customise_menu() {
-    while true; do
-        case $(menu "Customise" " Tags\n Border\n Gaps\n Bar padding\n Bar position\n Smart gaps\n Hide systray\n New window\n Launcher icons\n Master area\n Font\n Keyboard layout\n Back to default") in
-            *Tags*)             show_tags_menu         || continue; return 0 ;;
-            *Border*)           show_border_menu       || continue; return 0 ;;
-            *Gaps*)             show_gaps_menu         || continue; return 0 ;;
-            *"Bar padding"*)    show_barpad_menu       || continue; return 0 ;;
-            *"Bar position"*)   show_bar_menu          || continue; return 0 ;;
-            *"Smart gaps"*)     show_smartgaps_menu    || continue; return 0 ;;
-            *"Hide systray"*)   show_systray_menu      || continue; return 0 ;;
-            *"New window"*)     show_newwindow_menu    || continue; return 0 ;;
-            *"Launcher icons"*) show_launchers_menu    || continue; return 0 ;;
-            *"Master area"*)    show_mfact_menu        || continue; return 0 ;;
-            *Font*)             show_font_menu         || continue; return 0 ;;
-            *"Keyboard layout"*) show_keyboard_layout_menu || continue; return 0 ;;
-            *"Back to default"*) _customise_reset_defaults; return 0 ;;
-            *)                  return 1 ;;
-        esac
-    done
-}
-
 show_tags_menu() {
     local chosen
-    chosen=$(menu "Tags" "default tags\nArabic numbers\nRoman numbers\nPowerline\nWebdings\nJapanese numbers\nAlphabetic\nEmoji\nGeometric shapes\nChinese numbers\nPurposemenu") || return 1
+    chosen=$(pick "$(_t "Tags")" \
+            TAGS_NERD      "$(_t "Icons (default)")" \
+            TAGS_ARABIC    "$(_t "Arabic numbers")" \
+            TAGS_ROMAN     "$(_t "Roman numbers")" \
+            TAGS_POWERLINE "Powerline" \
+            TAGS_WEBDINGS  "$(_t "Words (Web, Chat, Edit…)")" \
+            TAGS_JAPANESE  "$(_t "Japanese numbers")" \
+            TAGS_ALPHA     "$(_t "Letters")" \
+            TAGS_EMOJI     "Emoji" \
+            TAGS_GEOMETRIC "$(_t "Geometric shapes")" \
+            TAGS_CHINESE   "$(_t "Chinese numbers")" \
+            TAGS_PURPOSE   "$(_t "Purpose (home, chat, surf…)")") || return 1
     _apply_tags "$chosen"
 }
 
+# The tag set is the THEME_TAGS define in the active theme file.
 _apply_tags() {
-    local chosen="$1"
+    local style="$1"
     local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
-
-    python3 - "$chosen" "$config" <<'PYEOF'
-import sys, re
-
-chosen = sys.argv[1]
-config = sys.argv[2]
-
-with open(config) as f:
-    content = f.read()
-
-# Comment out any currently active tags line
-content = re.sub(r'^(static char \*tags\[\])', r'//\1', content, flags=re.MULTILINE)
-
-# Uncomment the tags line that immediately follows the matching comment
-pattern = r'(//' + re.escape(chosen) + r'\n)//(static char \*tags\[\])'
-new_content, n = re.subn(pattern, r'\1\2', content)
-
-if n == 0:
-    print(f"No tags entry found for '{chosen}'", file=sys.stderr)
-    sys.exit(1)
-
-with open(config, 'w') as f:
-    f.write(new_content)
-PYEOF
-
-    if [[ $? -ne 0 ]]; then
-        notify-send -u critical "ohmychadwm" "Tags '${chosen}' not found in config.def.h"
+    local active theme_file
+    active=$(grep -oP '(?<=^#include "themes/)[^"]+(?=\.h")' "$config" | head -1)
+    theme_file="${OHMYCHADWM_CONFIG}/chadwm/themes/${active}.h"
+    if [[ ! -f "$theme_file" ]]; then
+        notify-send -u critical "ohmychadwm" "$(_t "Active theme file not found")"
         return 1
     fi
-
+    if grep -qE '^#define THEME_TAGS[[:space:]]' "$theme_file"; then
+        sed -i -E "s|^#define THEME_TAGS[[:space:]].*|#define THEME_TAGS ${style}|" "$theme_file"
+    else
+        printf '#define THEME_TAGS %s\n' "$style" >> "$theme_file"
+    fi
     (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
-    notify-send "ohmychadwm" "Tags set to '${chosen}'"
+    notify-send "ohmychadwm" "$(_t "Tags changed — rebuilding")"
 }
 
 show_keyboard_layout_menu() {
     local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
     local current
     if grep -qE '^#define KIRO_AZERTY[[:space:]]+true' "$config"; then current=AZERTY; else current=QWERTY; fi
-    local chosen
-    chosen=$(menu "Keyboard layout (current: ${current})" "AZERTY (Belgian)\nQWERTY (US / world)") || return 1
-    local target=azerty
-    [[ "$chosen" == QWERTY* ]] && target=qwerty
+    local target
+    target=$(pick "$(_t "Keybinding set") (${current})" \
+            azerty "$(_t "AZERTY (Belgian)")" \
+            qwerty "$(_t "QWERTY (US / world)")") || return 1
     # The switch script flips KIRO_AZERTY, recompiles, and swaps the cheatsheet; run it in a terminal for the sudo prompt.
     (alacritty -e bash -c "\$HOME/.bin/ohmychadwm-keyboard-layout ${target}; exec bash")
-    notify-send "ohmychadwm" "Keyboard layout: ${target}. Press Super+Shift+R to apply."
+    notify-send "ohmychadwm" "$(_t "Keybinding set changed. Press Super+Shift+R to apply.")"
 }
 
 show_border_menu() {
@@ -632,8 +713,11 @@ show_barpad_menu() {
         local cv ch
         cv=$(grep -oP 'vertpadbar\s*=\s*\K[0-9]+' "$config")
         ch=$(grep -oP 'horizpadbar\s*=\s*\K[0-9]+' "$config")
-        case $(menu "Bar padding  vert:${cv}  horiz:${ch}" " Vertical padding\n Horizontal padding\n Back to default") in
-            *Vertical*)
+        case $(pick "$(_t "Padding") ${cv} / ${ch}" \
+                vertical   "$(_t "Vertical padding")" \
+                horizontal "$(_t "Horizontal padding")" \
+                default    "$(_t "Back to default")") in
+            vertical)
                 local v
                 v=$(menu "Bar vertical padding (current: ${cv})" \
                     "0\n2\n4\n6\n8\n10\n11\n12\n14\n16\n18\n20") || continue
@@ -642,7 +726,7 @@ show_barpad_menu() {
                 (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
                 return 0
                 ;;
-            *Horizontal*)
+            horizontal)
                 local h
                 h=$(menu "Bar horizontal padding (current: ${ch})" \
                     "0\n2\n4\n5\n6\n8\n10\n12\n14\n16\n18\n20") || continue
@@ -651,7 +735,7 @@ show_barpad_menu() {
                 (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
                 return 0
                 ;;
-            *"Back to default"*)
+            default)
                 sed -i "s/\(static const int vertpadbar\s*=\s*\)[0-9]\+/\111/" "$config"
                 sed -i "s/\(static const int horizpadbar\s*=\s*\)[0-9]\+/\15/" "$config"
                 notify-send "ohmychadwm" "Bar padding reset to defaults — rebuilding..."
@@ -663,64 +747,48 @@ show_barpad_menu() {
     done
 }
 
-show_bar_menu() {
+show_barpos_menu() {
     local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
-    local current
-    current=$(grep -oP 'topbar\s*=\s*\K[01]' "$config")
-    local current_label="top"
-    [[ "$current" == "0" ]] && current_label="bottom"
-    local chosen
-    chosen=$(menu "Bar position (current: ${current_label})" "top\nbottom") || return 1
-    local value=1
-    [[ "$chosen" == "bottom" ]] && value=0
+    local value
+    value=$(pick "$(_t "Position")" \
+            1 "$(_t "Top")" \
+            0 "$(_t "Bottom")") || return 1
     sed -i "s/\(static const int topbar\s*=\s*\)[01]/\1${value}/" "$config"
     (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
-    notify-send "ohmychadwm" "Bar moved to ${chosen}"
+    notify-send "ohmychadwm" "$(_t "Bar position changed — rebuilding")"
 }
 
 show_smartgaps_menu() {
     local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
-    local current
-    current=$(grep -oP 'smartgaps\s*=\s*\K[01]' "$config")
-    local current_label="no"
-    [[ "$current" == "1" ]] && current_label="yes"
-    local chosen
-    chosen=$(menu "Smart gaps (current: ${current_label})" "yes\nno") || return 1
-    local value=0
-    [[ "$chosen" == "yes" ]] && value=1
+    local value
+    value=$(pick "$(_t "Smart gaps")" \
+            1 "$(_t "On")" \
+            0 "$(_t "Off")") || return 1
     sed -i "s/\(static const int smartgaps\s*=\s*\)[01]/\1${value}/" "$config"
     (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
-    notify-send "ohmychadwm" "Smart gaps set to ${chosen}"
+    notify-send "ohmychadwm" "$(_t "Smart gaps changed — rebuilding")"
 }
 
 show_systray_menu() {
     local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
-    local current
-    current=$(grep -oP 'showsystray\s*=\s*\K[01]' "$config")
-    local current_label="no"
-    [[ "$current" == "1" ]] && current_label="yes"
-    local chosen
-    chosen=$(menu "Hide systray (currently hidden: ${current_label})" "yes\nno") || return 1
-    local value=1
-    [[ "$chosen" == "yes" ]] && value=0
+    local value
+    value=$(pick "$(_t "Systray")" \
+            1 "$(_t "Show systray")" \
+            0 "$(_t "Hide systray")") || return 1
     sed -i "s/\(static const int showsystray\s*=\s*\)[01]/\1${value}/" "$config"
     (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
-    notify-send "ohmychadwm" "Systray hidden: ${chosen}"
+    notify-send "ohmychadwm" "$(_t "Systray changed — rebuilding")"
 }
 
 show_newwindow_menu() {
     local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
-    local current
-    current=$(grep -oP 'new_window_attach_on_end\s*=\s*\K[01]' "$config")
-    local current_label="on the front"
-    [[ "$current" == "1" ]] && current_label="on the end"
-    local chosen
-    chosen=$(menu "New window (current: ${current_label})" "on the front\non the end") || return 1
-    local value=0
-    [[ "$chosen" == "on the end" ]] && value=1
+    local value
+    value=$(pick "$(_t "New window")" \
+            0 "$(_t "Opens in front")" \
+            1 "$(_t "Opens at the end")") || return 1
     sed -i "s/\(new_window_attach_on_end\s*=\s*\)[01]/\1${value}/" "$config"
     (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
-    notify-send "ohmychadwm" "New windows open ${chosen}"
+    notify-send "ohmychadwm" "$(_t "New window position changed — rebuilding")"
 }
 
 show_mfact_menu() {
@@ -746,14 +814,18 @@ ALACRITTY_DEFAULT_THEME="ohmychadwm-theme.toml"
 
 show_alacritty_menu() {
     while true; do
-        case $(menu "Alacritty" " Font family\n Font size\n Opacity\n Theme\n Shell\n Back to default") in
-            *"Font family"*)    show_alacritty_font_menu    || continue; return 0 ;;
-            *"Font size"*)      show_alacritty_size_menu    || continue; return 0 ;;
-            *Opacity*)          show_alacritty_opacity_menu || continue; return 0 ;;
-            *Theme*)            show_alacritty_theme_menu   || continue; return 0 ;;
-            *Shell*)            show_alacritty_shell_menu   || continue; return 0 ;;
-            *"Back to default"*) _alacritty_reset_default  ; return 0 ;;
-            *)                  return 1 ;;
+        case $(pick "Alacritty" \
+                theme   "$(_t "Theme")" \
+                family  "$(_t "Font family")" \
+                size    "$(_t "Font size")" \
+                opacity "$(_t "Opacity")" \
+                default "$(_t "Back to default")") in
+            theme)   show_alacritty_theme_menu   || continue; return 0 ;;
+            family)  show_alacritty_font_menu    || continue; return 0 ;;
+            size)    show_alacritty_size_menu    || continue; return 0 ;;
+            opacity) show_alacritty_opacity_menu || continue; return 0 ;;
+            default) _alacritty_reset_default; return 0 ;;
+            *)       return 1 ;;
         esac
     done
 }
@@ -846,35 +918,31 @@ show_launchers_menu() {
     )
 
     while true; do
-        local options=""
+        local -a rows=()
+        local name
         for name in "${names[@]}"; do
             if grep -qP "^\s*\{\s*${name}," "$config"; then
-                options+="✓ ${labels[$name]}\n"
+                rows+=("$name" "✓ ${labels[$name]}")
             else
-                options+="✗ ${labels[$name]}\n"
+                rows+=("$name" "✗ ${labels[$name]}")
             fi
         done
-        options+=" Apply & rebuild"
+        rows+=(apply "$(_t "Apply & rebuild")")
 
         local chosen
-        chosen=$(menu "Launcher icons" "$options") || return 1
+        chosen=$(pick "$(_t "Launcher icons")" "${rows[@]}") || return 1
 
-        if [[ "$chosen" == *"Apply"* ]]; then
+        if [[ "$chosen" == apply ]]; then
             (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
-            notify-send "ohmychadwm" "Launcher icons updated"
+            notify-send "ohmychadwm" "$(_t "Launcher icons updated")"
             return 0
         fi
 
-        for name in "${names[@]}"; do
-            if [[ "$chosen" == *"${labels[$name]}"* ]]; then
-                if grep -qP "^\s*\{\s*${name}," "$config"; then
-                    sed -i "s|^\(\s*\){ ${name},|\1//{ ${name},|" "$config"
-                else
-                    sed -i "s|^\(\s*\)//{ ${name},|\1{ ${name},|" "$config"
-                fi
-                break
-            fi
-        done
+        if grep -qP "^\s*\{\s*${chosen}," "$config"; then
+            sed -i "s|^\(\s*\){ ${chosen},|\1//{ ${chosen},|" "$config"
+        else
+            sed -i "s|^\(\s*\)//{ ${chosen},|\1{ ${chosen},|" "$config"
+        fi
     done
 }
 
@@ -910,8 +978,10 @@ show_delete_theme_menu() {
 
     # confirm
     local confirm
-    confirm=$(menu "Delete '$chosen'?" " Yes, delete it\n Cancel") || return 1
-    [[ "$confirm" == *"Cancel"* ]] && return 1
+    confirm=$(pick "$chosen" \
+            yes    "$(_t "Yes, delete it")" \
+            cancel "$(_t "Cancel")") || return 1
+    [[ "$confirm" == yes ]] || return 1
 
     # check if this theme is currently active
     local active
@@ -1214,25 +1284,66 @@ show_wallpaper_menu() {
 # ---------------------------------------------------------------------------
 show_setup_menu() {
     while true; do
-        local options=" Edit Autostart\n Edit Alacritty\n Edit Picom\n Edit Rofi\n Edit Sxhkdrc\n Edit Config.def.h\n Edit Menu theme\n Display\n Lan/Wifi\n Defaults"
-
-        # Show Xresources option only if the file exists
-        [[ -f "${HOME}/.Xresources" ]] && options+="\n Xresources"
-
-        case $(menu "Setup" "$options") in
-            *"Edit Autostart"*) edit_in_editor "${OHMYCHADWM_CONFIG}/scripts/run.sh"; return 0 ;;
-            *"Edit Picom"*)     edit_in_editor "${HOME}/.config/ohmychadwm/picom/picom.conf"; return 0 ;;
-            *"Edit Rofi"*)      edit_in_editor "${HOME}/.config/ohmychadwm/rofi/config.rasi"; return 0 ;;
-            *"Edit Alacritty"*) edit_in_editor "${HOME}/.config/alacritty/alacritty.toml"; return 0 ;;
-            *"Edit Sxhkdrc"*)   edit_in_editor "${OHMYCHADWM_CONFIG}/sxhkd/sxhkdrc"; return 0 ;;
-            *"Edit Config.def.h"*) edit_in_editor "${OHMYCHADWM_CONFIG}/chadwm/config.def.h"; return 0 ;;
-            *"Edit Menu theme"*) present_terminal "nano ${OHMYCHADWM_CONFIG}/menu/ohmychadwm-menu.rasi"; return 0 ;;
-            *Display*)      show_display_menu  || continue; return 0 ;;
-            *"Lan/Wifi"*)   show_lanwifi_menu  || continue; return 0 ;;
-            *Defaults*)     show_defaults_menu || continue; return 0 ;;
-            *)              return 1 ;;
+        case $(pick "$(_t "Setup")" \
+                keybindings "$(_t "Keybinding set")" \
+                keyboard    "$(_t "Keyboard")" \
+                windows     "$(_t "Windows")" \
+                display     "$(_t "Display")" \
+                network     "$(_t "Network")" \
+                defaults    "$(_t "Defaults")" \
+                timezone    "$(_t "Timezone")" \
+                timesync    "$(_t "Time sync")" \
+                config      "$(_t "Config")" \
+                reset       "$(_t "Hard reset")") in
+            keybindings) show_keyboard_layout_menu || continue; return 0 ;;
+            keyboard)    show_keyboard_menu        || continue; return 0 ;;
+            windows)     show_windows_behaviour_menu || continue; return 0 ;;
+            display)     show_display_menu  || continue; return 0 ;;
+            network)     show_lanwifi_menu  || continue; return 0 ;;
+            defaults)    show_defaults_menu || continue; return 0 ;;
+            timezone)    present_terminal "tzselect && echo 'Run: sudo timedatectl set-timezone <zone>'"; return 0 ;;
+            timesync)    present_terminal "sudo timedatectl set-ntp true && timedatectl status"; return 0 ;;
+            config)      show_config_menu   || continue; return 0 ;;
+            reset)       present_terminal "bash ${OHMYCHADWM_CONFIG}/scripts/backup-originals.sh --restore"; return 0 ;;
+            *)           return 1 ;;
         esac
     done
+}
+
+show_windows_behaviour_menu() {
+    while true; do
+        case $(pick "$(_t "Windows")" \
+                newwindow "$(_t "New window")" \
+                master    "$(_t "Master area")") in
+            newwindow) show_newwindow_menu || continue; return 0 ;;
+            master)    show_mfact_menu     || continue; return 0 ;;
+            *)         return 1 ;;
+        esac
+    done
+}
+
+show_config_menu() {
+    local -a rows=(
+        autostart "$(_t "Autostart")"
+        alacritty "Alacritty"
+        picom     "Picom"
+        rofi      "Rofi"
+        sxhkd     "Sxhkd"
+        chadwm    "config.def.h"
+        menutheme "$(_t "Menu theme")"
+    )
+    [[ -f "${HOME}/.Xresources" ]] && rows+=(xresources "Xresources")
+    case $(pick "$(_t "Config")" "${rows[@]}") in
+        autostart)  edit_in_editor "${OHMYCHADWM_CONFIG}/scripts/run.sh" ;;
+        alacritty)  edit_in_editor "${HOME}/.config/alacritty/alacritty.toml" ;;
+        picom)      edit_in_editor "${OHMYCHADWM_CONFIG}/picom/picom.conf" ;;
+        rofi)       edit_in_editor "${OHMYCHADWM_CONFIG}/rofi/config.rasi" ;;
+        sxhkd)      edit_in_editor "${OHMYCHADWM_CONFIG}/sxhkd/sxhkdrc" ;;
+        chadwm)     edit_in_editor "${OHMYCHADWM_CONFIG}/chadwm/config.def.h" ;;
+        menutheme)  edit_in_editor "${OHMYCHADWM_CONFIG}/menu/ohmychadwm-menu.rasi" ;;
+        xresources) edit_in_editor "${HOME}/.Xresources" ;;
+        *)          return 1 ;;
+    esac
 }
 
 # ---------------------------------------------------------------------------
@@ -1247,13 +1358,22 @@ show_display_menu() {
         local primary="${outputs[0]:-}"
         local secondary="${outputs[1]:-}"
 
-        local options=" arandr (GUI)\n Auto-detect\n Rotate display"
+        local -a rows=(arandr "arandr (GUI)" auto "$(_t "Auto-detect")")
         if (( out_count >= 2 )); then
-            options=" arandr (GUI)\n Auto-detect\n Mirror displays\n Extend right\n Extend left\n Extend above\n Extend below\n Primary only\n Secondary only\n Rotate display"
+            rows+=(
+                mirror    "$(_t "Mirror displays")"
+                right     "$(_t "Extend right")"
+                left      "$(_t "Extend left")"
+                above     "$(_t "Extend above")"
+                below     "$(_t "Extend below")"
+                primary   "$(_t "Primary only")"
+                secondary "$(_t "Secondary only")"
+            )
         fi
+        rows+=(rotate "$(_t "Rotate display")")
 
-        case $(menu "Display (${out_count} connected)" "$options") in
-            *arandr*)
+        case $(pick "$(_t "Display")" "${rows[@]}") in
+            arandr)
                 if ! command -v arandr &>/dev/null; then
                     notify-send "ohmychadwm" "Installing arandr..."
                     sudo pacman -S --needed --noconfirm arandr
@@ -1262,54 +1382,54 @@ show_display_menu() {
                 disown
                 return 0
                 ;;
-            *"Auto-detect"*)
+            auto)
                 xrandr --auto
                 notify-send "ohmychadwm" "Display auto-detected"
                 return 0
                 ;;
-            *"Mirror"*)
+            mirror)
                 xrandr --output "$primary" --auto \
                        --output "$secondary" --same-as "$primary" --auto
                 notify-send "ohmychadwm" "Mirroring ${primary} → ${secondary}"
                 return 0
                 ;;
-            *"Extend right"*)
+            right)
                 xrandr --output "$primary" --auto \
                        --output "$secondary" --auto --right-of "$primary"
                 notify-send "ohmychadwm" "${secondary} right of ${primary}"
                 return 0
                 ;;
-            *"Extend left"*)
+            left)
                 xrandr --output "$primary" --auto \
                        --output "$secondary" --auto --left-of "$primary"
                 notify-send "ohmychadwm" "${secondary} left of ${primary}"
                 return 0
                 ;;
-            *"Extend above"*)
+            above)
                 xrandr --output "$primary" --auto \
                        --output "$secondary" --auto --above "$primary"
                 notify-send "ohmychadwm" "${secondary} above ${primary}"
                 return 0
                 ;;
-            *"Extend below"*)
+            below)
                 xrandr --output "$primary" --auto \
                        --output "$secondary" --auto --below "$primary"
                 notify-send "ohmychadwm" "${secondary} below ${primary}"
                 return 0
                 ;;
-            *"Primary only"*)
+            primary)
                 xrandr --output "$primary" --auto
                 for _o in "${outputs[@]:1}"; do xrandr --output "$_o" --off; done
                 notify-send "ohmychadwm" "Primary only: ${primary}"
                 return 0
                 ;;
-            *"Secondary only"*)
+            secondary)
                 xrandr --output "$secondary" --auto
                 xrandr --output "$primary" --off
                 notify-send "ohmychadwm" "Secondary only: ${secondary}"
                 return 0
                 ;;
-            *Rotate*)
+            rotate)
                 show_rotate_menu "${outputs[@]}" || continue
                 return 0
                 ;;
@@ -1331,19 +1451,21 @@ show_rotate_menu() {
     fi
     [[ -z "$target" ]] && return 1
 
-    case $(menu "Rotate ${target}" " Normal\n Left (90°)\n Right (270°)\n Inverted (180°)") in
-        *Normal*)   xrandr --output "$target" --rotate normal   ;;
-        *Left*)     xrandr --output "$target" --rotate left     ;;
-        *Right*)    xrandr --output "$target" --rotate right    ;;
-        *Inverted*) xrandr --output "$target" --rotate inverted ;;
-        *) return 1 ;;
-    esac
-    notify-send "ohmychadwm" "${target} rotated"
+    local rotation
+    rotation=$(pick "$target" \
+            normal   "$(_t "Normal")" \
+            left     "$(_t "Left (90°)")" \
+            right    "$(_t "Right (270°)")" \
+            inverted "$(_t "Inverted (180°)")") || return 1
+    xrandr --output "$target" --rotate "$rotation"
+    notify-send "ohmychadwm" "$(_t "Display rotated"): ${target}"
 }
 
 show_lanwifi_menu() {
-    case $(menu "Lan/Wifi" " Network Manager\n nmtui") in
-        *"Network Manager"*)
+    case $(pick "$(_t "Network")" \
+            editor "Network Manager" \
+            nmtui  "nmtui") in
+        editor)
             if ! command -v nm-connection-editor &>/dev/null; then
                 notify-send "ohmychadwm" "Installing network-manager-applet..."
                 sudo pacman -S --needed --noconfirm network-manager-applet
@@ -1351,7 +1473,7 @@ show_lanwifi_menu() {
             setsid nm-connection-editor &>/dev/null &
             disown
             ;;
-        *nmtui*)
+        nmtui)
             if ! command -v nmtui &>/dev/null; then
                 notify-send "ohmychadwm" "Installing networkmanager..."
                 sudo pacman -S --needed --noconfirm networkmanager
@@ -1377,11 +1499,16 @@ _ensure_installed() {
 }
 
 show_defaults_menu() {
-    case $(menu "Defaults" " Terminal\n Editor\n Browser") in
-        *Terminal*) _set_default_terminal; return 0 ;;
-        *Editor*)   _set_default_editor;   return 0 ;;
-        *Browser*)  _set_default_browser;  return 0 ;;
-        *)          return 1 ;;
+    case $(pick "$(_t "Defaults")" \
+            terminal "$(_t "Terminal")" \
+            editor   "$(_t "Editor")" \
+            browser  "$(_t "Browser")" \
+            shell    "$(_t "Shell")") in
+        terminal) _set_default_terminal; return 0 ;;
+        editor)   _set_default_editor;   return 0 ;;
+        browser)  _set_default_browser;  return 0 ;;
+        shell)    show_alacritty_shell_menu; return 0 ;;
+        *)        return 1 ;;
     esac
 }
 
@@ -1455,72 +1582,88 @@ show_pamac_menu() {
 
 show_install_menu() {
     while true; do
-        local items=" Pamac"
-        command -v octopi &>/dev/null && items+="\n Octopi"
-        items+="\n AI tools\n Aur package\n Browser\n Dev environment\n Editor\n Extras\n Gaming\n Package\n Terminal"
-        case $(menu "Install" "$items") in
-            *"Package"*)  present_terminal 'pacman -Slq | fzf --multi --preview "pacman -Si {}" | xargs -ro sudo pacman -S --needed'; return 0 ;;
-            *"Aur"*)      present_terminal 'yay -Slq | fzf --multi --preview "yay -Si {}" | xargs -ro yay -S'; return 0 ;;
-            *Pamac*)      show_pamac_menu || continue; return 0 ;;
-            *Octopi*)     octopi & return 0 ;;
-            *Terminal*)   show_install_terminal_menu || continue; return 0 ;;
-            *Editor*)     show_install_editor_menu   || continue; return 0 ;;
-            *Browser*)    show_install_browser_menu  || continue; return 0 ;;
-            *"Dev"*)      show_install_dev_menu      || continue; return 0 ;;
-            *AI*)         show_install_ai_menu       || continue; return 0 ;;
-            *Gaming*)     show_install_gaming_menu   || continue; return 0 ;;
-            *Extras*)     show_install_extras_menu   || continue; return 0 ;;
-            *)            return 1 ;;
+        local -a rows=(pamac "Pamac")
+        command -v octopi &>/dev/null && rows+=(octopi "Octopi")
+        rows+=(
+            package  "$(_t "Package")"
+            aur      "$(_t "AUR package")"
+            ai       "$(_t "AI tools")"
+            browser  "$(_t "Browser")"
+            dev      "$(_t "Dev environment")"
+            editor   "$(_t "Editor")"
+            extras   "$(_t "Extras")"
+            gaming   "$(_t "Gaming")"
+            terminal "$(_t "Terminal")"
+        )
+        case $(pick "$(_t "Install")" "${rows[@]}") in
+            package)  present_terminal 'pacman -Slq | fzf --multi --preview "pacman -Si {}" | xargs -ro sudo pacman -S --needed'; return 0 ;;
+            aur)      present_terminal 'yay -Slq | fzf --multi --preview "yay -Si {}" | xargs -ro yay -S'; return 0 ;;
+            pamac)    show_pamac_menu || continue; return 0 ;;
+            octopi)   octopi & return 0 ;;
+            terminal) show_install_terminal_menu || continue; return 0 ;;
+            editor)   show_install_editor_menu   || continue; return 0 ;;
+            browser)  show_install_browser_menu  || continue; return 0 ;;
+            dev)      show_install_dev_menu      || continue; return 0 ;;
+            ai)       show_install_ai_menu       || continue; return 0 ;;
+            gaming)   show_install_gaming_menu   || continue; return 0 ;;
+            extras)   show_install_extras_menu   || continue; return 0 ;;
+            *)        return 1 ;;
         esac
     done
 }
 
 show_install_terminal_menu() {
-    case $(menu "Terminal" " Alacritty\n Ghostty\n Kitty\n Terminator\n Urxvt\n WezTerm\n Xterm") in
-        *Alacritty*)   install     "Alacritty"  "alacritty" ;;
-        *Ghostty*)     install     "Ghostty"    "ghostty" ;;
-        *Kitty*)       install     "Kitty"      "kitty" ;;
-        *Terminator*)  install     "Terminator" "terminator" ;;
-        *Urxvt*)       install     "Urxvt"      "rxvt-unicode" ;;
-        *WezTerm*)     aur_install "WezTerm"    "wezterm" ;;
-        *Xterm*)       install     "Xterm"      "xterm" ;;
-        *)           return 1 ;;
+    case $(pick "$(_t "Terminal")" \
+            alacritty Alacritty ghostty Ghostty kitty Kitty terminator Terminator \
+            urxvt Urxvt wezterm WezTerm xterm Xterm) in
+        alacritty)  install     "Alacritty"  "alacritty" ;;
+        ghostty)    install     "Ghostty"    "ghostty" ;;
+        kitty)      install     "Kitty"      "kitty" ;;
+        terminator) install     "Terminator" "terminator" ;;
+        urxvt)      install     "Urxvt"      "rxvt-unicode" ;;
+        wezterm)    aur_install "WezTerm"    "wezterm" ;;
+        xterm)      install     "Xterm"      "xterm" ;;
+        *)          return 1 ;;
     esac
 }
 
 show_install_editor_menu() {
-    case $(menu "Editor" " Cursor\n Emacs\n Helix\n Neovim\n VSCode\n Zed") in
-        *Cursor*) aur_install "Cursor" "cursor-bin" ;;
-        *Emacs*)  install    "Emacs"  "emacs" ;;
-        *Helix*)  install    "Helix"  "helix" ;;
-        *Neovim*) install    "Neovim"  "neovim" ;;
-        *VSCode*) aur_install "VSCode" "visual-studio-code-bin" ;;
-        *Zed*)    install    "Zed"    "zed" ;;
-        *)        return 1 ;;
+    case $(pick "$(_t "Editor")" \
+            cursor Cursor emacs Emacs helix Helix neovim Neovim vscode VSCode zed Zed) in
+        cursor) aur_install "Cursor" "cursor-bin" ;;
+        emacs)  install     "Emacs"  "emacs" ;;
+        helix)  install     "Helix"  "helix" ;;
+        neovim) install     "Neovim" "neovim" ;;
+        vscode) aur_install "VSCode" "visual-studio-code-bin" ;;
+        zed)    install     "Zed"    "zed" ;;
+        *)      return 1 ;;
     esac
 }
 
 show_install_browser_menu() {
-    case $(menu "Browser" " Brave\n Chromium\n Firefox\n Qutebrowser") in
-        *Brave*)       aur_install "Brave"       "brave-bin" ;;
-        *Chromium*)    install    "Chromium"    "chromium" ;;
-        *Firefox*)     install    "Firefox"     "firefox" ;;
-        *Qutebrowser*) install    "Qutebrowser" "qutebrowser" ;;
-        *)             return 1 ;;
+    case $(pick "$(_t "Browser")" \
+            brave Brave chromium Chromium firefox Firefox qutebrowser Qutebrowser) in
+        brave)       aur_install "Brave"       "brave-bin" ;;
+        chromium)    install     "Chromium"    "chromium" ;;
+        firefox)     install     "Firefox"     "firefox" ;;
+        qutebrowser) install     "Qutebrowser" "qutebrowser" ;;
+        *)           return 1 ;;
     esac
 }
 
 show_install_dev_menu() {
-    case $(menu "Dev environment" " Docker\n Go\n Node.js + mise\n Podman\n Python + mise\n Ruby + mise\n Rust") in
-        *Docker*) install "Docker" "docker docker-compose" && \
-                  present_terminal "sudo systemctl enable --now docker && sudo usermod -aG docker \$USER && echo 'Log out and back in for group change'" ;;
-        *Go*)     install "Go" "go" ;;
-        *Node*)   present_terminal "mise use -g node@lts && node --version" ;;
-        *Podman*) install "Podman" "podman" ;;
-        *Python*) present_terminal "mise use -g python@latest && python --version" ;;
-        *Ruby*)   present_terminal "mise use -g ruby@latest && ruby --version" ;;
-        *Rust*)   present_terminal "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh" ;;
-        *)        return 1 ;;
+    case $(pick "$(_t "Dev environment")" \
+            docker Docker go Go node "Node.js + mise" podman Podman \
+            python "Python + mise" ruby "Ruby + mise" rust Rust) in
+        docker) install "Docker" "docker docker-compose" && \
+                present_terminal "sudo systemctl enable --now docker && sudo usermod -aG docker \$USER && echo 'Log out and back in for group change'" ;;
+        go)     install "Go" "go" ;;
+        node)   present_terminal "mise use -g node@lts && node --version" ;;
+        podman) install "Podman" "podman" ;;
+        python) present_terminal "mise use -g python@latest && python --version" ;;
+        ruby)   present_terminal "mise use -g ruby@latest && ruby --version" ;;
+        rust)   present_terminal "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh" ;;
+        *)      return 1 ;;
     esac
 }
 
@@ -1530,14 +1673,17 @@ show_install_ai_menu() {
     command -v nvidia-smi &>/dev/null && ollama_pkg="ollama-cuda"
     command -v rocminfo   &>/dev/null && ollama_pkg="ollama-rocm"
 
-    case $(menu "AI tools" " Claude Code\n Ollama (${ollama_pkg})\n OpenCode") in
-        *"Claude Code"*)
+    case $(pick "$(_t "AI tools")" \
+            claude   "Claude Code" \
+            ollama   "Ollama (${ollama_pkg})" \
+            opencode "OpenCode") in
+        claude)
             present_terminal "sudo pacman -S --needed --noconfirm nodejs npm && npm install -g @anthropic-ai/claude-code && echo 'Done. Run: claude'"
             ;;
-        *Ollama*)
+        ollama)
             present_terminal "sudo pacman -S --needed --noconfirm ${ollama_pkg} && sudo systemctl enable --now ollama && echo 'Ollama running. Try: ollama run llama3'"
             ;;
-        *OpenCode*)
+        opencode)
             present_terminal "sudo pacman -S --needed --noconfirm opencode && echo 'Done. Run: opencode'"
             ;;
         *)  return 1 ;;
@@ -1545,24 +1691,27 @@ show_install_ai_menu() {
 }
 
 show_install_gaming_menu() {
-    case $(menu "Gaming" " Steam\n Lutris\n RetroArch\n Heroic (Epic Games)\n Bottles (Wine)") in
-        *Steam*)   install "Steam"  "steam" ;;
-        *Lutris*)  install "Lutris" "lutris" ;;
-        *Retro*)   install "RetroArch" "retroarch" ;;
-        *Heroic*)  aur_install "Heroic" "heroic-games-launcher-bin" ;;
-        *Bottles*) install "Bottles" "bottles" ;;
+    case $(pick "$(_t "Gaming")" \
+            steam Steam lutris Lutris retroarch RetroArch \
+            heroic "Heroic (Epic Games)" bottles "Bottles (Wine)") in
+        steam)     install     "Steam"     "steam" ;;
+        lutris)    install     "Lutris"    "lutris" ;;
+        retroarch) install     "RetroArch" "retroarch" ;;
+        heroic)    aur_install "Heroic"    "heroic-games-launcher-bin" ;;
+        bottles)   install     "Bottles"   "bottles" ;;
         *)         return 1 ;;
     esac
 }
 
 show_install_extras_menu() {
-    case $(menu "Extras" " Bitwarden\n OBS Studio\n Obsidian\n Signal\n Spotify") in
-        *Bitwarden*)  install    "Bitwarden"  "bitwarden" ;;
-        *OBS*)        install    "OBS Studio" "obs-studio" ;;
-        *Obsidian*)   aur_install "Obsidian"  "obsidian" ;;
-        *Signal*)     install    "Signal"    "signal-desktop" ;;
-        *Spotify*)    aur_install "Spotify"   "spotify" ;;
-        *)            return 1 ;;
+    case $(pick "$(_t "Extras")" \
+            bitwarden Bitwarden obs "OBS Studio" obsidian Obsidian signal Signal spotify Spotify) in
+        bitwarden) install     "Bitwarden"  "bitwarden" ;;
+        obs)       install     "OBS Studio" "obs-studio" ;;
+        obsidian)  aur_install "Obsidian"   "obsidian" ;;
+        signal)    install     "Signal"     "signal-desktop" ;;
+        spotify)   aur_install "Spotify"    "spotify" ;;
+        *)         return 1 ;;
     esac
 }
 
@@ -1571,64 +1720,72 @@ show_install_extras_menu() {
 # ---------------------------------------------------------------------------
 show_remove_menu() {
     while true; do
-        case $(menu "Remove" " Edit Autostart entry\n Dev environment\n Package") in
-            *Package*)          present_terminal 'pacman -Qq | fzf --multi --preview "pacman -Qi {}" | xargs -ro sudo pacman -Rns'; return 0 ;;
-            *"Dev"*)            show_remove_dev_menu   || continue; return 0 ;;
-            *"Edit Autostart"*) edit_in_editor "${OHMYCHADWM_CONFIG}/scripts/run.sh"; return 0 ;;
-            *)           return 1 ;;
+        case $(pick "$(_t "Remove")" \
+                package "$(_t "Package")" \
+                dev     "$(_t "Dev environment")") in
+            package) present_terminal 'pacman -Qq | fzf --multi --preview "pacman -Qi {}" | xargs -ro sudo pacman -Rns'; return 0 ;;
+            dev)     show_remove_dev_menu || continue; return 0 ;;
+            *)       return 1 ;;
         esac
     done
 }
 
 show_remove_dev_menu() {
-    case $(menu "Remove dev" " Docker\n Go\n Rust") in
-        *Go*)     remove_pkg "Go" "go" ;;
-        *Rust*)   present_terminal "rustup self uninstall" ;;
-        *Docker*) remove_pkg "Docker" "docker docker-compose" ;;
-        *)        return 1 ;;
+    case $(pick "$(_t "Dev environment")" docker Docker go Go rust Rust) in
+        go)     remove_pkg "Go" "go" ;;
+        rust)   present_terminal "rustup self uninstall" ;;
+        docker) remove_pkg "Docker" "docker docker-compose" ;;
+        *)      return 1 ;;
     esac
 }
 
 # ---------------------------------------------------------------------------
-# Update
+# Update — packages, and restarting processes and hardware
 # ---------------------------------------------------------------------------
 show_update_menu() {
     while true; do
-        case $(menu "Update" " Aur packages\n Full update\n Hardware\n Keyboard\n Restart process\n Time sync\n Timezone") in
-            *"Aur"*)       present_terminal "yay -Sua"; return 0 ;;
-            *"Full"*)      present_terminal "yay -Syu"; return 0 ;;
-            *"Restart"*)   show_restart_process_menu  || continue; return 0 ;;
-            *Hardware*)    show_restart_hardware_menu || continue; return 0 ;;
-            *Timezone*)    present_terminal "tzselect && echo 'Run: sudo timedatectl set-timezone <zone>'"; return 0 ;;
-            *Keyboard*)    show_keyboard_menu || continue; return 0 ;;
-            *"Time sync"*) present_terminal "sudo timedatectl set-ntp true && timedatectl status"; return 0 ;;
-            *)             return 1 ;;
+        case $(pick "$(_t "Update")" \
+                full     "$(_t "Full update")" \
+                aur      "$(_t "AUR packages")" \
+                process  "$(_t "Process")" \
+                hardware "$(_t "Hardware")") in
+            full)     present_terminal "yay -Syu"; return 0 ;;
+            aur)      present_terminal "yay -Sua"; return 0 ;;
+            process)  show_restart_process_menu  || continue; return 0 ;;
+            hardware) show_restart_hardware_menu || continue; return 0 ;;
+            *)        return 1 ;;
         esac
     done
 }
 
+# Sets the X11 layout of the running session and the persistent X11/console layout.
 show_keyboard_menu() {
-    local keymap
-    keymap=$(localectl list-keymaps | rofi -dmenu -p "Keyboard layout" -width "$MENU_WIDTH" 2>/dev/null) || return 1
-    [[ -z "$keymap" ]] && return 1
-    present_terminal "sudo localectl set-keymap '$keymap' && localectl status"
+    local layout
+    layout=$(localectl list-x11-keymap-layouts | rofi -dmenu -p "$(_t "Keyboard")" -width "$MENU_WIDTH" 2>/dev/null) || return 1
+    [[ -z "$layout" ]] && return 1
+    setxkbmap "$layout"
+    present_terminal "sudo localectl set-x11-keymap '$layout' && localectl status"
 }
 
 show_restart_process_menu() {
-    case $(menu " Restart process" " Picom\n Fastcompmgr\n Sxhkd") in
-        *Picom*)      _restart_picom ;;
-        *Fastcompmgr*)  _restart_fastcompmgr ;;
-        *Sxhkd*)      pkill sxhkd; setsid sxhkd -c "${HOME}/.config/ohmychadwm/sxhkd/sxhkdrc" &>/dev/null & disown; notify-send "ohmychadwm" "Sxhkd restarted" ;;
-        *)            return 1 ;;
+    case $(pick "$(_t "Process")" picom Picom fastcompmgr Fastcompmgr sxhkd Sxhkd) in
+        picom)       _restart_picom ;;
+        fastcompmgr) _restart_fastcompmgr ;;
+        sxhkd)       pkill sxhkd; setsid sxhkd -c "${HOME}/.config/ohmychadwm/sxhkd/sxhkdrc" &>/dev/null & disown; notify-send "ohmychadwm" "$(_t "Sxhkd restarted")" ;;
+        *)           return 1 ;;
     esac
 }
 
 show_restart_hardware_menu() {
-    case $(menu "Restart hardware" " Audio (PipeWire)\n Audio (PulseAudio)\n WiFi\n Bluetooth") in
-        *PipeWire*)  _restart_pipewire ;;
-        *PulseAudio*) _restart_pulseaudio ;;
-        *WiFi*)      present_terminal "printf 'Running: sudo systemctl restart NetworkManager\n\n'; sudo systemctl restart NetworkManager && echo Done" ;;
-        *Bluetooth*) present_terminal "printf 'Running: sudo systemctl restart bluetooth\n\n'; sudo systemctl restart bluetooth && echo Done" ;;
+    case $(pick "$(_t "Hardware")" \
+            pipewire   "$(_t "Audio (PipeWire)")" \
+            pulseaudio "$(_t "Audio (PulseAudio)")" \
+            wifi       "Wi-Fi" \
+            bluetooth  "Bluetooth") in
+        pipewire)   _restart_pipewire ;;
+        pulseaudio) _restart_pulseaudio ;;
+        wifi)       present_terminal "printf 'Running: sudo systemctl restart NetworkManager\n\n'; sudo systemctl restart NetworkManager && echo Done" ;;
+        bluetooth)  present_terminal "printf 'Running: sudo systemctl restart bluetooth\n\n'; sudo systemctl restart bluetooth && echo Done" ;;
         *)           return 1 ;;
     esac
 }
@@ -1667,22 +1824,37 @@ _restart_pulseaudio() {
 # System — power management
 # ---------------------------------------------------------------------------
 show_system_menu() {
-    local options=" Lock\n Suspend\n Restart\n Shutdown"
+    local -a rows=(
+        lock    "$(_t "Lock")"
+        logout  "$(_t "Logout")"
+        suspend "$(_t "Suspend")"
+    )
+    # Hibernate only when there is swap to hibernate to
+    [[ -n "$(swapon --noheadings 2>/dev/null)" ]] && rows+=(hibernate "$(_t "Hibernate")")
+    rows+=(
+        reboot   "$(_t "Reboot")"
+        shutdown "$(_t "Shutdown")"
+    )
 
-    # Add Hibernate only if a swap partition/file is available
-    if swapon --show | grep -q partition 2>/dev/null || \
-       swapon --show | grep -q file      2>/dev/null; then
-        options+=" \n Hibernate"
-    fi
-
-    case $(menu "System" "$options") in
-        *Lock*)      _lock_screen ;;
-        *Suspend*)   systemctl suspend ;;
-        *Hibernate*) systemctl hibernate ;;
-        *Restart*)   systemctl reboot ;;
-        *Shutdown*)  systemctl poweroff ;;
-        *)           return 1 ;;
+    case $(pick "$(_t "System")" "${rows[@]}") in
+        lock)      _lock_screen ;;
+        logout)    _logout_chadwm ;;
+        suspend)   systemctl suspend ;;
+        hibernate) systemctl hibernate ;;
+        reboot)    systemctl reboot ;;
+        shutdown)  systemctl poweroff ;;
+        *)         return 1 ;;
     esac
+}
+
+_logout_chadwm() {
+    # run.sh's loop ends when ohmychadwm quits cleanly; shutdown_ohmychadwm.sh triggers that quit path
+    local script="${OHMYCHADWM_CONFIG}/scripts/shutdown_ohmychadwm.sh"
+    if [[ ! -f "$script" ]]; then
+        notify-send -u critical "ohmychadwm" "$(_t "Logout script not found"): ${script}"
+        return 1
+    fi
+    bash "$script"
 }
 
 _lock_screen() {
@@ -1700,31 +1872,42 @@ _lock_screen() {
 # ---------------------------------------------------------------------------
 show_info_menu() {
     while true; do
-        local options=" System\n Btop\n Disk overview\n Disk explorer\n Temperatures\n Logs\n Keybindings"
-        upower -e 2>/dev/null | grep -qi bat && options+=" \n Battery"
+        local -a rows=(
+            system   "$(_t "System")"
+            btop     "Btop"
+            df       "$(_t "Disk overview")"
+            ncdu     "$(_t "Disk explorer")"
+            temp     "$(_t "Temperatures")"
+        )
+        upower -e 2>/dev/null | grep -qi bat && rows+=(battery "$(_t "Battery")")
+        rows+=(logs "$(_t "Logs")")
 
-        case $(menu "Info" "$options") in
-            *System*)       present_terminal "inxi -Fxxx"; return 0 ;;
-            *Btop*)         command -v btop &>/dev/null || install "btop" "btop"; present_terminal "btop"; return 0 ;;
-            *"Disk overview"*) present_terminal "df -h | (read -r header; echo \"\$header\"; sort)"; return 0 ;;
-            *"Disk explorer"*) command -v ncdu &>/dev/null || install "ncdu" "ncdu"; present_terminal "ncdu ${HOME}"; return 0 ;;
-            *Temp*)         present_terminal "sensors 2>/dev/null || echo 'Run: sudo pacman -S lm_sensors && sudo sensors-detect'" ; return 0 ;;
-            *Battery*)      present_terminal "upower -i \$(upower -e | grep -i bat | head -1)"; return 0 ;;
-            *Logs*)         show_logs_menu || continue; return 0 ;;
-            *Keybindings*)  kiro-keybindings; return 0 ;;
-            *)              return 1 ;;
+        case $(pick "$(_t "Info")" "${rows[@]}") in
+            system)  present_terminal "inxi -Fxxx"; return 0 ;;
+            btop)    command -v btop &>/dev/null || install "btop" "btop"; present_terminal "btop"; return 0 ;;
+            df)      present_terminal "df -h | (read -r header; echo \"\$header\"; sort)"; return 0 ;;
+            ncdu)    command -v ncdu &>/dev/null || install "ncdu" "ncdu"; present_terminal "ncdu ${HOME}"; return 0 ;;
+            temp)    present_terminal "sensors 2>/dev/null || echo 'Run: sudo pacman -S lm_sensors && sudo sensors-detect'" ; return 0 ;;
+            battery) present_terminal "upower -i \$(upower -e | grep -i bat | head -1)"; return 0 ;;
+            logs)    show_logs_menu || continue; return 0 ;;
+            *)       return 1 ;;
         esac
     done
 }
 
 show_logs_menu() {
-    case $(menu "Logs" " System log\n Boot log\n Errors only\n Kernel (dmesg)\n Follow live") in
-        *System*)  plain_terminal "journalctl -n 200 --no-pager | less -R"; return 0 ;;
-        *Boot*)    plain_terminal "journalctl -b --no-pager | less -R"; return 0 ;;
-        *Errors*)  plain_terminal "journalctl -p err -b --no-pager | less -R"; return 0 ;;
-        *Kernel*)  plain_terminal "sudo dmesg --color=always | less -R"; return 0 ;;
-        *Follow*)  plain_terminal "journalctl -f"; return 0 ;;
-        *)         return 1 ;;
+    case $(pick "$(_t "Logs")" \
+            system "$(_t "System log")" \
+            boot   "$(_t "Boot log")" \
+            errors "$(_t "Errors only")" \
+            kernel "$(_t "Kernel (dmesg)")" \
+            follow "$(_t "Follow live")") in
+        system) plain_terminal "journalctl -n 200 --no-pager | less -R"; return 0 ;;
+        boot)   plain_terminal "journalctl -b --no-pager | less -R"; return 0 ;;
+        errors) plain_terminal "journalctl -p err -b --no-pager | less -R"; return 0 ;;
+        kernel) plain_terminal "sudo dmesg --color=always | less -R"; return 0 ;;
+        follow) plain_terminal "journalctl -f"; return 0 ;;
+        *)      return 1 ;;
     esac
 }
 
@@ -1733,18 +1916,28 @@ show_logs_menu() {
 # ---------------------------------------------------------------------------
 show_main_menu() {
     while true; do
-        case $(menu "ohmychadwm" " Apps\n Style\n Learn\n Trigger\n Setup\n Install\n Remove\n Update\n Info\n System") in
-            *Apps*)    rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/ohmychadwm/rofi/launcher2.rasi; break ;;
-            *Learn*)   show_learn_menu   || continue; break ;;
-            *Trigger*) show_trigger_menu || continue; break ;;
-            *Style*)   show_style_menu   || continue; break ;;
-            *Setup*)   show_setup_menu   || continue; break ;;
-            *Install*) show_install_menu || continue; break ;;
-            *Remove*)  show_remove_menu  || continue; break ;;
-            *Update*)  show_update_menu  || continue; break ;;
-            *Info*)    show_info_menu    || continue; break ;;
-            *System*)  show_system_menu  || continue; break ;;
-            *)         break ;;
+        case $(pick "ohmychadwm" \
+                apps       "$(_t "Apps")" \
+                appearance "$(_t "Appearance")" \
+                learn      "$(_t "Learn")" \
+                trigger    "$(_t "Trigger")" \
+                setup      "$(_t "Setup")" \
+                install    "$(_t "Install")" \
+                remove     "$(_t "Remove")" \
+                update     "$(_t "Update")" \
+                info       "$(_t "Info")" \
+                system     "$(_t "System")") in
+            apps)       rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/ohmychadwm/rofi/launcher2.rasi; break ;;
+            appearance) show_appearance_menu || continue; break ;;
+            learn)      show_learn_menu      || continue; break ;;
+            trigger)    show_trigger_menu    || continue; break ;;
+            setup)      show_setup_menu      || continue; break ;;
+            install)    show_install_menu    || continue; break ;;
+            remove)     show_remove_menu     || continue; break ;;
+            update)     show_update_menu     || continue; break ;;
+            info)       show_info_menu       || continue; break ;;
+            system)     show_system_menu     || continue; break ;;
+            *)          break ;;
         esac
     done
 }
@@ -1762,7 +1955,7 @@ if [[ -n "${1:-}" ]]; then
         *screenrecord*)  show_screenrecord_menu ;;
         *capture*)       show_capture_menu ;;
         *trigger*)       show_trigger_menu ;;
-        *style*)         show_style_menu ;;
+        *appearance*|*style*) show_appearance_menu ;;
         *theme*)         show_theme_menu ;;
         *install*)       show_install_menu ;;
         *remove*)        show_remove_menu ;;

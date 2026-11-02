@@ -1,5 +1,35 @@
 # Changelog
 
+## 2026.11.02
+
+### System menu reorganised, ready for translation
+
+**What Changed.** The Super+Alt+Space menu now follows one rule: **Appearance** (was Style) is how things look, **Setup** is how things behave.
+- **Appearance** now holds Theme, Wallpaper, Font, Bar, Windows, Tags, Alacritty and Back to default. Ohmychadwm › Customise is gone, so the deepest path goes from four levels to three.
+- **Setup** gains Keybinding set (AZERTY/QWERTY), Keyboard, Windows (new window position, master area), Timezone and Time sync. Its seven "Edit …" rows moved into one Config submenu.
+- **Update** keeps only package updates and restarts (Process, Hardware).
+- **System** gains Logout, and Restart is renamed Reboot.
+- Removed duplicates: Keybindings now appears only in Learn, and Remove › Edit Autostart is gone.
+- Renamed: "Chadwm source" is now Ohmychadwm, "Simplescreenrecorder" is Screenrecord, and the Shell row moved from Alacritty to Setup › Defaults.
+
+**Fixes made along the way:**
+- Appearance › Tags works again. It still looked for `//<label>` comment lines that config.def.h no longer has, so every pick failed with "not found". It now sets `THEME_TAGS` in the active theme file. "Purposemenu" is now "Purpose (home, chat, surf…)".
+- Setup › Keyboard used `localectl set-keymap`, which changes only the text console. It now sets the X11 layout of the running session (`setxkbmap`) and the saved layout (`localectl set-x11-keymap`).
+- Setup › Config › Menu theme opens your chosen editor instead of nano.
+- The Xresources row did nothing when chosen; it now opens the file.
+- No more stray spaces in the Battery and Hibernate rows.
+
+**Technical Details.**
+- A new `pick` helper takes key/label pairs and returns the key of the chosen row, using rofi's `-format i`. Every menu dispatches on that key instead of matching the English label with `case *Label*`, which translated labels would break.
+- All labels go through `_t`, a gettext wrapper with text domain `ohmychadwm-menu`. Until `.mo` files ship it returns the English text.
+- The old function names `show_style_menu`, `show_chadwm_menu` and `show_customise_menu` remain as aliases for user extensions. `ohmychadwm-menu style` still works next to `appearance`.
+- The shipped `menu-extension.sh` used to override the System menu with old label matching; it is now a commented example using `pick`.
+- Logout runs the same `shutdown_ohmychadwm.sh` that the old extension used.
+- Labels follow omarchy's menu wording where the meaning is the same, so its MIT-licensed catalogs can seed our translations.
+- Existing users keep their own `~/.config/ohmychadwm/menu/` until they copy the new skel files.
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh`, `etc/skel/.config/ohmychadwm/menu/menu-extension.sh`, `etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu-README.md`, `etc/skel/.config/ohmychadwm/README.md`, `README.md`
+
 ## 2026.10.25
 
 ### Ctrl+Alt+H opens the Ohmychadwm Tweak Tool
