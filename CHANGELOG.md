@@ -2,6 +2,18 @@
 
 ## 2026.11.02
 
+### Test for the theme generator
+
+**What Changed.** New test `tests/theme_gen.py` creates themes with the theme generator ("create theme from wallpaper") the way a user does, without touching your config. It runs on a few made-up wallpapers (very dark, very bright, grey, colourful, a 16-bit PNG, one solid colour) and on every shipped wallpaper, builds chadwm with each new theme and checks the bar text can be read. Every theme it makes is kept with a preview picture and one overview image, and `--recover` puts one you like into your own theme list.
+
+First run: 25 of 31 themes pass. It found two problems in the generator:
+- A 16-bit PNG wallpaper gives random colours (a dark blue picture became green and purple).
+- On very bright, very dark or low-contrast wallpapers (and the tiger and doors wallpapers) the window title and some tags are hard to read: the generator only makes text lighter, never darker.
+
+**Technical Details.** Each case gets its own home with a copy of the skel config and a `.fehbg` pointing at the wallpaper. `feh`, `fzf`, `sudo`, `notify-send` and `xdotool` are stubs, and the rebuild question is answered "n". The script answers each question when the generator prints a line in its question colour (`\033[1;33m`). It varies bar position, gaps, layout and tag style per case and checks they land in the theme. The first case also tries the built-in name `dracula`, which must be refused. The contrast limits come from the 45 hand-made themes: `SchemeSel` is only the focused window border and `SchemeNormfg` may fade into the bar, so neither is checked. The 16-bit bug: `magick … txt:-` prints `#RRRRGGGGBBBB` for 16-bit images and the generator's `grep '#[0-9A-Fa-f]{6}'` keeps the first six digits. Not in `check.sh` yet, because it would block `up.sh` until the generator is fixed.
+
+**Files Modified.** `tests/theme_gen.py` (new), `CLAUDE.md`
+
 ### Bar border is one unbroken line in one color
 
 **What Changed.** Two flaws in the bar border, both clear on mars (bright red border, bottom bar):

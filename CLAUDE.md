@@ -99,6 +99,12 @@ All scripts in `scripts/` and `chadwm/` start with `set -euo pipefail` (or shoul
 config.def.h, a theme or slstatus. `up.sh` runs it before every push and blocks the push on a failure.
 
 - Lints every `.sh`, builds chadwm against every theme and `config.def.h.default`, builds slstatus with every module on.
+- `tests/theme_gen.py [--quick] [--out dir]` runs `generate-chadwm-theme.sh` in throwaway homes on synthetic
+  wallpapers (dark, bright, grey, neon, 16-bit, one colour) plus every shipped wallpaper, answering its questions by
+  matching the yellow question line. It checks the written theme, config.def.h, the chadwm build and text contrast
+  (title 3:1, tags 1.5:1 — what the hand-made themes meet). Themes, previews and `overview.png` are kept in
+  `~/.cache/ohmychadwm/theme-gen/<time>/`; `--recover <dir> [--as name]` installs one into the real config, listed
+  but not active. Not part of check.sh yet: the generator still fails it.
 - Showcase scripts for videos live in `usr/share/ohmychadwm/showcase/` (packaged as `/usr/share/ohmychadwm/showcase/`,
   never in skel: they are not user config). Not part of check.sh.
   - `showcase-languages.sh [-t] [-k] [-i sec] [-s dir]` shows the menu in every shipped language on the running
