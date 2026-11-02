@@ -104,7 +104,9 @@ extract() {
     # relative paths only: the source comments in the .pot must not carry a home folder
     (cd "$REPO" && xgettext --language=Shell --from-code=UTF-8 --keyword=_t --keyword=_tf \
         --add-comments=TRANSLATORS --package-name="$DOMAIN" --sort-by-file \
-        -o "$POT" "$MENU_DIR/ohmychadwm-menu.sh")
+        -o "$POT" "$MENU_DIR/ohmychadwm-menu.sh" \
+        etc/skel/.config/ohmychadwm/scripts/picom-toggle.sh \
+        etc/skel/.config/ohmychadwm/scripts/fastcompmgr-toggle.sh)
     log_info "${CYAN}$(grep -c '^msgid ' "$POT")${RESET} entries (the first is the header)"
 }
 

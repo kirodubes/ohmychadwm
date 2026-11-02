@@ -128,6 +128,8 @@ config.def.h, a theme or slstatus. `up.sh` runs it before every push and blocks 
 - Every user-visible menu string goes through `_t "Text"` or, with a value in it, `_tf 'Text with $var'`
   (gettext's `eval_gettext`: whole sentence, translators can move `$var`). Text shown inside a terminal command
   is exported as an `OHM_MSG_*` / `OHM_T_*` variable first, never spliced into the command.
+- `scripts/picom-toggle.sh` and `scripts/fastcompmgr-toggle.sh` share the menu's catalog (same domain, `_t`/`_tf`,
+  `TEXTDOMAINDIR` = `../menu/locale`); `po/make-mo.sh` extracts from them too. A new translated script joins the same way.
 - After changing menu text run `bash po/make-mo.sh`: it rebuilds `po/ohmychadwm-menu.pot`, merges the 13
   `po/<lang>.po` and compiles `etc/skel/.config/ohmychadwm/menu/locale/<lang>/LC_MESSAGES/ohmychadwm-menu.mo`.
   New or changed strings show as untranslated/fuzzy until translated; English is the fallback.

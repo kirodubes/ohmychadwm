@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ohmychadwm-menu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 07:43+0100\n"
+"POT-Creation-Date: 2026-11-02 14:15+0100\n"
 "PO-Revision-Date: 2026-11-02 07:39+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: Russian\n"
@@ -537,7 +537,8 @@ msgstr "QWERTY (США / мир)"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:743
 msgid "Keybinding set changed. Press Super+Shift+R to apply."
-msgstr "Набор сочетаний клавиш изменён. Нажмите Super+Shift+R, чтобы применить."
+msgstr ""
+"Набор сочетаний клавиш изменён. Нажмите Super+Shift+R, чтобы применить."
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:750
 msgid "Border changed — rebuilding"
@@ -1226,3 +1227,29 @@ msgstr "Следить в реальном времени"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1983
 msgid "Apps"
 msgstr "Приложения"
+
+#: etc/skel/.config/ohmychadwm/scripts/fastcompmgr-toggle.sh:14
+msgid "Stopping compositor…"
+msgstr "Остановка композитора…"
+
+#: etc/skel/.config/ohmychadwm/scripts/fastcompmgr-toggle.sh:25
+msgid "Starting compositor…"
+msgstr "Запуск композитора…"
+
+#: etc/skel/.config/ohmychadwm/scripts/picom-toggle.sh:20
+msgid "Stopping picom…"
+msgstr "Остановка picom…"
+
+#: etc/skel/.config/ohmychadwm/scripts/picom-toggle.sh:35
+msgid "Choose picom config:"
+msgstr "Выберите конфигурацию picom:"
+
+#. TRANSLATORS: $chosen is the name of a picom config file, e.g. picom.conf
+#: etc/skel/.config/ohmychadwm/scripts/picom-toggle.sh:39
+#, sh-format
+msgid "Starting picom with: $chosen"
+msgstr "Запуск picom с конфигурацией: $chosen"
+
+#: etc/skel/.config/ohmychadwm/scripts/picom-toggle.sh:42
+msgid "No valid selection made."
+msgstr "Допустимый вариант не выбран."

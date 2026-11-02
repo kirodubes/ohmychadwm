@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ohmychadwm-menu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 07:43+0100\n"
+"POT-Creation-Date: 2026-11-02 14:15+0100\n"
 "PO-Revision-Date: 2026-11-02 07:39+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: Japanese\n"
@@ -156,7 +156,8 @@ msgstr "色を取得しました"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:351
 msgid "xcolor not installed. Run: sudo pacman -S xcolor"
-msgstr "xcolor がインストールされていません。実行してください: sudo pacman -S xcolor"
+msgstr ""
+"xcolor がインストールされていません。実行してください: sudo pacman -S xcolor"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:357
 msgid "Installing SimpleScreenRecorder…"
@@ -1171,7 +1172,8 @@ msgstr "ログアウト用スクリプトが見つかりません"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1929
 msgid "No screen locker found. Install slock or i3lock."
-msgstr "画面ロックが見つかりません。slock または i3lock をインストールしてください。"
+msgstr ""
+"画面ロックが見つかりません。slock または i3lock をインストールしてください。"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1941
 msgid "Disk overview"
@@ -1229,3 +1231,29 @@ msgstr "リアルタイム表示"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1983
 msgid "Apps"
 msgstr "アプリ"
+
+#: etc/skel/.config/ohmychadwm/scripts/fastcompmgr-toggle.sh:14
+msgid "Stopping compositor…"
+msgstr "コンポジターを停止しています…"
+
+#: etc/skel/.config/ohmychadwm/scripts/fastcompmgr-toggle.sh:25
+msgid "Starting compositor…"
+msgstr "コンポジターを起動しています…"
+
+#: etc/skel/.config/ohmychadwm/scripts/picom-toggle.sh:20
+msgid "Stopping picom…"
+msgstr "picom を停止しています…"
+
+#: etc/skel/.config/ohmychadwm/scripts/picom-toggle.sh:35
+msgid "Choose picom config:"
+msgstr "picom の設定ファイルを選択："
+
+#. TRANSLATORS: $chosen is the name of a picom config file, e.g. picom.conf
+#: etc/skel/.config/ohmychadwm/scripts/picom-toggle.sh:39
+#, sh-format
+msgid "Starting picom with: $chosen"
+msgstr "picom を次の設定で起動しています：$chosen"
+
+#: etc/skel/.config/ohmychadwm/scripts/picom-toggle.sh:42
+msgid "No valid selection made."
+msgstr "有効な選択がありません。"

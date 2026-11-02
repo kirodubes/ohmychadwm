@@ -2,6 +2,14 @@
 
 ## 2026.11.02
 
+### Compositor notifications in your language
+
+**What Changed.** When you switch picom or fastcompmgr on or off, the notifications ("Stopping picom…", "Starting compositor…", …) and the picom config prompt in rofi are now shown in your system language, in all 13 languages of the menu. English stays the fallback. Checked in Italian, Japanese and English.
+
+**Technical Details.** `picom-toggle.sh` and `fastcompmgr-toggle.sh` use the menu's own catalog (domain `ohmychadwm-menu`, `TEXTDOMAINDIR` = `menu/locale` next to the script), with the same `_t` / `_tf` setup as the menu. `po/make-mo.sh` extracts from both scripts too, so they share the `.po` files and `.mo` files. "Starting picom with: $chosen" goes through `_tf` (`eval_gettext`), so translators can move the file name. The English now uses the single "…" like the rest of the catalog. The 6 strings were drafted in 13 languages, then reviewed in a separate pass with back-translations: no errors. French uses a non-breaking space before the colon, like the rest of `fr.po`. Every catalog: 281 of 281 translated, and `msgfmt --check` keeps `$chosen`. Tested with stubs for `notify-send`, `rofi`, `pgrep` and `killall`.
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/scripts/picom-toggle.sh`, `scripts/fastcompmgr-toggle.sh`, `po/make-mo.sh`, `po/ohmychadwm-menu.pot`, the 13 `po/<lang>.po` and `menu/locale/<lang>/LC_MESSAGES/ohmychadwm-menu.mo`, `CLAUDE.md`
+
 ### Even gaps in the status text
 
 **What Changed.** The gap between two status items (for example CPU and the clock) was twice as wide as the gap between the time and the date. Every gap is now the same: `0%  13:56  02 11 26`. Checked on the Kiro VM with mars.

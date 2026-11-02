@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ohmychadwm-menu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 07:43+0100\n"
+"POT-Creation-Date: 2026-11-02 14:15+0100\n"
 "PO-Revision-Date: 2026-11-02 07:39+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: Polish\n"
@@ -1227,3 +1227,29 @@ msgstr "Śledź na żywo"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1983
 msgid "Apps"
 msgstr "Aplikacje"
+
+#: etc/skel/.config/ohmychadwm/scripts/fastcompmgr-toggle.sh:14
+msgid "Stopping compositor…"
+msgstr "Zatrzymywanie kompozytora…"
+
+#: etc/skel/.config/ohmychadwm/scripts/fastcompmgr-toggle.sh:25
+msgid "Starting compositor…"
+msgstr "Uruchamianie kompozytora…"
+
+#: etc/skel/.config/ohmychadwm/scripts/picom-toggle.sh:20
+msgid "Stopping picom…"
+msgstr "Zatrzymywanie picom…"
+
+#: etc/skel/.config/ohmychadwm/scripts/picom-toggle.sh:35
+msgid "Choose picom config:"
+msgstr "Wybierz konfigurację picom:"
+
+#. TRANSLATORS: $chosen is the name of a picom config file, e.g. picom.conf
+#: etc/skel/.config/ohmychadwm/scripts/picom-toggle.sh:39
+#, sh-format
+msgid "Starting picom with: $chosen"
+msgstr "Uruchamianie picom z konfiguracją: $chosen"
+
+#: etc/skel/.config/ohmychadwm/scripts/picom-toggle.sh:42
+msgid "No valid selection made."
+msgstr "Nie dokonano prawidłowego wyboru."
