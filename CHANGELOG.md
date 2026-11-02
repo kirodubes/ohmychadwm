@@ -2,9 +2,17 @@
 
 ## 2026.11.02
 
+### Bar shows its real colour, no grey box around the tray
+
+**What Changed.** With a see-through bar (the default 85% opacity), the bar came out brighter than its theme colour. The tray did show the right colour, so it looked like a separate grey box at the right end of the bar. On light bars the difference was big. Now bar and tray are one colour. Checked on the Kiro VM with a bright theme: before, the bar was `(252,255,255)` and the tray `(219,225,231)`; after, both are `(219,225,231)`, which is exactly the theme colour at 85% over the wallpaper. Bright border colours no longer leave a glow at low border opacity either.
+
+**Technical Details.** The bar is an ARGB window, and the compositor reads ARGB pixels as premultiplied. `drw_clr_create()` stored the colour as is, with the alpha byte on top. So the compositor added the full colour to the wallpaper behind instead of blending it (bar + wallpaper × 0.15, not bar × 0.85 + wallpaper × 0.15). The tray already fakes its transparency with premultiplied XRender colours, so it was right. New `drw_pixel()` returns the premultiplied pixel when `drw->depth == 32` and alpha < 0xff, otherwise the pixel unchanged. Every draw on the bar uses it: `drw_rect()`, the `drw_text()` background, and the five border/underline `XSetForeground` calls in `dwm.c`. `Clr.pixel` itself stays unpremultiplied, because client window borders and the tray's fallback fill are 24-bit windows and premultiplying would darken them. The "faint glow" note in `config.def.h` described this bug and is removed. The white tray icons on light bars come from the apps' own icons, so chadwm can't change them.
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/chadwm/drw.c`, `drw.h`, `dwm.c`, `config.def.h`, `config.def.h.default`
+
 ### Status text readable in every theme, checked in check.sh
 
-**What Changed.** In 7 themes the status text (CPU, clock, date) was almost or completely invisible. In mars it was the same colour as the bar. Their status text is now a bit brighter but still subtle: mars, summit, goodnight, faraway, meditation, lookinto, drwho. summit and doors also get a slightly brighter window title. Their preview pictures are updated. `check.sh` now checks every shipped theme, so a new theme can't ship with unreadable bar text.
+**What Changed.** In 7 themes the status text (CPU, clock, date) was almost or completely invisible. In mars it was the same colour as the bar. Their status text is now a bit brighter but still subtle: mars, summit, goodnight, faraway, meditation, lookinto, drwho. summit and doors also get a slightly brighter window title. Their preview pictures are updated, and meditation, which had no preview, now has one. `check.sh` now checks every shipped theme, so a new theme can't ship with unreadable bar text.
 
 **Technical Details.** The status text colour is `SchemeNormfg` (`drawstatusbar()`). The new colours come from the theme generator's `ensure_contrast()`: same hue, moved toward white until status text reaches 2:1 and the title 3:1. `tests/theme_gen.py --shipped` checks every `themes/*.h` for title ≥ 3:1 and status text ≥ 1.5:1. 1.5 is the floor and the fixed themes sit at 2:1. The 22 themes between 1.5:1 and 3:1 keep their soft status text on purpose. Step 6 of `check.sh` runs it before the generator test.
 
