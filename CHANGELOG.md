@@ -2,6 +2,14 @@
 
 ## 2026.11.02
 
+### Bar border runs unbroken past the menu button
+
+**What Changed.** The Arch menu button at the left of the bar covered the bar's top and bottom border lines, so the border looked cut off there. Most visible on themes with a bright bar border and a bottom bar. The button now sits inside the border, and the border is continuous.
+
+**Technical Details.** `drawbar()` filled the menu box with `SchemeMenubr` from y=0 over the full bar height `bh`. It now starts at `borderpx` with height `bh_n` (`bh - 2*borderpx`), and the icon is inset by `borderpx` inside that box.
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/chadwm/dwm.c`
+
 ### README links the menu video
 
 **What Changed.** Under the language screenshots, the README now has "See it in action": a clickable YouTube thumbnail of the video showing the menu in every language (https://youtu.be/y1r2-4HZCaM).

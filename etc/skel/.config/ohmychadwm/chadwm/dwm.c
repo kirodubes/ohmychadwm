@@ -1607,10 +1607,10 @@ void drawbar(Monitor *m) {
 
     w = launcherw(launchers[i].name);
     if (launchers[i].command == ohmychadwm_menu) {
-        /* draw SchemeMenubr border, then icon inset by 1px */
+        /* stay inside the bar border so its top/bottom lines run unbroken under the menu button */
         XSetForeground(drw->dpy, drw->gc, scheme[SchemeMenu][ColBorder].pixel);
-        XFillRectangle(drw->dpy, drw->drawable, drw->gc, x, 0, w, bh);
-        drawlauncher(x + borderpx, borderpx, w - 2 * borderpx, bh - 2 * borderpx, launchers[i].name, urg & 1 << i);
+        XFillRectangle(drw->dpy, drw->drawable, drw->gc, x, borderpx, w, bh_n);
+        drawlauncher(x + borderpx, 2 * borderpx, w - 2 * borderpx, bh_n - 2 * borderpx, launchers[i].name, urg & 1 << i);
     } else {
         drawlauncher(x, 0, w, bh, launchers[i].name, urg & 1 << i);
     }
