@@ -16,7 +16,7 @@
 
 static const char col_borderbar[]      = "#023252";
 
-static const char SchemeNormfg[]       = "#354177";
+static const char SchemeNormfg[]       = "#556197";
 static const char SchemeNormbg[]       = "#023252";
 static const char SchemeNormbr[]       = "#0e3e5e";
 

@@ -2,6 +2,25 @@
 
 ## 2026.11.02
 
+### Status text readable in every theme, checked in check.sh
+
+**What Changed.** In 7 themes the status text (CPU, clock, date) was almost or completely invisible. In mars it was the same colour as the bar. Their status text is now a bit brighter but still subtle: mars, summit, goodnight, faraway, meditation, lookinto, drwho. summit and doors also get a slightly brighter window title. Their preview pictures are updated. `check.sh` now checks every shipped theme, so a new theme can't ship with unreadable bar text.
+
+**Technical Details.** The status text colour is `SchemeNormfg` (`drawstatusbar()`). The new colours come from the theme generator's `ensure_contrast()`: same hue, moved toward white until status text reaches 2:1 and the title 3:1. `tests/theme_gen.py --shipped` checks every `themes/*.h` for title ≥ 3:1 and status text ≥ 1.5:1. 1.5 is the floor and the fixed themes sit at 2:1. The 22 themes between 1.5:1 and 3:1 keep their soft status text on purpose. Step 6 of `check.sh` runs it before the generator test.
+
+| Theme | Status text | Title |
+|---|---|---|
+| mars | `#1a0f0f` → `#524747` | |
+| summit | `#603D61` → `#906d91` | `#cf614d` → `#e77965` |
+| goodnight | `#1F1E2E` → `#474656` | |
+| faraway | `#354177` → `#556197` | |
+| meditation | `#2f302e` → `#474846` | |
+| lookinto | `#3e3e3e` → `#565656` | |
+| drwho | `#273448` → `#3f4c60` | |
+| doors | | `#635A85` → `#6b628d` |
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/chadwm/themes/{mars,summit,goodnight,faraway,meditation,lookinto,drwho,doors}.h`, the same 8 PNGs in `previews/` and `etc/skel/.config/ohmychadwm/previews/`, `tests/theme_gen.py`, `tests/check.sh`
+
 ### Theme showcase checks every theme before it starts
 
 **What Changed.** `showcase-themes.sh` now refuses to start when a requested theme is not listed in `config.def.h`. Before, it only checked that the theme file existed. A theme file without its `#include` line (for example a generated theme after `config.def.h` was reset) stopped the tour halfway, with no active theme left in `config.def.h`. This happened during a VM run through all 48 themes.

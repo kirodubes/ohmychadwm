@@ -277,6 +277,21 @@ def twin_problem(results: list[dict], out: Path) -> None:
             0, f"16-bit wallpaper gives other colours than the same image at 8 bit: bar {bgs[1]} vs {bgs[0]}")
 
 
+def check_shipped() -> int:
+    """Every shipped theme: window title at least 3:1, status text at least 1.5:1 against the bar."""
+    failed = 0
+    for header in sorted((OHM / "chadwm/themes").glob("*.h")):
+        colours = theme_values(header.read_text())[1]
+        bg = colours["SchemeNormbg"]
+        for label, key, need in (("window title", "SchemeTitlefg", 3.0), ("status text", "SchemeNormfg", 1.5)):
+            ratio = contrast(colours[key], bg)
+            if ratio < need:
+                failed += 1
+                print(f"FAIL theme {header.stem}: {label} {colours[key]} on {bg} = {ratio:.2f}:1 (need {need}:1)")
+    print(f"shipped themes checked, {failed} unreadable")
+    return 1 if failed else 0
+
+
 def recover(kept: Path, new_name: str | None) -> int:
     """Copy a kept theme into the real ~/.config/ohmychadwm and list it in the menu's theme picker."""
     headers = list(kept.glob("*.h"))
@@ -318,12 +333,15 @@ def main() -> int:
     ap.add_argument("--quick", action="store_true", help="synthetic wallpapers only, no shipped wallpapers")
     ap.add_argument("--jobs", type=int, default=os.cpu_count() or 4)
     ap.add_argument("--timeout", type=int, default=120)
+    ap.add_argument("--shipped", action="store_true", help="only check title/status contrast of the shipped themes")
     ap.add_argument("--recover", type=Path, metavar="DIR", help="install a kept theme folder into your config")
     ap.add_argument("--as", dest="new_name", help="with --recover: install under this theme name")
     args = ap.parse_args()
 
     if args.recover:
         return recover(args.recover, args.new_name)
+    if args.shipped:
+        return check_shipped()
     for tool in ("magick", "make"):
         if not shutil.which(tool):
             print(f"{tool} not installed", file=sys.stderr)
