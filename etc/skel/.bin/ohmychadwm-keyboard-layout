@@ -87,7 +87,9 @@ set_toggle() {
 rebuild_wm() {
     log_info "Recompiling and installing ohmychadwm (needs sudo)"
     $DRYRUN && { echo "[dry-run] cd $CHADWM_DIR && make clean && make && sudo make install"; return 0; }
-    ( cd "$CHADWM_DIR" && make clean && make && sudo make install && make clean )
+    # Same lock as chadwm/rebuild.sh: a parallel rebuild's "make clean" would wreck this build.
+    ( cd "$CHADWM_DIR" && exec 9>"${XDG_RUNTIME_DIR:-/tmp}/ohmychadwm-rebuild.lock" && flock 9 &&
+        make clean && make && sudo make install && make clean )
 }
 
 swap_cheatsheet() {

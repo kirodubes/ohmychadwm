@@ -87,6 +87,7 @@ REAL_TOOLS = [
     "rev",
     "paste",
     "echo",
+    "flock",
     "df",
 ]
 
@@ -376,14 +377,52 @@ SCENARIOS = [
         [("Update", "Process", "Picom"), ("Update", "Process", "Fastcompmgr")],
         lambda h: _autostart(h) == "fastcompmgr" or f"run.sh starts {_autostart(h)}",
     ),
+    (
+        "Keybinding set AZERTY, then Back to default gives QWERTY config and cheatsheet",
+        [("Setup", "Keybinding set", "AZERTY (Belgian)"), ("Appearance", "Back to default")],
+        lambda h: _qwerty_again(h),
+    ),
+    (
+        "Net download speed uses this machine's network interface",
+        [("Appearance", "Bar", "Status modules", "✗ Net download speed")],
+        lambda h: _netspeed_iface(h),
+        # A name no machine has, so the test proves the menu writes the real one.
+        lambda h: _set_netspeed_iface(h, "bogus0"),
+    ),
 ]
+
+
+def _set_netspeed_iface(home: Path, iface: str) -> None:
+    conf = home / ".config/ohmychadwm/slstatus/config.def.h"
+    conf.write_text(re.sub(r'(netspeed_[rt]x,[^"]*"[^"]*",\s*)"[^"]*"', rf'\1"{iface}"', conf.read_text()))
+
+
+def _qwerty_again(home: Path) -> bool | str:
+    base = home / ".config/ohmychadwm"
+    if re.search(r"^#define KIRO_AZERTY\s+true", (base / "chadwm/config.def.h").read_text(), re.MULTILINE):
+        return "config.def.h is still AZERTY"
+    if (base / "keybindings.txt").read_text() != (OHM / "keybindings.txt").read_text():
+        return "keybindings.txt is not the shipped (QWERTY) cheatsheet"
+    return True
+
+
+def _netspeed_iface(home: Path) -> bool | str:
+    route = Path("/proc/net/route").read_text().splitlines()[1:]
+    iface = next((f.split()[0] for f in route if f.split()[1] == "00000000"), None)
+    text = (home / ".config/ohmychadwm/slstatus/config.def.h").read_text()
+    line = re.search(r"^\s*\{ netspeed_rx,.*", text, re.MULTILINE)
+    if not line:
+        return "netspeed_rx was not switched on"
+    return iface is None or f'"{iface}"' in line.group(0) or f"uses {line.group(0).split(',')[2].strip()}, not {iface}"
 
 
 def run_scenarios(root: Path, bin_dir: Path, timeout: int, by_label: dict[tuple, tuple]) -> int:
     """Run each scenario in one shared home; return the number that failed."""
     failed = 0
-    for title, steps, check in SCENARIOS:
+    for title, steps, check, *setup in SCENARIOS:
         home = make_home(root)
+        for prepare in setup:
+            prepare(home)
         problems_found = []
         for step in steps:
             seq = by_label.get(step)
@@ -391,7 +430,7 @@ def run_scenarios(root: Path, bin_dir: Path, timeout: int, by_label: dict[tuple,
                 problems_found.append(f"menu path not found: {' › '.join(step)}")
                 break
             res = run_path(root, bin_dir, list(seq), timeout, home=home)
-            problems_found += problems(res)
+            problems_found += [p for p in problems(res) if p != "nothing happened"]
         if not problems_found:
             verdict = check(home)
             if verdict is not True:

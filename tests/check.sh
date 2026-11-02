@@ -14,7 +14,8 @@ set -euo pipefail
 #   1. lint every shell script (bash -n, shellcheck errors)
 #   2. build chadwm against every theme and against the shipped default config
 #   3. build slstatus with every status module switched on
-#   4. click through every row of the Super+Alt+Space menu in a throwaway home
+#   4. run two rebuilds at once (the second must wait, not wreck the first)
+#   5. click through every row of the Super+Alt+Space menu in a throwaway home
 #      (tests/menu_crawl.py) and report each action that errors or does nothing
 #   Builds run in temporary copies; nothing is installed. --quick skips step 2.
 #
@@ -182,8 +183,29 @@ build_slstatus() {
     fi
 }
 
+race_rebuilds() {
+    log_info "4. Two rebuilds at once (two menu choices in quick succession)"
+    local dir
+    dir="$(mktemp -d "${WORK}/race-XXXX")"
+    cp -a "${OHM}/chadwm" "$dir/"
+    mkdir "$dir/bin" "$dir/inst"
+    # sudo stub: install into the temp folder, never the system
+    printf '#!/bin/bash\n"$@" PREFIX=%s/inst\n' "$dir" > "$dir/bin/sudo"
+    chmod +x "$dir/bin/sudo"
+    (cd "$dir/chadwm" && PATH="$dir/bin:$PATH" XDG_RUNTIME_DIR="$dir" bash rebuild.sh </dev/null >"$dir/a.log" 2>&1) &
+    sleep 0.3
+    (cd "$dir/chadwm" && PATH="$dir/bin:$PATH" XDG_RUNTIME_DIR="$dir" bash rebuild.sh </dev/null >"$dir/b.log" 2>&1) &
+    local ok=0 pid
+    for pid in $(jobs -p); do wait "$pid" || ok=1; done
+    if (( ok == 0 )) && [[ -x "$dir/inst/bin/ohmychadwm" ]]; then
+        echo "ok both rebuilds finished"
+    else
+        fail "racing rebuilds: $(grep -h -m1 -E 'error|No such file' "$dir/a.log" "$dir/b.log" | head -1)"
+    fi
+}
+
 crawl_menu() {
-    log_info "4. Click through every row of the system menu"
+    log_info "5. Click through every row of the system menu, then the scenarios"
     local out rc
     out="$(python3 -I "${SCRIPT_DIR}/menu_crawl.py" 2>&1)" && rc=0 || rc=$?
     grep -v '^ok ' <<< "$out" || true
@@ -208,6 +230,7 @@ main() {
         build_themes
     fi
     build_slstatus
+    race_rebuilds
     crawl_menu
 
     if (( FAILED > 0 )); then

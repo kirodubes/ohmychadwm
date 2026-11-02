@@ -2,6 +2,24 @@
 
 ## 2026.11.02
 
+### Quick menu choices no longer wreck each other's rebuild; net speed finds the real interface
+
+**What Changed.** These were found by trying to break a fresh test-box install:
+- **Two rebuilds at once:** picking a second setting before the first rebuild finished (Border, then Gaps) made the second rebuild fail ("cannot find drw.o"), because each one starts with `make clean`. Which change got installed depended on timing. Rebuilds now wait for each other: the second terminal says "Waiting for the other rebuild to finish…" and then builds with both changes.
+- **Net download/upload speed** showed nothing on most machines: slstatus had `enp3s0` written in as the network interface, and the test box has `enp0s31f6`. Switching the module on in the menu now writes this machine's default-route interface.
+- **Keybinding set AZERTY, then Back to default** left the AZERTY cheatsheet behind a QWERTY config. The reset now restores the shipped cheatsheet too.
+
+**Technical Details.**
+- **Lock:** `chadwm/rebuild.sh` takes `flock` on `$XDG_RUNTIME_DIR/ohmychadwm-rebuild.lock` and releases it before the reboot question. `slstatus/rebuild.sh` has its own lock. `.bin/ohmychadwm-keyboard-layout` uses the chadwm lock for its own build.
+- **Interface:** the default-route interface is read from `/proc/net/route`.
+- **New tests:**
+  - `check.sh` races two rebuilds in one folder; the old rebuild.sh fails it.
+  - Two new scenarios in `menu_crawl.py`: AZERTY → Back to default, and Net download speed, which first writes a bogus interface so the check works on any machine.
+  - Scenarios can now take a setup step.
+- **Also checked, no fault found:** all 45 themes × every Appearance setting (border, gaps, tags, bar position, systray, master area, smart gaps). Each is set exactly once and every theme still builds.
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/chadwm/rebuild.sh`, `etc/skel/.config/ohmychadwm/slstatus/rebuild.sh`, `etc/skel/.bin/ohmychadwm-keyboard-layout`, `etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh`, `tests/check.sh`, `tests/menu_crawl.py`
+
 ### Back to default resets border, gaps, tags, bar and master area again
 
 **What Changed.** Appearance › Back to default restored only `config.def.h`. Border, gaps, tags, bar position, systray and master area now live in the theme file, so after Border 10 the reset left the border at 10. The reset now also puts back every shipped theme file from skel. Themes you created yourself stay, and a backup of the themes folder is made first (`themes.<timestamp>`). This was found on a test box and reproduced in the sandbox.

@@ -556,6 +556,12 @@ show_slstatus_menu() {
             sed -i "s|^\(\s*\){ ${chosen},|\1//{ ${chosen},|" "$config"
         else
             sed -i "s|^\(\s*\)//{ ${chosen},|\1{ ${chosen},|" "$config"
+            # Net speed needs this machine's interface, not the one written in the config (enp3s0).
+            if [[ "$chosen" == netspeed_* ]]; then
+                local iface
+                iface=$(awk '$2 == "00000000" { print $1; exit }' /proc/net/route 2>/dev/null)
+                [[ -n "$iface" ]] && sed -i -E "s|^(\s*\{ ${chosen},[^\"]*\"[^\"]*\",\s*)\"[^\"]*\"|\1\"${iface}\"|" "$config"
+            fi
         fi
     done
 }
@@ -630,6 +636,13 @@ _customise_reset_defaults() {
         if [[ -d \"\$default_themes\" ]]; then
             cp -f \"\$default_themes\"/*.h \"\$themes\"/
             echo \"  Shipped theme files restored.\"
+        fi
+        # The default config is QWERTY again, so the cheatsheet must be too.
+        kb_default=\"\$(dirname \"\$(dirname \"\$default\")\")/keybindings.txt\"
+        kb=\"${OHMYCHADWM_CONFIG}/keybindings.txt\"
+        if [[ -f \"\$kb_default\" && ! \"\$kb_default\" -ef \"\$kb\" ]]; then
+            cp -f \"\$kb_default\" \"\$kb\"
+            echo \"  Keybindings cheatsheet restored.\"
         fi
         echo \"\"
         cd \"${OHMYCHADWM_CONFIG}/chadwm\" && bash rebuild.sh
