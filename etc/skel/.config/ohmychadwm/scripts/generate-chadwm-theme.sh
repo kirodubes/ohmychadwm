@@ -239,12 +239,12 @@ build_palette() {
 
     # ── enforce contrast against the bar (WCAG ratios) — runs last so nothing undoes it
     DIM_FG=$(ensure_contrast "$DIM_FG" "$BG" 1.2)
-    NORM_FG=$(ensure_contrast "$NORM_FG" "$BG" 2.0)
+    NORM_FG=$(ensure_contrast "$NORM_FG" "$BG" 3.0)   # status text + other monitor's title
     BRIGHT=$(ensure_contrast "$BRIGHT" "$BG" 4.5)
     ACCENT=$(ensure_contrast "$ACCENT" "$BG" 1.5)
     local new_tags=()
     for t in "${TAG[@]}"; do
-        new_tags+=("$(ensure_contrast "$t" "$BG" 2.0)")
+        new_tags+=("$(ensure_contrast "$t" "$BG" 2.5)")
     done
     TAG=("${new_tags[@]}")
 
@@ -784,7 +784,7 @@ write_theme() {
 
 static const char col_borderbar[]      = "$BG";
 
-static const char SchemeNormfg[]       = "$DIM_FG";
+static const char SchemeNormfg[]       = "$NORM_FG";
 static const char SchemeNormbg[]       = "$BG";
 static const char SchemeNormbr[]       = "$BR";
 

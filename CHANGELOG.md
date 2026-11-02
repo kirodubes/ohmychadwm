@@ -8,11 +8,15 @@
 - A 16-bit PNG wallpaper no longer gives random colours. A dark blue picture now gets the same theme as the same picture saved as a normal 8-bit image.
 - The window title and tags stay readable on bright, very dark and low-contrast wallpapers. A light bar now gets dark text instead of white on light grey.
 
-After the fix all 31 test themes pass, and the test is now step 6 of `tests/check.sh`.
+- The status text (CPU, clock, date) of a generated theme is readable. It used the dimmest colour of the theme, so on dark wallpapers it nearly disappeared.
 
-**Technical Details.** `extract_colors()` passes `-depth 8` before `txt:-`, so ImageMagick prints `#RRGGBB` and not `#RRRRGGGGBBBB`. The old `ensure_min_contrast()` only made a colour lighter until it was 26 luminance units above the bar. `ensure_contrast()` replaces it: it measures the WCAG contrast ratio (`contrast_ratio()`, in awk) and moves the colour toward black or white, whichever reaches the ratio against the bar. Ratios: title 4.5, tags and normal text 2.0, accent 1.5, empty tags 1.2, menu button 3.0. The check now runs after the tag spacing step, because that step makes tags lighter and could undo it on a light bar. The rofi accent keeps its own lightening in `update_config()`. `check.sh` runs `theme_gen.py` with `--out` in its temp folder and adds `--quick` (synthetic wallpapers only) to `--quick`.
+After the fix all 31 test themes pass, and the test is now step 6 of `tests/check.sh`. Checked on the Kiro VM with three wallpapers (bright, 16-bit dark, tiger): each theme was generated, built, installed and restarted live. Title, tags and status text are readable on all three. The VM was put back to dracul afterwards.
 
-**Files Modified.** `etc/skel/.config/ohmychadwm/scripts/generate-chadwm-theme.sh`, `tests/check.sh`, `CLAUDE.md`
+Still open, outside the generator: on a light bar the tray icons stay white and the status area keeps its own grey box. The shipped mars theme draws its status text in the bar colour (`SchemeNormfg` = `SchemeNormbg`), and summit and goodnight come close.
+
+**Technical Details.** `extract_colors()` passes `-depth 8` before `txt:-`, so ImageMagick prints `#RRGGBB` and not `#RRRRGGGGBBBB`. The old `ensure_min_contrast()` only made a colour lighter until it was 26 luminance units above the bar. `ensure_contrast()` replaces it: it measures the WCAG contrast ratio (`contrast_ratio()`, in awk) and moves the colour toward black or white, whichever reaches the ratio against the bar. Ratios: title 4.5, status text 3.0, tags 2.5, accent 1.5, empty tags 1.2, menu button 3.0. `SchemeNormfg` is the status text colour (`drawstatusbar()` in `dwm.c`). It was written as `DIM_FG`, and `NORM_FG` was calculated but never written, so `SchemeNormfg` now gets `NORM_FG`. `theme_gen.py` checks status text at 3:1 and tags at 2:1. The check now runs after the tag spacing step, because that step makes tags lighter and could undo it on a light bar. The rofi accent keeps its own lightening in `update_config()`. `check.sh` runs `theme_gen.py` with `--out` in its temp folder and adds `--quick` (synthetic wallpapers only) to `--quick`.
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/scripts/generate-chadwm-theme.sh`, `tests/check.sh`, `tests/theme_gen.py`, `CLAUDE.md`, `.codespellrc` (`ans` and `lightening` are not typos)
 
 ### Test for the theme generator
 

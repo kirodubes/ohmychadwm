@@ -102,7 +102,7 @@ config.def.h, a theme or slstatus. `up.sh` runs it before every push and blocks 
 - `tests/theme_gen.py [--quick] [--out dir]` runs `generate-chadwm-theme.sh` in throwaway homes on synthetic
   wallpapers (dark, bright, grey, neon, 16-bit, one colour) plus every shipped wallpaper, answering its questions by
   matching the yellow question line. It checks the written theme, config.def.h, the chadwm build and text contrast
-  (title 3:1, tags 1.5:1 — what the hand-made themes meet). Themes, previews and `overview.png` are kept in
+  (title and status text 3:1, tags 2:1). Themes, previews and `overview.png` are kept in
   `~/.cache/ohmychadwm/theme-gen/<time>/`; `--recover <dir> [--as name]` installs one into the real config, listed
   but not active. check.sh step 6 runs it (`--quick` there = synthetic wallpapers only).
 - Showcase scripts for videos live in `usr/share/ohmychadwm/showcase/` (packaged as `/usr/share/ohmychadwm/showcase/`,

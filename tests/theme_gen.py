@@ -187,10 +187,13 @@ def check_theme(idx: int, name: str, home: Path, rc: int, log: str) -> list[str]
         return problems
 
     bg = colours["SchemeNormbg"]
-    # Thresholds the 45 hand-made themes meet: titles are text (3:1), occupied tags at least 1.5:1.
-    # SchemeSel is only the focused window border and SchemeNormfg may fade into the bar, so neither is checked.
-    pairs = {"window title on bar": (colours["SchemeTitlefg"], bg, 3.0)}
-    pairs.update({f"tag {n} on bar": (colours[f"SchemeTag{n}fg"], bg, 1.5)
+    # Title and status text (SchemeNormfg, drawstatusbar) are text: 3:1. Tags at least 2:1; the generator aims
+    # for 2.5:1, since 2:1 still looked faint on a dark bar in the VM. SchemeSel is only the window border.
+    pairs = {
+        "window title on bar": (colours["SchemeTitlefg"], bg, 3.0),
+        "status text on bar": (colours["SchemeNormfg"], bg, 3.0),
+    }
+    pairs.update({f"tag {n} on bar": (colours[f"SchemeTag{n}fg"], bg, 2.0)
                   for n in range(1, 11) if f"SchemeTag{n}fg" in colours})
     for label, (fg, back, need) in pairs.items():
         ratio = contrast(fg, back)
