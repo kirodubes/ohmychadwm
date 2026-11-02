@@ -203,6 +203,22 @@ drw_clr_create(Drw *drw, Clr *dest, const char *clrname, unsigned int alpha)
 	dest->pixel = (dest->pixel & 0x00ffffffU) | (alpha << 24);
 }
 
+/* Pixel to draw with on the bar. An ARGB visual is premultiplied: a bare
+ * color with alpha < 0xff is added to what lies behind instead of blended,
+ * so the bar came out brighter than its color (and than the faked tray). */
+unsigned long
+drw_pixel(Drw *drw, const Clr *c)
+{
+	unsigned long p = c->pixel, a = p >> 24;
+
+	if (drw->depth != 32 || a == 0xff)
+		return p;
+	return (a << 24)
+	     | ((((p >> 16) & 0xff) * a / 0xff) << 16)
+	     | ((((p >> 8) & 0xff) * a / 0xff) << 8)
+	     | ((p & 0xff) * a / 0xff);
+}
+
 /* Wrapper to create color schemes. The caller has to call free(3) on the
  * returned color scheme when done using it. */
 Clr *
@@ -300,7 +316,7 @@ drw_rect(Drw *drw, int x, int y, unsigned int w, unsigned int h, int filled, int
 {
 	if (!drw || !drw->scheme)
 		return;
-	XSetForeground(drw->dpy, drw->gc, invert ? drw->scheme[ColBg].pixel : drw->scheme[ColFg].pixel);
+	XSetForeground(drw->dpy, drw->gc, drw_pixel(drw, &drw->scheme[invert ? ColBg : ColFg]));
 	if (filled)
 		XFillRectangle(drw->dpy, drw->drawable, drw->gc, x, y, w, h);
 	else
@@ -333,7 +349,7 @@ drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned int lp
 	if (!render) {
 		w = invert ? invert : ~invert;
 	} else {
-		XSetForeground(drw->dpy, drw->gc, drw->scheme[invert ? ColFg : ColBg].pixel);
+		XSetForeground(drw->dpy, drw->gc, drw_pixel(drw, &drw->scheme[invert ? ColFg : ColBg]));
 		XFillRectangle(drw->dpy, drw->drawable, drw->gc, x, y, w, h);
 		d = XftDrawCreate(drw->dpy, drw->drawable,
 		                  drw->visual, drw->cmap);

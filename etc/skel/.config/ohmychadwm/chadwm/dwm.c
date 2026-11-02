@@ -1237,7 +1237,7 @@ int drawstatusbar(Monitor *m, int bh, char *stext) {
 
   /* top and bottom borders for status area */
   int sw_total = (floatbar ? m->ww - m->gappov * 2 - borderpx : m->ww - borderpx) - ret;
-  XSetForeground(drw->dpy, drw->gc, clrborder.pixel);
+  XSetForeground(drw->dpy, drw->gc, drw_pixel(drw, &clrborder));
   XFillRectangle(drw->dpy, drw->drawable, drw->gc, ret, 0, sw_total, borderpx);
   XFillRectangle(drw->dpy, drw->drawable, drw->gc, ret, borderpx + bh, sw_total, borderpx);
 
@@ -1558,7 +1558,7 @@ void drawbar(Monitor *m) {
   unsigned int i, occ = 0, urg = 0;
   Client *c;
 
-  XSetForeground(drw->dpy, drw->gc, clrborder.pixel);
+  XSetForeground(drw->dpy, drw->gc, drw_pixel(drw, &clrborder));
   if(floatbar){
     XFillRectangle(drw->dpy, drw->drawable, drw->gc, 0, 0, m->ww - m->gappov * 2, bh);
   }else{
@@ -1608,7 +1608,7 @@ void drawbar(Monitor *m) {
     w = launcherw(launchers[i].name);
     if (launchers[i].command == ohmychadwm_menu) {
         /* stay inside the bar border so its top/bottom lines run unbroken under the menu button */
-        XSetForeground(drw->dpy, drw->gc, scheme[SchemeMenu][ColBorder].pixel);
+        XSetForeground(drw->dpy, drw->gc, drw_pixel(drw, &scheme[SchemeMenu][ColBorder]));
         XFillRectangle(drw->dpy, drw->drawable, drw->gc, x, borderpx, w, bh_n);
         drawlauncher(x + borderpx, 2 * borderpx, w - 2 * borderpx, bh_n - 2 * borderpx, launchers[i].name, urg & 1 << i);
     } else {
@@ -1644,7 +1644,7 @@ void drawbar(Monitor *m) {
   drw_text(drw, x, y, w, bh_n, lrpad / 2, m->ltsymbol, 0);
 
   /* draw the layout border/underline using SchemeLayoutbr */
-  XSetForeground(drw->dpy, drw->gc, scheme[SchemeLayout][ColBorder].pixel);
+  XSetForeground(drw->dpy, drw->gc, drw_pixel(drw, &scheme[SchemeLayout][ColBorder]));
   XFillRectangle(drw->dpy, drw->drawable, drw->gc, x, y + bh_n, w, 1);
 
   x += w;
@@ -1656,7 +1656,7 @@ void drawbar(Monitor *m) {
      	drw_text(drw, x, 0, w, bh, lrpad / 2 + (m->sel->icon ? m->sel->icw + ICONSPACING : 0), m->sel->name, 0);
 			
     XSetForeground(drw->dpy, drw->gc,
-        scheme[m == selmon ? SchemeTitle : SchemeNorm][ColBorder].pixel);
+        drw_pixel(drw, &scheme[m == selmon ? SchemeTitle : SchemeNorm][ColBorder]));
 
     /* top border */
     XFillRectangle(drw->dpy, drw->drawable, drw->gc,

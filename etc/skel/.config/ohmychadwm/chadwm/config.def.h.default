@@ -226,10 +226,7 @@ static const char *menufonts[] = {
  * override with #define THEME_BORDEROPACITY. The systray frame follows it
  * too (blended into the tray's wallpaper background). Client window borders
  * are 24-bit windows: the alpha byte is truncated there, so they stay opaque
- * regardless of this value.
- * At low values the border's RGB still blends in, so a bright border color
- * can leave a faint glow — pick a color close to the wallpaper/bar for a
- * clean fade-out. */
+ * regardless of this value. */
 #ifndef THEME_BORDEROPACITY
 #define THEME_BORDEROPACITY THEME_BAROPACITY
 #endif
