@@ -430,7 +430,7 @@ msgstr "Не найдено: %s"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:633
 msgid "Reset chadwm config to default"
-msgstr "Сбросить конфигурацию chadwm"
+msgstr "Сбросить конфигурацию chadwm к стандартной"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:634
 msgid "This will overwrite:"
@@ -1139,7 +1139,7 @@ msgstr "Блокировка"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1892
 msgid "Logout"
-msgstr "Выйти"
+msgstr "Выход"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1893
 msgid "Suspend"

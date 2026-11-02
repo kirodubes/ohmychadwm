@@ -366,7 +366,7 @@ msgstr "ディスクの空き"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:548
 msgid "Disk used"
-msgstr "ディスクの使用"
+msgstr "ディスク使用量"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:549
 msgid "Hostname"
@@ -398,7 +398,7 @@ msgstr "RAM 使用率 %"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:556
 msgid "RAM used"
-msgstr "RAM の使用"
+msgstr "RAM 使用量"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:557
 msgid "Swap free"
@@ -475,7 +475,7 @@ msgstr "同梱のテーマファイルを復元しました。"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:644
 msgid "Keybindings cheatsheet restored."
-msgstr "キーボードショートカット一覧を復元しました。"
+msgstr "キーバインド一覧を復元しました。"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:690
 msgid "Icons (default)"
@@ -590,7 +590,7 @@ msgstr "オフ"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:815
 msgid "Smart gaps changed — rebuilding"
-msgstr "スマートな隙間を変更しました。再ビルドしています"
+msgstr "スマート隙間を変更しました。再ビルドしています"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:820
 msgid "Systray"
@@ -989,13 +989,13 @@ msgstr "ターミナル"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1651
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1689
 msgid "Editor"
-msgstr "エディタ"
+msgstr "エディター"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1563
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1649
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1702
 msgid "Browser"
-msgstr "ブラウザ"
+msgstr "ブラウザー"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1564
 msgid "Shell"
@@ -1179,7 +1179,7 @@ msgstr "ディスクの概要"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1942
 msgid "Disk explorer"
-msgstr "ディスクの使用量"
+msgstr "ディスクエクスプローラー"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1943
 msgid "Temperatures"

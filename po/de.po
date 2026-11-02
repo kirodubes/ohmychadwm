@@ -23,7 +23,7 @@ msgstr "Suchen…"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:179
 msgid "Press any key to close…"
-msgstr "Drücke eine Taste zum Schließen…"
+msgstr "Drücke eine beliebige Taste zum Schließen…"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:212
 #, sh-format
@@ -75,7 +75,7 @@ msgstr "Lernen"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:260
 msgid "Keybindings"
-msgstr "Tastenbelegung"
+msgstr "Tastenkürzel"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:265
 msgid "Man pages"
@@ -254,7 +254,7 @@ msgstr "Theme"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:456
 msgid "Wallpaper"
-msgstr "Hintergrund"
+msgstr "Hintergrundbild"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:457
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:497
@@ -362,11 +362,11 @@ msgstr "CPU-Auslastung %"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:547
 msgid "Disk free"
-msgstr "Freier Speicher"
+msgstr "Freier Speicherplatz"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:548
 msgid "Disk used"
-msgstr "Belegter Speicher"
+msgstr "Belegter Speicherplatz"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:549
 msgid "Hostname"

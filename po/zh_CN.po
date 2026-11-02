@@ -570,7 +570,7 @@ msgstr "状态栏内边距已恢复默认，正在重新编译…"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:803
 msgid "Top"
-msgstr "上"
+msgstr "顶部"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:804
 msgid "Bottom"

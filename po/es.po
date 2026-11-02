@@ -23,7 +23,7 @@ msgstr "Buscar…"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:179
 msgid "Press any key to close…"
-msgstr "Pulsa una tecla para cerrar…"
+msgstr "Presiona una tecla para cerrar…"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:212
 #, sh-format
@@ -526,7 +526,7 @@ msgstr "Etiquetas cambiadas; recompilando"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:738
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1346
 msgid "Keybinding set"
-msgstr "Juego de atajos"
+msgstr "Esquema de atajos"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:739
 msgid "AZERTY (Belgian)"
@@ -538,7 +538,7 @@ msgstr "QWERTY (EE. UU. / mundo)"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:743
 msgid "Keybinding set changed. Press Super+Shift+R to apply."
-msgstr "Juego de atajos cambiado. Pulsa Super+Shift+R para aplicarlo."
+msgstr "Esquema de atajos cambiado. Presiona Super+Shift+R para aplicarlo."
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:750
 msgid "Border changed — rebuilding"
@@ -840,7 +840,7 @@ msgstr "Sincronización de la hora"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1354
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1394
 msgid "Config"
-msgstr "Configuración"
+msgstr "Archivos de configuración"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1355
 msgid "Hard reset"
@@ -1075,12 +1075,12 @@ msgstr "Listo. Inícialo con: %s"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1730
 msgid "Ollama is running. Try: ollama run llama3"
-msgstr "Ollama está en marcha. Prueba: ollama run llama3"
+msgstr "Ollama se está ejecutando. Prueba: ollama run llama3"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1784
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1989
 msgid "Remove"
-msgstr "Quitar"
+msgstr "Eliminar"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1808
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1990

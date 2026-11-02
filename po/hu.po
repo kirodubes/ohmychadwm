@@ -321,7 +321,7 @@ msgstr "Belső margó"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:512
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:822
 msgid "Hide systray"
-msgstr "Tálca elrejtése"
+msgstr "Rendszertálca elrejtése"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:513
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:576
@@ -429,7 +429,7 @@ msgstr "Nem található: %s"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:633
 msgid "Reset chadwm config to default"
-msgstr "A chadwm beállításainak visszaállítása"
+msgstr "A chadwm beállításainak visszaállítása alaphelyzetbe"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:634
 msgid "This will overwrite:"
@@ -475,7 +475,7 @@ msgstr "A gyári témafájlok visszaállítva."
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:644
 msgid "Keybindings cheatsheet restored."
-msgstr "A gyorsbillentyűk összefoglalója visszaállítva."
+msgstr "A billentyűparancsok összefoglalója visszaállítva."
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:690
 msgid "Icons (default)"
@@ -546,7 +546,7 @@ msgstr "Keret megváltozott, újrafordítás"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:757
 msgid "Gaps changed — rebuilding"
-msgstr "Hézagok megváltoztak, újrafordítás"
+msgstr "A térközök megváltoztak, újrafordítás"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:767
 msgid "Vertical padding"
@@ -592,19 +592,19 @@ msgstr "Ki"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:815
 msgid "Smart gaps changed — rebuilding"
-msgstr "Okos hézagok megváltoztak, újrafordítás"
+msgstr "Az intelligens térközök megváltoztak, újrafordítás"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:820
 msgid "Systray"
-msgstr "Tálca"
+msgstr "Rendszertálca"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:821
 msgid "Show systray"
-msgstr "Tálca megjelenítése"
+msgstr "Rendszertálca megjelenítése"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:824
 msgid "Systray changed — rebuilding"
-msgstr "Tálca megváltozott, újrafordítás"
+msgstr "A rendszertálca megváltozott, újrafordítás"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:830
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1374
@@ -675,12 +675,12 @@ msgstr "Alacritty átlátszatlansága: ${chosen}"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:929
 #, sh-format
 msgid "Shell (now $current)"
-msgstr "Parancsértelmező (most: $current)"
+msgstr "Shell (most: $current)"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:931
 #, sh-format
 msgid "Alacritty shell set to ${chosen}"
-msgstr "Alacritty parancsértelmezője: ${chosen}"
+msgstr "Alacritty shellje: ${chosen}"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:939
 msgid "Default Alacritty config not found"
@@ -939,7 +939,7 @@ msgstr "Csak a másodlagos: ${secondary}"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1508
 msgid "Rotate which display?"
-msgstr "Melyik kijelzőt forgassam?"
+msgstr "Melyik kijelzőt forgatod?"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1514
 msgid "Normal"

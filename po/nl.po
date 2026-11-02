@@ -71,7 +71,7 @@ msgstr "$name wordt verwijderd…"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:259
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1985
 msgid "Learn"
-msgstr "Leer"
+msgstr "Leren"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:260
 msgid "Keybindings"
@@ -103,7 +103,7 @@ msgstr "Schakelen"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:294
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:332
 msgid "Screenshot"
-msgstr "Schermafbeelding"
+msgstr "Screenshot"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:295
 msgid "Screenshot → clipboard"
@@ -526,7 +526,7 @@ msgstr "Tags gewijzigd, wordt opnieuw gebouwd"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:738
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1346
 msgid "Keybinding set"
-msgstr "Toetsenset"
+msgstr "Sneltoetsenset"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:739
 msgid "AZERTY (Belgian)"
@@ -538,7 +538,7 @@ msgstr "QWERTY (VS / wereld)"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:743
 msgid "Keybinding set changed. Press Super+Shift+R to apply."
-msgstr "Toetsenset gewijzigd. Druk op Super+Shift+R om toe te passen."
+msgstr "Sneltoetsenset gewijzigd. Druk op Super+Shift+R om toe te passen."
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:750
 msgid "Border changed — rebuilding"
@@ -546,7 +546,7 @@ msgstr "Rand gewijzigd, wordt opnieuw gebouwd"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:757
 msgid "Gaps changed — rebuilding"
-msgstr "Tussenruimte gewijzigd, wordt opnieuw gebouwd"
+msgstr "Tussenruimtes gewijzigd, wordt opnieuw gebouwd"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:767
 msgid "Vertical padding"
@@ -592,7 +592,7 @@ msgstr "Uit"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:815
 msgid "Smart gaps changed — rebuilding"
-msgstr "Slimme tussenruimte gewijzigd, wordt opnieuw gebouwd"
+msgstr "Slimme tussenruimtes gewijzigd, wordt opnieuw gebouwd"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:820
 msgid "Systray"
@@ -642,7 +642,7 @@ msgstr "Lettergrootte"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:856
 msgid "Opacity"
-msgstr "Ondoorzichtigheid"
+msgstr "Dekking"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:889
 msgid "Alacritty theme"
@@ -844,7 +844,7 @@ msgstr "Configuratie"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1355
 msgid "Hard reset"
-msgstr "Volledig herstel"
+msgstr "Volledige reset"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1362
 msgid "Then run: sudo timedatectl set-timezone <zone>"
@@ -880,7 +880,7 @@ msgstr "Uitbreiden naar boven"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1426
 msgid "Extend below"
-msgstr "Uitbreiden naar onder"
+msgstr "Uitbreiden naar beneden"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1427
 msgid "Primary only"
@@ -905,7 +905,7 @@ msgstr "Beeldscherm automatisch gedetecteerd"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1451
 #, sh-format
 msgid "Mirroring ${primary} → ${secondary}"
-msgstr "${primary} wordt gespiegeld → ${secondary}"
+msgstr "Spiegelen: ${primary} → ${secondary}"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1457
 #, sh-format
@@ -1089,7 +1089,7 @@ msgstr "Bijwerken"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1809
 msgid "Full update"
-msgstr "Volledige update"
+msgstr "Volledig bijwerken"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1810
 msgid "AUR packages"
@@ -1107,7 +1107,7 @@ msgstr "Hardware"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1835
 msgid "Sxhkd restarted"
-msgstr "Sxhkd herstart"
+msgstr "Sxhkd opnieuw gestart"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1842
 msgid "Audio (PipeWire)"
@@ -1119,19 +1119,19 @@ msgstr "Audio (PulseAudio)"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1862
 msgid "Picom restarted"
-msgstr "Picom herstart"
+msgstr "Picom opnieuw gestart"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1873
 msgid "Fastcompmgr restarted"
-msgstr "Fastcompmgr herstart"
+msgstr "Fastcompmgr opnieuw gestart"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1877
 msgid "PipeWire restarted"
-msgstr "PipeWire herstart"
+msgstr "PipeWire opnieuw gestart"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1882
 msgid "PulseAudio restarted"
-msgstr "PulseAudio herstart"
+msgstr "PulseAudio opnieuw gestart"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1891
 msgid "Lock"
@@ -1139,7 +1139,7 @@ msgstr "Vergrendelen"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1892
 msgid "Logout"
-msgstr "Uitloggen"
+msgstr "Afmelden"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1893
 msgid "Suspend"

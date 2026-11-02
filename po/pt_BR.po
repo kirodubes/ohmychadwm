@@ -546,7 +546,7 @@ msgstr "Borda alterada; recompilando"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:757
 msgid "Gaps changed — rebuilding"
-msgstr "Espaçamentos alterados; recompilando"
+msgstr "Gaps alterados; recompilando"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:767
 msgid "Vertical padding"
@@ -592,7 +592,7 @@ msgstr "Desligado"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:815
 msgid "Smart gaps changed — rebuilding"
-msgstr "Espaçamentos inteligentes alterados; recompilando"
+msgstr "Gaps inteligentes alterados; recompilando"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:820
 msgid "Systray"
@@ -696,7 +696,7 @@ msgstr "Ícones de atalho atualizados"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1012
 msgid "No custom themes to delete"
-msgstr "Nenhum tema próprio para excluir"
+msgstr "Nenhum tema personalizado para excluir"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1022
 msgid "Yes, delete it"
@@ -840,7 +840,7 @@ msgstr "Sincronizar a hora"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1354
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1394
 msgid "Config"
-msgstr "Configuração"
+msgstr "Arquivos de configuração"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1355
 msgid "Hard reset"
@@ -1066,7 +1066,7 @@ msgstr "Instalar"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1717
 msgid "Log out and back in so the docker group takes effect."
-msgstr "Saia e entre de novo para o grupo docker valer."
+msgstr "Saia da sessão e entre de novo para o grupo docker ter efeito."
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1729
 #, sh-printf-format

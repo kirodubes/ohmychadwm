@@ -341,12 +341,12 @@ msgstr "Bordure"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:529
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:755
 msgid "Gaps"
-msgstr "Espaces"
+msgstr "Espacements"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:530
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:811
 msgid "Smart gaps"
-msgstr "Espaces intelligents"
+msgstr "Espacements intelligents"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:544
 msgid "Date & time"
@@ -572,7 +572,7 @@ msgstr "Marges de la barre rétablies, recompilation…"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:803
 msgid "Top"
-msgstr "Haut"
+msgstr "En haut"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:804
 msgid "Bottom"
@@ -688,7 +688,7 @@ msgstr "Configuration par défaut d’Alacritty introuvable"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:943
 msgid "Alacritty reset to default"
-msgstr "Alacritty remis par défaut"
+msgstr "Alacritty réinitialisé"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:977
 msgid "Launcher icons updated"
@@ -842,7 +842,7 @@ msgstr "Synchronisation de l’heure"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1354
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1394
 msgid "Config"
-msgstr "Configuration"
+msgstr "Fichiers de configuration"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1355
 msgid "Hard reset"
@@ -1084,7 +1084,7 @@ msgstr "Ollama est lancé. Essayez : ollama run llama3"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1784
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1989
 msgid "Remove"
-msgstr "Retirer"
+msgstr "Supprimer"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1808
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1990
@@ -1173,7 +1173,7 @@ msgstr "Script de déconnexion introuvable"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1929
 msgid "No screen locker found. Install slock or i3lock."
-msgstr "Aucun verrouillage d’écran trouvé. Installez slock ou i3lock."
+msgstr "Aucun verrouilleur d’écran trouvé. Installez slock ou i3lock."
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1941
 msgid "Disk overview"
@@ -1230,4 +1230,4 @@ msgstr "Suivre en direct"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1983
 msgid "Apps"
-msgstr "Applis"
+msgstr "Applications"

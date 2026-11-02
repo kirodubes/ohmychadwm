@@ -575,7 +575,7 @@ msgstr "Góra"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:804
 msgid "Bottom"
-msgstr "Na dole"
+msgstr "Dół"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:806
 msgid "Bar position changed — rebuilding"
@@ -669,7 +669,7 @@ msgstr "Rozmiar czcionki Alacritty: ${chosen}"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:920
 #, sh-format
 msgid "Alacritty opacity set to ${chosen}"
-msgstr "Krycie Alacritty: ${chosen}"
+msgstr "Nieprzezroczystość Alacritty: ${chosen}"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:929
 #, sh-format
@@ -1147,11 +1147,11 @@ msgstr "Uśpij"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1896
 msgid "Hibernate"
-msgstr "Hibernacja"
+msgstr "Hibernuj"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1898
 msgid "Reboot"
-msgstr "Restart"
+msgstr "Uruchom ponownie"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1899
 msgid "Shutdown"

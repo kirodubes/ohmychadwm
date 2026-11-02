@@ -15,7 +15,11 @@ The menu also gained a search line. Typing filters the rows, and every row also 
 - **Search:** the rofi theme gained an `inputbar`, the placeholder is translated via `-theme-str`, and `pick` gives each row its key as hidden search words (rofi `meta`) and uses case-insensitive matching (`-i`).
 - **English cleaned up first:** `...` became `…`, "Colour" became "Color", and the padding notifications no longer show the internal names vertpadbar/horizpadbar.
 - **Drafting:** 275 strings per language. About 45 per language were seeded from our own translated apps and omarchy's MIT-licensed menu catalogs (credited in the README); the rest were drafted in each language's fixed register. `msgfmt --check` and pofilter pass on all 13: 0 fuzzy, 0 untranslated, every `$variable` kept.
-- **Review still open:** the Copilot second review could not run, because the monthly quota is used up. It is open until the quota resets.
+- **Second review done by Claude.** Copilot is no longer used; Erik decided that Claude does all translation work. One fresh reviewer per language read the English, the draft and the glossary and back-translated every fix. They proposed 82 fixes, and 81 were applied with the same guards.
+  - **One real meaning error:** Turkish "Enable auto-lock" read as "unlock".
+  - **The rest were consistency fixes:** for example, one term for gaps in each language, and the power rows all as verbs or all as nouns.
+  - **One fix rejected:** the Chinese "Chinese numbers" change, because the tag set really is the formal 大写 numerals (壹贰叁).
+  - **Config vs Setup:** Config no longer shares its parent menu's name in French, Portuguese and Spanish. It now says "configuration files".
 - `.codespellrc` skips the catalogs.
 
 **Files Modified.** `etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh`, `etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.rasi`, `etc/skel/.config/ohmychadwm/menu/locale/` (new, 13 `.mo`), `po/` (new: `make-mo.sh`, `LINGUAS`, `ohmychadwm-menu.pot`, 13 `.po`), `tests/menu_crawl.py`, `.codespellrc` (new), `README.md`, `etc/skel/.config/ohmychadwm/README.md`, `CLAUDE.md`

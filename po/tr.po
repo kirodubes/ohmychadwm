@@ -75,7 +75,7 @@ msgstr "Öğren"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:260
 msgid "Keybindings"
-msgstr "Tuş Atamaları"
+msgstr "Kısayollar"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:265
 msgid "Man pages"
@@ -168,7 +168,7 @@ msgstr "Gece ışığını aç"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:368
 msgid "Enable auto-lock"
-msgstr "Otomatik kilidi aç"
+msgstr "Otomatik kilidi etkinleştir"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:369
 msgid "Start picom"
@@ -184,7 +184,7 @@ msgstr "Gece ışığını kapat"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:372
 msgid "Disable auto-lock"
-msgstr "Otomatik kilidi kapat"
+msgstr "Otomatik kilidi devre dışı bırak"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:373
 msgid "Stop picom"
@@ -575,7 +575,7 @@ msgstr "Üst"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:804
 msgid "Bottom"
-msgstr "Altta"
+msgstr "Alt"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:806
 msgid "Bar position changed — rebuilding"
@@ -989,7 +989,7 @@ msgstr "Terminal"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1651
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1689
 msgid "Editor"
-msgstr "Editör"
+msgstr "Düzenleyici"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1563
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1649
@@ -1062,7 +1062,7 @@ msgstr "Oyun"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1656
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1988
 msgid "Install"
-msgstr "Yükleyin"
+msgstr "Kur"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1717
 msgid "Log out and back in so the docker group takes effect."
@@ -1080,7 +1080,7 @@ msgstr "Ollama çalışıyor. Deneyin: ollama run llama3"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1784
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1989
 msgid "Remove"
-msgstr "Kaldırın"
+msgstr "Kaldır"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1808
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1990

@@ -112,7 +112,7 @@ msgstr "Captură → clipboard"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:296
 msgid "Screenshot region"
-msgstr "Capturează o zonă"
+msgstr "Captură de zonă"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:297
 msgid "Screenrecord"
@@ -240,7 +240,7 @@ msgstr "Blocare automată"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:445
 msgid "Enabled (10 min)"
-msgstr "Activat (10 min)"
+msgstr "Activată (10 min)"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:454
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1984
@@ -426,7 +426,7 @@ msgstr "Temă aleatorie: $pick"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:632
 #, sh-printf-format
 msgid "Not found: %s"
-msgstr "Negăsit: %s"
+msgstr "Nu a fost găsit: %s"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:633
 msgid "Reset chadwm config to default"
@@ -798,7 +798,7 @@ msgstr "Nu s-au găsit imagini de fundal"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1329
 msgid "Wallpaper…"
-msgstr "Imagine de fundal…"
+msgstr "Fundal…"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1334
 #, sh-format
@@ -841,7 +841,7 @@ msgstr "Sincronizarea orei"
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1354
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1394
 msgid "Config"
-msgstr "Configurare"
+msgstr "Configurație"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1355
 msgid "Hard reset"
@@ -1142,7 +1142,7 @@ msgstr "Blochează"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1892
 msgid "Logout"
-msgstr "Deconectare"
+msgstr "Deconectează"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1893
 msgid "Suspend"
@@ -1150,7 +1150,7 @@ msgstr "Suspendă"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1896
 msgid "Hibernate"
-msgstr "Hibernare"
+msgstr "Hibernează"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1898
 msgid "Reboot"
@@ -1222,7 +1222,7 @@ msgstr "Doar erori"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1966
 msgid "Kernel (dmesg)"
-msgstr "Nucleu (dmesg)"
+msgstr "Kernel (dmesg)"
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1967
 msgid "Follow live"
