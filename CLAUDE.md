@@ -99,9 +99,14 @@ All scripts in `scripts/` and `chadwm/` start with `set -euo pipefail` (or shoul
 config.def.h, a theme or slstatus. `up.sh` runs it before every push and blocks the push on a failure.
 
 - Lints every `.sh`, builds chadwm against every theme and `config.def.h.default`, builds slstatus with every module on.
-- `tests/showcase-languages.sh [-t] [-k] [-i sec] [-s dir]` shows the menu in every shipped language on the running
-  session, for videos, docs screenshots and a visual check; `-t` tours Appearance/Theme/search/Setup/Windows per
-  language, `-s` saves every step, `variety -n` per language unless `-k`. Not part of check.sh.
+- Showcase scripts for videos live in `usr/share/ohmychadwm/showcase/` (packaged as `/usr/share/ohmychadwm/showcase/`,
+  never in skel: they are not user config). Not part of check.sh.
+  - `showcase-languages.sh [-t] [-k] [-i sec] [-s dir]` shows the menu in every shipped language on the running
+    session; `-t` tours Appearance/Theme/search/Setup/Windows per language, `-s` saves every step, `variety -n` per
+    language unless `-k`.
+  - `showcase-themes.sh [-i sec] [-k] [theme …]` switches theme, rebuilds chadwm in a visible terminal, installs it
+    and restarts chadwm live per theme, then goes back to the starting theme unless `-k`. One sudo prompt at the
+    start; over ssh set `SUDO_ASKPASS`.
 - `tests/menu_crawl.py` clicks every row of the system menu in a throwaway home with a stub rofi. System commands are
   recorder stubs on an allowlisted PATH, so nothing touches the machine; terminal commands and rebuilds run for real.
   A row fails on errors, critical notifications, a ✓/✗ row that does not flip, or a value menu where no choice changes

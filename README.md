@@ -323,8 +323,9 @@ the skel, like the menu itself: existing users get them by running `kiro-skell`.
 | **Chinese (simplified): main menu** | **Romanian: Appearance** |
 | ![The system menu in Chinese](previews/menu/menu-zh_CN-1-main.jpg) | ![Appearance menu in Romanian](previews/menu/menu-ro-2-appearance.jpg) |
 
-`tests/showcase-languages.sh -t` replays this tour in every language (for videos; `-s <folder>` saves the
-screenshots).
+`/usr/share/ohmychadwm/showcase/showcase-languages.sh -t` replays this tour in every language (for videos;
+`-s <folder>` saves the screenshots). `showcase-themes.sh` in the same folder shows a few themes one after the
+other, with a live chadwm restart for each one.
 
 ### Extending the menu
 

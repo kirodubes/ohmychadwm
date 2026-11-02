@@ -2,6 +2,16 @@
 
 ## 2026.11.02
 
+### Showcase scripts ship with the package
+
+**What Changed.** The two scripts for showcase videos are now part of the package, in `/usr/share/ohmychadwm/showcase/`. They are not user config, so they stay out of `~/.config` and off the PATH.
+- `showcase-languages.sh` moved there from `tests/`.
+- `showcase-themes.sh` is new. It shows a few themes one after the other (default: everforest, rosepine, tiger, mars, dracula). For each theme it switches the theme, rebuilds chadwm in a visible terminal, installs it and restarts chadwm live with Super+Shift+R, so no reboot is needed. At the end it goes back to the theme you started with (`-k` keeps the last one). `-i` sets how many seconds each theme stays on screen (default 8).
+
+**Technical Details.** The build runs in alacritty so it shows in the video. `make install` runs in the script itself after one `sudo -v` at the start, so the password prompt is not in the middle of a recording. Over ssh there is no terminal, so the script uses `sudo -A` when `SUDO_ASKPASS` is set. It finds the SDDM X cookie the same way the language script does. It waits for a new ohmychadwm process after the restart key. The PKGBUILD lists `xdotool` as an optdepend for these scripts.
+
+**Files Modified.** `usr/share/ohmychadwm/showcase/showcase-languages.sh` (moved from `tests/`), `usr/share/ohmychadwm/showcase/showcase-themes.sh` (new), `README.md`, `CLAUDE.md`, PKGBUILD in KIRO-PKG-BUILD-APPS
+
 ### README shows the menu in every language
 
 **What Changed.** The README's "Search and languages" section shows one screenshot per language from the menu tour: all 14, two per row. The steps vary across the table (main menu, Appearance, Theme, Setup, Windows), and the Japanese one shows "setup" typed into the search line finding 設定. Each is a full desktop on a different wallpaper. A line points to `tests/showcase-languages.sh -t` for replaying the tour.
