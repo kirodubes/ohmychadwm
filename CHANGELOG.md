@@ -2,6 +2,14 @@
 
 ## 2026.11.02
 
+### README links the menu video
+
+**What Changed.** Under the language screenshots, the README now has "See it in action": a clickable YouTube thumbnail of the video showing the menu in every language (https://youtu.be/y1r2-4HZCaM).
+
+**Technical Details.** GitHub doesn't embed videos, so the README uses the video's `hqdefault` thumbnail as a link to YouTube. The ohmychadwm page on the website embeds the same video (youtube-nocookie).
+
+**Files Modified.** `README.md`
+
 ### Showcase scripts ship with the package
 
 **What Changed.** The two scripts for showcase videos are now part of the package, in `/usr/share/ohmychadwm/showcase/`. They are not user config, so they stay out of `~/.config` and off the PATH.

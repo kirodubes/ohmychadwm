@@ -327,6 +327,10 @@ the skel, like the menu itself: existing users get them by running `kiro-skell`.
 `-s <folder>` saves the screenshots). `showcase-themes.sh` in the same folder shows a few themes one after the
 other, with a live chadwm restart for each one.
 
+**See it in action:** the menu going through every language on video.
+
+[![Watch the Ohmychadwm menu in 14 languages on YouTube](https://img.youtube.com/vi/y1r2-4HZCaM/hqdefault.jpg)](https://youtu.be/y1r2-4HZCaM)
+
 ### Extending the menu
 
 Edit `menu/menu-extension.sh` to override any built-in menu function or add new ones.
