@@ -1,8 +1,14 @@
 #!/bin/bash
 
 make clean
-make
-sudo make install
+# Stop on a failed build: installing or rebooting would only keep the old binary and hide the error.
+if ! make; then
+    echo
+    echo "Build failed — nothing was installed. Fix the error above and run rebuild.sh again."
+    make clean
+    exit 1
+fi
+sudo make install || { echo "Install failed."; make clean; exit 1; }
 make clean
 
 echo

@@ -2,6 +2,14 @@
 
 ## 2026.11.02
 
+### Rebuild stops when the build fails
+
+**What Changed.** `chadwm/rebuild.sh` and `slstatus/rebuild.sh` stop with "Build failed — nothing was installed" when `make` fails. Before, they went on to `sudo make install`, which failed with the same errors a second time, and then offered a reboot (chadwm) or restarted the old slstatus. That made a failed rebuild look finished.
+
+**Technical Details.** `if ! make; then … exit 1; fi` before the install, and a failed `sudo make install` stops too. Both paths clean up the build files.
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/chadwm/rebuild.sh`, `etc/skel/.config/ohmychadwm/slstatus/rebuild.sh`
+
 ### Tests that click through every menu row, and the bugs they found
 
 **What Changed.** `tests/check.sh` tests ohmychadwm the way a user meets it:
