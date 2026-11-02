@@ -3613,6 +3613,9 @@ void updatebars(void) {
                               .event_mask = ButtonPressMask|ExposureMask|PointerMotionMask|EnterWindowMask|LeaveWindowMask};
 
   XClassHint ch = {"dwm", "dwm"};
+  /* The bar is a dock, like the tray: picom then gives neither a shadow nor rounded
+   * corners, so bar and tray read as one strip under picom, picom-git and fastcompmgr -C. */
+  Atom docktype = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_DOCK", False);
   for (m = mons; m; m = m->next) {
     if (m->barwin)
       continue;
@@ -3624,6 +3627,8 @@ void updatebars(void) {
         depth, InputOutput, visual,
         CWOverrideRedirect | CWBackPixel | CWBorderPixel | CWColormap | CWEventMask, &wa);
     XDefineCursor(dpy, m->barwin, cursor[CurNormal]->cursor);
+    XChangeProperty(dpy, m->barwin, netatom[NetWMWindowType], XA_ATOM, 32,
+                    PropModeReplace, (unsigned char *)&docktype, 1);
     if (showsystray && m == systraytomon(m))
       XMapRaised(dpy, systray->win);
     XMapRaised(dpy, m->barwin);
@@ -4018,6 +4023,18 @@ void updatesystray(void) {
     XChangeProperty(dpy, systray->win, netatom[NetSystemTrayVisual],
                     XA_VISUALID, 32, PropModeReplace,
                     (unsigned char *)&trayvisual, 1);
+    /* A dock, like the bar: compositors then skip its drop shadow (fastcompmgr -C,
+     * picom's dock wintype). The opaque 24-bit tray otherwise got a shadow the ARGB
+     * bar does not, which framed the icons in a dark halo. */
+    Atom docktype = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_DOCK", False);
+    XChangeProperty(dpy, systray->win, netatom[NetWMWindowType], XA_ATOM, 32,
+                    PropModeReplace, (unsigned char *)&docktype, 1);
+    /* picom looks for the "client" of an override-redirect window among windows with
+     * WM_STATE; without it on the tray itself it picks an icon (type normal) and rounds
+     * and shadows the tray. WM_STATE here makes picom read the dock type above. */
+    long traystate[] = { NormalState, None };
+    XChangeProperty(dpy, systray->win, wmatom[WMState], wmatom[WMState], 32,
+                    PropModeReplace, (unsigned char *)traystate, 2);
     XChangeWindowAttributes(
         dpy, systray->win, CWEventMask | CWOverrideRedirect | CWBackPixel, &wa);
     XMapRaised(dpy, systray->win);

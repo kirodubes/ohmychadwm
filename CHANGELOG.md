@@ -2,6 +2,20 @@
 
 ## 2026.11.02
 
+### Bar and tray: one strip, no shadow, under fastcompmgr, picom and picom-git
+
+**What Changed.** The tray icons sat in a block with a drop shadow, while the bar had none. Under picom it was worse: bar and tray were rounded separately, which left a notch where they meet. Bar and tray now read as one square strip with no shadow under fastcompmgr, picom (extra) and picom-git. The fix was checked on a white wallpaper on a test box with all three compositors, and the tray apps survived a restart under each one.
+
+Also fixed: Update › Process › Picom/Fastcompmgr never switched which compositor `run.sh` starts at login. Its `sed` looked for `run "picom` with quotes, and `run.sh` has none.
+
+**Technical Details.**
+- **Cause:** the tray is an opaque 24-bit window on purpose (XEmbed icons have no alpha, so its transparency is faked). fastcompmgr `-c` shadows every window except 32-bit ARGB ones, so the ARGB bar got no shadow and the tray did.
+- **Dock type:** both the bar and the tray are now `_NET_WM_WINDOW_TYPE_DOCK`. fastcompmgr runs as `-c -C` everywhere (`run.sh`, `fastcompmgr-toggle.sh`, the menu's toggle and restart), and `-C` skips shadows on docks. The shipped picom.conf already gives docks no shadow and no rounded corners.
+- **WM_STATE on the tray:** picom picks the "client" of an override-redirect window among the windows that have `WM_STATE`. The tray icons have it, so picom read an icon's type (normal) and rounded and shadowed the tray. Setting `WM_STATE` on the tray window before it is mapped makes picom read the tray's own dock type.
+- **No compositor rules:** nothing is solved with opacity or exclude rules; it is all EWMH properties set in dwm.c.
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/chadwm/dwm.c`, `etc/skel/.config/ohmychadwm/scripts/run.sh`, `etc/skel/.config/ohmychadwm/scripts/fastcompmgr-toggle.sh`, `etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh`
+
 ### Super+Shift+R no longer kills the tray apps
 
 **What Changed.** Restarting ohmychadwm with Super+Shift+R used to close nm-applet, pamac-tray, blueberry-tray, volctl and xfce4-clipman, so their icons vanished until the next login. They now stay running and their icons come back in the new tray.

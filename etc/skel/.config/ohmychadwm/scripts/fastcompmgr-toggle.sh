@@ -13,4 +13,4 @@ if pgrep -x "picom" > /dev/null; then
 fi
 
 notify-send "Fastcompmgr" "Starting compositor..."
-fastcompmgr -c &
+fastcompmgr -c -C &

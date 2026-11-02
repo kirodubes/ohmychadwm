@@ -376,7 +376,7 @@ _toggle_fastcompmgr() {
             pkill picom 2>/dev/null
             local _i=0; while pgrep -x picom &>/dev/null && (( _i++ < 30 )); do sleep 0.1; done
         fi
-        setsid fastcompmgr -c &>/dev/null &
+        setsid fastcompmgr -c -C &>/dev/null &
         disown
         notify-send "Fastcompmgr" "Started"
     fi
@@ -1772,8 +1772,8 @@ show_restart_hardware_menu() {
 
 _restart_picom() {
     local run="${HOME}/.config/ohmychadwm/scripts/run.sh"
-    sed -i 's|^#run "picom|run "picom|' "$run"
-    sed -i 's|^run "fastcompmgr|#run "fastcompmgr|' "$run"
+    sed -i "s|^#run picom|run picom|" "$run"
+    sed -i "s|^run fastcompmgr|#run fastcompmgr|" "$run"
     pkill fastcompmgr 2>/dev/null
     pkill picom 2>/dev/null
     setsid picom --config "${HOME}/.config/ohmychadwm/picom/picom.conf" -b &>/dev/null &
@@ -1783,11 +1783,11 @@ _restart_picom() {
 
 _restart_fastcompmgr() {
     local run="${HOME}/.config/ohmychadwm/scripts/run.sh"
-    sed -i 's|^#run "fastcompmgr|run "fastcompmgr|' "$run"
-    sed -i 's|^run "picom|#run "picom|' "$run"
+    sed -i "s|^#run fastcompmgr|run fastcompmgr|" "$run"
+    sed -i "s|^run picom|#run picom|" "$run"
     pkill picom 2>/dev/null
     pkill fastcompmgr 2>/dev/null
-    setsid fastcompmgr -c &>/dev/null &
+    setsid fastcompmgr -c -C &>/dev/null &
     disown
     notify-send "ohmychadwm" "Fastcompmgr restarted"
 }
