@@ -2,6 +2,18 @@
 
 ## 2026.11.02
 
+### Showcase script: the menu in every language
+
+**What Changed.** `tests/showcase-languages.sh` opens the system menu in every shipped language on the running session, English first and then the playbook's order. Each language stays open a few seconds (`-i`, default 3). It's for a showcase video: start the screen recorder, then the script. It also works as a quick visual check of the translations, CJK fonts included. With `-s <folder>` it also saves a screenshot per language.
+
+**Technical Details.**
+- **Languages:** read from `menu/locale/` next to the menu.
+- **How it runs:** `LANGUAGE=<lang>` per run. The only key it sends is Escape, to close each menu, and it stops as soon as another window has focus.
+- **Over ssh:** it finds the SDDM X cookie in `/tmp/xauth_*` when started over ssh.
+- Checked on a test box: 14 languages, 14 screenshots.
+
+**Files Modified.** `tests/showcase-languages.sh` (new), `CLAUDE.md`
+
 ### System menu in 13 languages, with search
 
 **What Changed.** The Super+Alt+Space menu follows the system language. It is translated into Dutch, German, Spanish, French, Portuguese (Brazil), Russian, Hungarian, Italian, Turkish, Polish, Japanese, Chinese (simplified) and Romanian, and shows English otherwise. Everything is translated: menu rows, notifications, picker prompts, and the texts in the terminals the menu opens (install messages, the Back to default dialog, the theme and font choosers).
