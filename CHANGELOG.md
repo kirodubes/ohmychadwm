@@ -2,6 +2,14 @@
 
 ## 2026.11.02
 
+### README shows the menu in six languages
+
+**What Changed.** The README's "Search and languages" section shows six screenshots from the menu tour, two per row: English main menu, Dutch Appearance, Japanese with "setup" typed into the search line (it finds 設定), German Setup, Russian Theme and Chinese main menu. Each is a full desktop on a different wallpaper. A line points to `tests/showcase-languages.sh -t` for replaying the tour.
+
+**Technical Details.** The images are in `previews/menu/`, next to the theme previews, at 1280×720 JPG (about 40–170 KB each). `previews/` is not packaged. They are 6 of the 84 tour screenshots; the full set is kept outside the repo.
+
+**Files Modified.** `README.md`, `previews/menu/` (new, 6 images)
+
 ### Showcase script: the menu in every language
 
 **What Changed.** `tests/showcase-languages.sh` opens the system menu in every shipped language on the running session, English first and then the playbook's order. Each language stays open a few seconds (`-i`, default 3). It's for a showcase video: start the screen recorder, then the script. It also works as a quick visual check of the translations, CJK fonts included. With `-s <folder>` it also saves a screenshot per language.
