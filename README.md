@@ -297,6 +297,16 @@ ohmychadwm
 └── System        — lock, logout, suspend, hibernate, reboot, shutdown
 ```
 
+### Search and languages
+
+Start typing to filter the menu. Every row also answers to its English name, so `appear` finds
+Appearance whatever language the menu is in.
+
+The menu follows your system language. It is translated into Dutch, German, Spanish, French,
+Portuguese (Brazil), Russian, Hungarian, Italian, Turkish, Polish, Japanese, Chinese (simplified)
+and Romanian; anything else shows English. The translations live in `menu/locale/` and come with
+the skel, like the menu itself: existing users get them by running `kiro-skell`.
+
 ### Extending the menu
 
 Edit `menu/menu-extension.sh` to override any built-in menu function or add new ones.
@@ -419,7 +429,7 @@ Originally from [suckless.org/dwm](https://dwm.suckless.org) © Anselm R Garbe a
 |------------------------------------------------------------------|-----------------------------------------------------------|
 | [dwm](https://dwm.suckless.org)                                  | The window manager this is built on                       |
 | [chadwm](https://github.com/siduck/chadwm) by siduck             | Original patched dwm base, themes, status2d coloring      |
-| [omarchy](https://github.com/basecamp/omarchy) by Basecamp       | Menu system design, workflow philosophy, script structure |
+| [omarchy](https://github.com/basecamp/omarchy) by Basecamp       | Menu system design, workflow philosophy, script structure; some menu labels in the translations come from its MIT-licensed catalogs (© David Heinemeier Hansson) |
 | [dusk](https://github.com/bakkeby/dusk) by bakkeby               | Patch reference, dragcfact implementation                 |
 | [rofi themes](https://github.com/adi1090x/rofi) by Aditya Shakya | launcher2.rasi base design                                |
 | [suckless slstatus](https://tools.suckless.org/slstatus/)        | Status bar                                                |

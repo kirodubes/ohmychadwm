@@ -109,6 +109,17 @@ config.def.h, a theme or slstatus. `up.sh` runs it before every push and blocks 
 - Tags, border, gaps, smart gaps, systray, bar position and master area are `THEME_*` defines in the active theme;
   change them with `_set_theme_define`, never by editing the `config.def.h` lines that read them.
 
+## Translations (system menu)
+
+- Every user-visible menu string goes through `_t "Text"` or, with a value in it, `_tf 'Text with $var'`
+  (gettext's `eval_gettext`: whole sentence, translators can move `$var`). Text shown inside a terminal command
+  is exported as an `OHM_MSG_*` / `OHM_T_*` variable first, never spliced into the command.
+- After changing menu text run `bash po/make-mo.sh`: it rebuilds `po/ohmychadwm-menu.pot`, merges the 13
+  `po/<lang>.po` and compiles `etc/skel/.config/ohmychadwm/menu/locale/<lang>/LC_MESSAGES/ohmychadwm-menu.mo`.
+  New or changed strings show as untranslated/fuzzy until translated; English is the fallback.
+- Rules, registers and the review step: `~/Insync/Kiro/Kiro-HQ/TRANSLATIONS/README.md` (ROADMAP §4 row 13).
+- Keys of `pick` rows double as hidden English search words (rofi `meta`), so keep them readable English.
+
 ## Packaging note
 
 The repo mirrors what gets installed on Kiro Linux. The `etc/skel/` path maps to `/etc/skel/` on the target system. Files under `usr/` map to `/usr/`. Do not restructure this layout — package scripts depend on it.

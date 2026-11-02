@@ -1,0 +1,4 @@
+[codespell]
+# The .po catalogs carry every translation of the system menu; codespell only knows English typos.
+# The English source (menu/ohmychadwm-menu.sh) is still checked.
+skip = *.po,*.pot,*.mo

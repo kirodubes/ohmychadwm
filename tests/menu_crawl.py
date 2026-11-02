@@ -81,6 +81,8 @@ REAL_TOOLS = [
     "od",
     "tput",
     "gettext",
+    "gettext.sh",
+    "envsubst",
     "nproc",
     "install",
     "tac",

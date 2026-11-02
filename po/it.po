@@ -1,0 +1,1227 @@
+# Italian translations for ohmychadwm-menu package.
+# Copyright (C) 2026 THE ohmychadwm-menu'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the ohmychadwm-menu package.
+# Automatically generated, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ohmychadwm-menu\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-02 07:43+0100\n"
+"PO-Revision-Date: 2026-11-02 07:39+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: Italian\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:95
+msgid "Search…"
+msgstr "Cerca…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:179
+msgid "Press any key to close…"
+msgstr "Premi un tasto per chiudere…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:212
+#, sh-format
+msgid "Editing $name"
+msgstr "Modifica di $name"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:232
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:240
+#, sh-format
+msgid "$name installed."
+msgstr "$name installato."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:232
+msgid "Install failed."
+msgstr "Installazione non riuscita."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:232
+#, sh-format
+msgid "Installing $name…"
+msgstr "Installazione di $name…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:240
+msgid "AUR install failed."
+msgstr "Installazione dall'AUR non riuscita."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:240
+#, sh-format
+msgid "Installing $name from the AUR…"
+msgstr "Installazione di $name dall'AUR…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:247
+#, sh-format
+msgid "$name removed."
+msgstr "$name rimosso."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:247
+msgid "Remove failed."
+msgstr "Rimozione non riuscita."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:247
+#, sh-format
+msgid "Removing $name…"
+msgstr "Rimozione di $name…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:259
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1985
+msgid "Learn"
+msgstr "Impara"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:260
+msgid "Keybindings"
+msgstr "Scorciatoie"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:265
+msgid "Man pages"
+msgstr "Pagine man"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:271
+msgid "Building the man page index (first run)…"
+msgstr "Creazione dell'indice delle pagine man (primo avvio)…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:281
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1986
+msgid "Trigger"
+msgstr "Azioni"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:282
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:293
+msgid "Capture"
+msgstr "Cattura"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:283
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:376
+msgid "Toggle"
+msgstr "Attiva/Disattiva"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:294
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:332
+msgid "Screenshot"
+msgstr "Schermata"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:295
+msgid "Screenshot → clipboard"
+msgstr "Screenshot → appunti"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:296
+msgid "Screenshot region"
+msgstr "Cattura un'area"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:297
+msgid "Screenrecord"
+msgstr "Registra schermo"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:298
+msgid "Color picker"
+msgstr "Selettore colore"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:317
+msgid "Screenshot saved"
+msgstr "Screenshot salvato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:318
+msgid "Open in nomacs"
+msgstr "Apri in nomacs"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:321
+msgid "Installing nomacs…"
+msgstr "Installazione di nomacs…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:332
+msgid "Copied to clipboard"
+msgstr "Copiato negli appunti"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:341
+msgid "Region screenshot"
+msgstr "Screenshot di un'area"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:341
+msgid "Saved & copied to clipboard"
+msgstr "Salvato e copiato negli appunti"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:349
+#, sh-format
+msgid "$color (copied to clipboard)"
+msgstr "$color (copiato negli appunti)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:349
+msgid "Color picked"
+msgstr "Colore selezionato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:351
+msgid "xcolor not installed. Run: sudo pacman -S xcolor"
+msgstr "xcolor non è installato. Esegui: sudo pacman -S xcolor"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:357
+msgid "Installing SimpleScreenRecorder…"
+msgstr "Installazione di SimpleScreenRecorder…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:367
+msgid "Enable night light"
+msgstr "Attiva la luce notturna"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:368
+msgid "Enable auto-lock"
+msgstr "Attiva il blocco automatico"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:369
+msgid "Start picom"
+msgstr "Avvia picom"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:370
+msgid "Start fastcompmgr"
+msgstr "Avvia fastcompmgr"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:371
+msgid "Disable night light"
+msgstr "Disattiva la luce notturna"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:372
+msgid "Disable auto-lock"
+msgstr "Disattiva il blocco automatico"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:373
+msgid "Stop picom"
+msgstr "Ferma picom"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:374
+msgid "Stop fastcompmgr"
+msgstr "Ferma fastcompmgr"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:391
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:399
+msgid "Picom"
+msgstr "Picom"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:391
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:405
+msgid "Stopped"
+msgstr "Fermato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:399
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:413
+msgid "Started"
+msgstr "Avviato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:405
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:413
+msgid "Fastcompmgr"
+msgstr "Fastcompmgr"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:422
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:440
+msgid "Disabled"
+msgstr "Disattivato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:422
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:431
+msgid "Night light"
+msgstr "Luce notturna"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:425
+msgid "Installing redshift…"
+msgstr "Installazione di redshift…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:431
+msgid "Enabled (4000K)"
+msgstr "Attivata (4000K)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:440
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:445
+msgid "Auto-lock"
+msgstr "Blocco automatico"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:445
+msgid "Enabled (10 min)"
+msgstr "Attivato (10 min)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:454
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1984
+msgid "Appearance"
+msgstr "Aspetto"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:455
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:481
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:853
+msgid "Theme"
+msgstr "Tema"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:456
+msgid "Wallpaper"
+msgstr "Sfondo"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:457
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:497
+msgid "Font"
+msgstr "Carattere"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:458
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:509
+msgid "Bar"
+msgstr "Barra"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:459
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:527
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1348
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1373
+msgid "Windows"
+msgstr "Finestre"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:460
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:689
+msgid "Tags"
+msgstr "Tag"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:462
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:769
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:857
+msgid "Back to default"
+msgstr "Ripristina i valori predefiniti"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:482
+msgid "Choose theme"
+msgstr "Scegli tema"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:483
+msgid "Create your own theme"
+msgstr "Crea il tuo tema"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:484
+msgid "Delete theme"
+msgstr "Elimina tema"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:485
+msgid "Random theme"
+msgstr "Tema casuale"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:498
+msgid "Bar font"
+msgstr "Carattere della barra"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:499
+msgid "Apply everywhere"
+msgstr "Applica ovunque"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:510
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:802
+msgid "Position"
+msgstr "Posizione"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:511
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:766
+msgid "Padding"
+msgstr "Spaziatura"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:512
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:822
+msgid "Hide systray"
+msgstr "Nascondi l'area di notifica"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:513
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:576
+msgid "Status modules"
+msgstr "Moduli di stato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:514
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:973
+msgid "Launcher icons"
+msgstr "Icone di avvio"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:528
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:748
+msgid "Border"
+msgstr "Bordo"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:529
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:755
+msgid "Gaps"
+msgstr "Spazi"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:530
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:811
+msgid "Smart gaps"
+msgstr "Spazi intelligenti"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:544
+msgid "Date & time"
+msgstr "Data e ora"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:545
+msgid "Uptime"
+msgstr "Tempo di attività"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:546
+msgid "CPU usage %"
+msgstr "Uso CPU %"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:547
+msgid "Disk free"
+msgstr "Spazio libero"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:548
+msgid "Disk used"
+msgstr "Spazio usato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:549
+msgid "Hostname"
+msgstr "Nome host"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:550
+msgid "Kernel"
+msgstr "Kernel"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:551
+msgid "Load average"
+msgstr "Carico medio"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:552
+msgid "Net download speed"
+msgstr "Velocità di download"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:553
+msgid "Net upload speed"
+msgstr "Velocità di upload"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:554
+msgid "RAM free"
+msgstr "RAM libera"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:555
+msgid "RAM usage %"
+msgstr "Uso RAM %"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:556
+msgid "RAM used"
+msgstr "RAM usata"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:557
+msgid "Swap free"
+msgstr "Swap libero"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:558
+msgid "Swap usage %"
+msgstr "Uso swap %"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:573
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:970
+msgid "Apply & rebuild"
+msgstr "Applica e ricompila"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:580
+msgid "slstatus updated"
+msgstr "slstatus aggiornato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:613
+#, sh-format
+msgid "Random theme: $pick"
+msgstr "Tema casuale: $pick"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:632
+#, sh-printf-format
+msgid "Not found: %s"
+msgstr "Non trovato: %s"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:633
+msgid "Reset chadwm config to default"
+msgstr "Ripristina la configurazione predefinita di chadwm"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:634
+msgid "This will overwrite:"
+msgstr "Verranno sovrascritti:"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:635
+#, sh-printf-format
+msgid "the shipped theme files in %s"
+msgstr "i file dei temi originali in %s"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:636
+msgid "with the defaults from:"
+msgstr "con i file predefiniti di:"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:637
+msgid ""
+"Themes you created yourself, wallpapers and other settings are untouched."
+msgstr ""
+"I temi che hai creato, gli sfondi e le altre impostazioni restano invariati."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:638
+msgid "Backups will be saved as:"
+msgstr "I backup verranno salvati come:"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:639
+msgid "Continue? [y/N]"
+msgstr "Continuare? [y/N]"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:640
+msgid "Cancelled."
+msgstr "Annullato."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:641
+msgid "Backups created."
+msgstr "Backup creati."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:642
+msgid "config.def.h restored."
+msgstr "config.def.h ripristinato."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:643
+msgid "Shipped theme files restored."
+msgstr "File dei temi originali ripristinati."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:644
+msgid "Keybindings cheatsheet restored."
+msgstr "Promemoria delle scorciatoie da tastiera ripristinato."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:690
+msgid "Icons (default)"
+msgstr "Icone (predefinito)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:691
+msgid "Arabic numbers"
+msgstr "Numeri arabi"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:692
+msgid "Roman numbers"
+msgstr "Numeri romani"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:694
+msgid "Words (Web, Chat, Edit…)"
+msgstr "Parole (Web, Chat, Edit…)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:695
+msgid "Japanese numbers"
+msgstr "Numeri giapponesi"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:696
+msgid "Letters"
+msgstr "Lettere"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:698
+msgid "Geometric shapes"
+msgstr "Forme geometriche"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:699
+msgid "Chinese numbers"
+msgstr "Numeri cinesi"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:700
+msgid "Purpose (home, chat, surf…)"
+msgstr "Scopo (home, chat, surf…)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:717
+msgid "Active theme file not found"
+msgstr "File del tema attivo non trovato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:730
+msgid "Tags changed — rebuilding"
+msgstr "Tag cambiati, ricompilazione"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:738
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1346
+msgid "Keybinding set"
+msgstr "Set di scorciatoie"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:739
+msgid "AZERTY (Belgian)"
+msgstr "AZERTY (belga)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:740
+msgid "QWERTY (US / world)"
+msgstr "QWERTY (USA / mondo)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:743
+msgid "Keybinding set changed. Press Super+Shift+R to apply."
+msgstr "Set di scorciatoie cambiato. Premi Super+Shift+R per applicarlo."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:750
+msgid "Border changed — rebuilding"
+msgstr "Bordo cambiato, ricompilazione"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:757
+msgid "Gaps changed — rebuilding"
+msgstr "Spaziature cambiate, ricompilazione"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:767
+msgid "Vertical padding"
+msgstr "Spaziatura verticale"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:768
+msgid "Horizontal padding"
+msgstr "Spaziatura orizzontale"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:775
+#, sh-format
+msgid "Vertical padding: $v — rebuilding…"
+msgstr "Spaziatura verticale: $v, ricompilazione…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:784
+#, sh-format
+msgid "Horizontal padding: $h — rebuilding…"
+msgstr "Spaziatura orizzontale: $h, ricompilazione…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:791
+msgid "Bar padding reset to defaults — rebuilding…"
+msgstr "Spaziatura della barra ripristinata, ricompilazione…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:803
+msgid "Top"
+msgstr "In alto"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:804
+msgid "Bottom"
+msgstr "In basso"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:806
+msgid "Bar position changed — rebuilding"
+msgstr "Posizione della barra cambiata, ricompilazione"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:812
+msgid "On"
+msgstr "Attivato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:813
+msgid "Off"
+msgstr "Disattivato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:815
+msgid "Smart gaps changed — rebuilding"
+msgstr "Spaziature intelligenti cambiate, ricompilazione"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:820
+msgid "Systray"
+msgstr "Area di notifica"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:821
+msgid "Show systray"
+msgstr "Mostra l'area di notifica"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:824
+msgid "Systray changed — rebuilding"
+msgstr "Area di notifica cambiata, ricompilazione"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:830
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1374
+msgid "New window"
+msgstr "Nuova finestra"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:831
+msgid "Opens in front"
+msgstr "Si apre in cima"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:832
+msgid "Opens at the end"
+msgstr "Si apre in fondo"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:835
+msgid "New window position changed — rebuilding"
+msgstr "Posizione delle nuove finestre cambiata, ricompilazione"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:840
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1375
+msgid "Master area"
+msgstr "Area principale"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:843
+msgid "Master area changed — rebuilding"
+msgstr "Area principale cambiata, ricompilazione"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:854
+msgid "Font family"
+msgstr "Famiglia di caratteri"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:855
+msgid "Font size"
+msgstr "Dimensione del carattere"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:856
+msgid "Opacity"
+msgstr "Opacità"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:889
+msgid "Alacritty theme"
+msgstr "Tema di Alacritty"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:891
+#, sh-format
+msgid "Alacritty theme set to “${chosen}”"
+msgstr "Tema di Alacritty impostato su «${chosen}»"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:898
+msgid "Alacritty font…"
+msgstr "Carattere di Alacritty…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:900
+#, sh-format
+msgid "Alacritty font set to “${chosen}”"
+msgstr "Carattere di Alacritty impostato su «${chosen}»"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:910
+#, sh-format
+msgid "Alacritty font size set to ${chosen}"
+msgstr "Dimensione del carattere di Alacritty impostata su ${chosen}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:920
+#, sh-format
+msgid "Alacritty opacity set to ${chosen}"
+msgstr "Opacità di Alacritty impostata su ${chosen}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:929
+#, sh-format
+msgid "Shell (now $current)"
+msgstr "Shell (ora $current)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:931
+#, sh-format
+msgid "Alacritty shell set to ${chosen}"
+msgstr "Shell di Alacritty impostata su ${chosen}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:939
+msgid "Default Alacritty config not found"
+msgstr "Configurazione predefinita di Alacritty non trovata"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:943
+msgid "Alacritty reset to default"
+msgstr "Alacritty ripristinato ai valori predefiniti"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:977
+msgid "Launcher icons updated"
+msgstr "Icone di avvio aggiornate"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1012
+msgid "No custom themes to delete"
+msgstr "Nessun tema personale da eliminare"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1022
+msgid "Yes, delete it"
+msgstr "Sì, eliminalo"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1023
+msgid "Cancel"
+msgstr "Annulla"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1043
+msgid "Active theme deleted — switching to kanagawa"
+msgstr "Tema attivo eliminato, passo a kanagawa"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1046
+#, sh-format
+msgid "Theme “$chosen” deleted"
+msgstr "Tema «$chosen» eliminato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1051
+msgid "Theme > "
+msgstr "Tema > "
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1052
+#, sh-printf-format
+msgid "Font not installed: %s"
+msgstr "Carattere non installato: %s"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1053
+msgid "Install it first, or the bar will fall back to a system font."
+msgstr "Installalo prima, altrimenti la barra userà un carattere di sistema."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1054
+msgid "Apply theme anyway? [y/N]"
+msgstr "Applicare comunque il tema? [y/N]"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1055
+#, sh-printf-format
+msgid "Theme font: %s"
+msgstr "Carattere del tema: %s"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1056
+msgid "Apply it to other apps too (alacritty, kitty, GTK, rofi)? [y/N]"
+msgstr "Applicarlo anche alle altre app (alacritty, kitty, GTK, rofi)? [y/N]"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1057
+msgid "Fonts applied."
+msgstr "Caratteri applicati."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1058
+#, sh-printf-format
+msgid "Theme %s applied — rebuilding…"
+msgstr "Tema %s applicato, ricompilazione…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1066
+#, sh-format
+msgid "No themes directory found at ${themes_dir}"
+msgstr "Nessuna cartella dei temi in ${themes_dir}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1208
+#, sh-format
+msgid "Theme “${theme}” not found"
+msgstr "Tema «${theme}» non trovato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1228
+#, sh-format
+msgid "Theme “${theme}” applied — reboot your system"
+msgstr "Tema «${theme}» applicato, riavvia il sistema"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1232
+msgid "Font family > "
+msgstr "Famiglia di caratteri > "
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1233
+msgid "Font style > "
+msgstr "Stile del carattere > "
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1234
+msgid "Font size? [default 13]:"
+msgstr "Dimensione del carattere? [predefinito 13]:"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1235
+msgid "Bar icon size? [default 18]:"
+msgstr "Dimensione delle icone della barra? [predefinito 18]:"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1236
+#, sh-printf-format
+msgid "Font: %s — rebuilding…"
+msgstr "Carattere: %s, ricompilazione…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1306
+#, sh-format
+msgid "Font set to “${font}”"
+msgstr "Carattere impostato su «${font}»"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1322
+msgid "No wallpaper images found"
+msgstr "Nessuno sfondo trovato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1329
+msgid "Wallpaper…"
+msgstr "Sfondo…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1334
+#, sh-format
+msgid "Wallpaper set to “$name”"
+msgstr "Sfondo impostato su «$name»"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1345
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1987
+msgid "Setup"
+msgstr "Impostazioni"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1347
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1825
+msgid "Keyboard"
+msgstr "Tastiera"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1349
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1433
+msgid "Display"
+msgstr "Schermo"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1350
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1523
+msgid "Network"
+msgstr "Rete"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1351
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1560
+msgid "Defaults"
+msgstr "Valori predefiniti"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1352
+msgid "Timezone"
+msgstr "Fuso orario"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1353
+msgid "Time sync"
+msgstr "Sincronizzazione dell'ora"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1354
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1394
+msgid "Config"
+msgstr "Configurazione"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1355
+msgid "Hard reset"
+msgstr "Ripristino completo"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1362
+msgid "Then run: sudo timedatectl set-timezone <zone>"
+msgstr "Poi esegui: sudo timedatectl set-timezone <zone>"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1385
+msgid "Autostart"
+msgstr "Avvio automatico"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1391
+msgid "Menu theme"
+msgstr "Tema del menu"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1419
+msgid "Auto-detect"
+msgstr "Rilevamento automatico"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1422
+msgid "Mirror displays"
+msgstr "Duplica gli schermi"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1423
+msgid "Extend right"
+msgstr "Estendi a destra"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1424
+msgid "Extend left"
+msgstr "Estendi a sinistra"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1425
+msgid "Extend above"
+msgstr "Estendi sopra"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1426
+msgid "Extend below"
+msgstr "Estendi sotto"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1427
+msgid "Primary only"
+msgstr "Solo il principale"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1428
+msgid "Secondary only"
+msgstr "Solo il secondario"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1431
+msgid "Rotate display"
+msgstr "Ruota lo schermo"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1436
+msgid "Installing arandr…"
+msgstr "Installazione di arandr…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1445
+msgid "Display auto-detected"
+msgstr "Schermo rilevato automaticamente"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1451
+#, sh-format
+msgid "Mirroring ${primary} → ${secondary}"
+msgstr "Duplicazione di ${primary} → ${secondary}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1457
+#, sh-format
+msgid "${secondary} right of ${primary}"
+msgstr "${secondary} a destra di ${primary}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1463
+#, sh-format
+msgid "${secondary} left of ${primary}"
+msgstr "${secondary} a sinistra di ${primary}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1469
+#, sh-format
+msgid "${secondary} above ${primary}"
+msgstr "${secondary} sopra ${primary}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1475
+#, sh-format
+msgid "${secondary} below ${primary}"
+msgstr "${secondary} sotto ${primary}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1481
+#, sh-format
+msgid "Primary only: ${primary}"
+msgstr "Solo il principale: ${primary}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1487
+#, sh-format
+msgid "Secondary only: ${secondary}"
+msgstr "Solo il secondario: ${secondary}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1508
+msgid "Rotate which display?"
+msgstr "Quale schermo ruotare?"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1514
+msgid "Normal"
+msgstr "Normale"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1515
+msgid "Left (90°)"
+msgstr "Sinistra (90°)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1516
+msgid "Right (270°)"
+msgstr "Destra (270°)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1517
+msgid "Inverted (180°)"
+msgstr "Capovolto (180°)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1519
+msgid "Display rotated"
+msgstr "Schermo ruotato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1528
+msgid "Installing network-manager-applet…"
+msgstr "Installazione di network-manager-applet…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1536
+msgid "Installing networkmanager…"
+msgstr "Installazione di networkmanager…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1554
+#, sh-format
+msgid "Installing “${pkg}”…"
+msgstr "Installazione di «${pkg}»…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1556
+#, sh-format
+msgid "Installing “${pkg}” failed"
+msgstr "Installazione di «${pkg}» non riuscita"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1561
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1654
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1674
+msgid "Terminal"
+msgstr "Terminale"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1562
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1651
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1689
+msgid "Editor"
+msgstr "Editor"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1563
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1649
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1702
+msgid "Browser"
+msgstr "Browser"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1564
+msgid "Shell"
+msgstr "Shell"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1576
+msgid "Terminal…"
+msgstr "Terminale…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1587
+#, sh-format
+msgid "Default terminal set to ${chosen} — Super+T updated"
+msgstr "Terminale predefinito impostato su ${chosen}, Super+T aggiornato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1593
+msgid "Editor…"
+msgstr "Editor…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1610
+#, sh-format
+msgid "Default editor set to ${chosen} — Super+E updated"
+msgstr "Editor predefinito impostato su ${chosen}, Super+E aggiornato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1616
+msgid "Browser…"
+msgstr "Browser…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1627
+#, sh-format
+msgid "Default browser set to ${chosen} — Super+W updated"
+msgstr "Browser predefinito impostato su ${chosen}, Super+W aggiornato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1646
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1785
+msgid "Package"
+msgstr "Pacchetto"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1647
+msgid "AUR package"
+msgstr "Pacchetto AUR"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1648
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1737
+msgid "AI tools"
+msgstr "Strumenti di IA"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1650
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1713
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1786
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1795
+msgid "Dev environment"
+msgstr "Ambiente di sviluppo"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1652
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1768
+msgid "Extras"
+msgstr "Extra"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1653
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1755
+msgid "Gaming"
+msgstr "Giochi"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1656
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1988
+msgid "Install"
+msgstr "Installa"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1717
+msgid "Log out and back in so the docker group takes effect."
+msgstr "Esci e rientra perché il gruppo docker abbia effetto."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1729
+#, sh-printf-format
+msgid "Done. Start it with: %s"
+msgstr "Fatto. Avvialo con: %s"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1730
+msgid "Ollama is running. Try: ollama run llama3"
+msgstr "Ollama è in esecuzione. Prova: ollama run llama3"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1784
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1989
+msgid "Remove"
+msgstr "Rimuovi"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1808
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1990
+msgid "Update"
+msgstr "Aggiorna"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1809
+msgid "Full update"
+msgstr "Aggiornamento completo"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1810
+msgid "AUR packages"
+msgstr "Pacchetti AUR"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1811
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1832
+msgid "Process"
+msgstr "Processo"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1812
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1841
+msgid "Hardware"
+msgstr "Hardware"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1835
+msgid "Sxhkd restarted"
+msgstr "Sxhkd riavviato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1842
+msgid "Audio (PipeWire)"
+msgstr "Audio (PipeWire)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1843
+msgid "Audio (PulseAudio)"
+msgstr "Audio (PulseAudio)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1862
+msgid "Picom restarted"
+msgstr "Picom riavviato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1873
+msgid "Fastcompmgr restarted"
+msgstr "Fastcompmgr riavviato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1877
+msgid "PipeWire restarted"
+msgstr "PipeWire riavviato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1882
+msgid "PulseAudio restarted"
+msgstr "PulseAudio riavviato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1891
+msgid "Lock"
+msgstr "Blocca"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1892
+msgid "Logout"
+msgstr "Esci"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1893
+msgid "Suspend"
+msgstr "Sospendi"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1896
+msgid "Hibernate"
+msgstr "Iberna"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1898
+msgid "Reboot"
+msgstr "Riavvia"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1899
+msgid "Shutdown"
+msgstr "Spegni"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1902
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1939
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1992
+msgid "System"
+msgstr "Sistema"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1917
+msgid "Logout script not found"
+msgstr "Script di uscita non trovato"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1929
+msgid "No screen locker found. Install slock or i3lock."
+msgstr "Nessun blocco schermo trovato. Installa slock o i3lock."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1941
+msgid "Disk overview"
+msgstr "Panoramica dei dischi"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1942
+msgid "Disk explorer"
+msgstr "Esplora disco"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1943
+msgid "Temperatures"
+msgstr "Temperature"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1945
+msgid "Battery"
+msgstr "Batteria"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1946
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1962
+msgid "Logs"
+msgstr "Log"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1948
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1991
+msgid "Info"
+msgstr "Info"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1953
+msgid ""
+"Install the sensors first: sudo pacman -S lm_sensors && sudo sensors-detect"
+msgstr ""
+"Installa prima i sensori: sudo pacman -S lm_sensors && sudo sensors-detect"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1963
+msgid "System log"
+msgstr "Log di sistema"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1964
+msgid "Boot log"
+msgstr "Log di avvio"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1965
+msgid "Errors only"
+msgstr "Solo errori"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1966
+msgid "Kernel (dmesg)"
+msgstr "Kernel (dmesg)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1967
+msgid "Follow live"
+msgstr "Segui in diretta"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1983
+msgid "Apps"
+msgstr "App"

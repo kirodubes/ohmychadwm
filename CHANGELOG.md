@@ -2,6 +2,24 @@
 
 ## 2026.11.02
 
+### System menu in 13 languages, with search
+
+**What Changed.** The Super+Alt+Space menu follows the system language. It is translated into Dutch, German, Spanish, French, Portuguese (Brazil), Russian, Hungarian, Italian, Turkish, Polish, Japanese, Chinese (simplified) and Romanian, and shows English otherwise. Everything is translated: menu rows, notifications, picker prompts, and the texts in the terminals the menu opens (install messages, the Back to default dialog, the theme and font choosers).
+
+The menu also gained a search line. Typing filters the rows, and every row also answers to its English name, so `appear` finds Appearance in any language.
+
+**Technical Details.**
+- **Gettext:** domain `ohmychadwm-menu`. `_t` is gettext; `_tf` is gettext's `eval_gettext`, so a message with a value is one whole sentence with `$var` that translators may move.
+- **Terminal texts:** text shown inside terminal commands is exported as `OHM_MSG_*` / `OHM_T_*` variables and never spliced into the command, so quotes in a translation or a value cannot break it. Tested: a `$(…)` in a value prints literally.
+- **Where the catalogs live:** `po/<lang>.po` in the repo. They compile to `menu/locale/<lang>/LC_MESSAGES/ohmychadwm-menu.mo` next to the menu (`TEXTDOMAINDIR`), so they come with the skel and `kiro-skell`, and the PKGBUILD is unchanged. `po/make-mo.sh` extracts, merges and compiles.
+- **Search:** the rofi theme gained an `inputbar`, the placeholder is translated via `-theme-str`, and `pick` gives each row its key as hidden search words (rofi `meta`) and uses case-insensitive matching (`-i`).
+- **English cleaned up first:** `...` became `…`, "Colour" became "Color", and the padding notifications no longer show the internal names vertpadbar/horizpadbar.
+- **Drafting:** 275 strings per language. About 45 per language were seeded from our own translated apps and omarchy's MIT-licensed menu catalogs (credited in the README); the rest were drafted in each language's fixed register. `msgfmt --check` and pofilter pass on all 13: 0 fuzzy, 0 untranslated, every `$variable` kept.
+- **Review still open:** the Copilot second review could not run, because the monthly quota is used up. It is open until the quota resets.
+- `.codespellrc` skips the catalogs.
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh`, `etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.rasi`, `etc/skel/.config/ohmychadwm/menu/locale/` (new, 13 `.mo`), `po/` (new: `make-mo.sh`, `LINGUAS`, `ohmychadwm-menu.pot`, 13 `.po`), `tests/menu_crawl.py`, `.codespellrc` (new), `README.md`, `etc/skel/.config/ohmychadwm/README.md`, `CLAUDE.md`
+
 ### Quick menu choices no longer wreck each other's rebuild; net speed finds the real interface
 
 **What Changed.** These were found by trying to break a fresh test-box install:

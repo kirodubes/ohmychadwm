@@ -334,6 +334,16 @@ ohmychadwm
 └── System        — lock, logout, suspend, hibernate, reboot, shutdown
 ```
 
+### Search and languages
+
+Start typing to filter the menu. Every row also answers to its English name, so `appear` finds
+Appearance whatever language the menu is in.
+
+The menu follows your system language. It is translated into Dutch, German, Spanish, French,
+Portuguese (Brazil), Russian, Hungarian, Italian, Turkish, Polish, Japanese, Chinese (simplified)
+and Romanian; anything else shows English. The translations live in `menu/locale/` and come with
+the skel, like the menu itself: existing users get them by running `kiro-skell`.
+
 ### Extending the menu
 
 Edit `menu/menu-extension.sh` to override any built-in menu function or add new ones.

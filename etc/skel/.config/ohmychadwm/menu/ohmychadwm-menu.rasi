@@ -55,11 +55,27 @@ mainbox {
     background-color: @al;
     border:           0px;
     border-radius:    0px;
-    children:         [ listview ];
+    children:         [ inputbar, listview ];
     spacing:          0px;
     padding:          0px;
 }
 
+/* ── Search line ────────────────────────────────────────────────────────── */
+/* Typing filters the rows; every row also matches its English name, so
+   "appear" finds Appearance in any language. The menu script sets the
+   (translated) placeholder. */
+inputbar {
+    background-color: @al;
+    children:         [ entry ];
+    padding:          4px 14px 6px 14px;
+}
+
+entry {
+    background-color:  @al;
+    text-color:        @fg;
+    placeholder-color: @fg-dim;
+    font:              "JetBrainsMono Nerd Font Mono Bold 13";
+}
 
 /* ── List ───────────────────────────────────────────────────────────────── */
 listview {

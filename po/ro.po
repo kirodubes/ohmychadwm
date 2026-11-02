@@ -1,0 +1,1233 @@
+# Romanian translations for ohmychadwm-menu package.
+# Copyright (C) 2026 THE ohmychadwm-menu'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the ohmychadwm-menu package.
+# Automatically generated, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ohmychadwm-menu\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-02 07:43+0100\n"
+"PO-Revision-Date: 2026-11-02 07:39+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: Romanian\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:95
+msgid "Search…"
+msgstr "Caută…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:179
+msgid "Press any key to close…"
+msgstr "Apasă orice tastă pentru a închide…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:212
+#, sh-format
+msgid "Editing $name"
+msgstr "Se editează $name"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:232
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:240
+#, sh-format
+msgid "$name installed."
+msgstr "$name a fost instalat."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:232
+msgid "Install failed."
+msgstr "Instalarea a eșuat."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:232
+#, sh-format
+msgid "Installing $name…"
+msgstr "Se instalează $name…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:240
+msgid "AUR install failed."
+msgstr "Instalarea din AUR a eșuat."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:240
+#, sh-format
+msgid "Installing $name from the AUR…"
+msgstr "Se instalează $name din AUR…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:247
+#, sh-format
+msgid "$name removed."
+msgstr "$name a fost eliminat."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:247
+msgid "Remove failed."
+msgstr "Eliminarea a eșuat."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:247
+#, sh-format
+msgid "Removing $name…"
+msgstr "Se elimină $name…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:259
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1985
+msgid "Learn"
+msgstr "Învață"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:260
+msgid "Keybindings"
+msgstr "Scurtături"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:265
+msgid "Man pages"
+msgstr "Pagini man"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:271
+msgid "Building the man page index (first run)…"
+msgstr "Se construiește indexul paginilor man (prima rulare)…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:281
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1986
+msgid "Trigger"
+msgstr "Declanșator"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:282
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:293
+msgid "Capture"
+msgstr "Captură"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:283
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:376
+msgid "Toggle"
+msgstr "Comută"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:294
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:332
+msgid "Screenshot"
+msgstr "Captură de ecran"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:295
+msgid "Screenshot → clipboard"
+msgstr "Captură → clipboard"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:296
+msgid "Screenshot region"
+msgstr "Capturează o zonă"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:297
+msgid "Screenrecord"
+msgstr "Înregistrare ecran"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:298
+msgid "Color picker"
+msgstr "Selector de culoare"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:317
+msgid "Screenshot saved"
+msgstr "Captura de ecran a fost salvată"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:318
+msgid "Open in nomacs"
+msgstr "Deschide în nomacs"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:321
+msgid "Installing nomacs…"
+msgstr "Se instalează nomacs…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:332
+msgid "Copied to clipboard"
+msgstr "Copiat în clipboard"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:341
+msgid "Region screenshot"
+msgstr "Captură a unei zone"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:341
+msgid "Saved & copied to clipboard"
+msgstr "Salvată și copiată în clipboard"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:349
+#, sh-format
+msgid "$color (copied to clipboard)"
+msgstr "$color (copiat în clipboard)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:349
+msgid "Color picked"
+msgstr "Culoare preluată"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:351
+msgid "xcolor not installed. Run: sudo pacman -S xcolor"
+msgstr "xcolor nu este instalat. Rulează: sudo pacman -S xcolor"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:357
+msgid "Installing SimpleScreenRecorder…"
+msgstr "Se instalează SimpleScreenRecorder…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:367
+msgid "Enable night light"
+msgstr "Activează lumina de noapte"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:368
+msgid "Enable auto-lock"
+msgstr "Activează blocarea automată"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:369
+msgid "Start picom"
+msgstr "Pornește picom"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:370
+msgid "Start fastcompmgr"
+msgstr "Pornește fastcompmgr"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:371
+msgid "Disable night light"
+msgstr "Dezactivează lumina de noapte"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:372
+msgid "Disable auto-lock"
+msgstr "Dezactivează blocarea automată"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:373
+msgid "Stop picom"
+msgstr "Oprește picom"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:374
+msgid "Stop fastcompmgr"
+msgstr "Oprește fastcompmgr"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:391
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:399
+msgid "Picom"
+msgstr "Picom"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:391
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:405
+msgid "Stopped"
+msgstr "Oprit"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:399
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:413
+msgid "Started"
+msgstr "Pornit"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:405
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:413
+msgid "Fastcompmgr"
+msgstr "Fastcompmgr"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:422
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:440
+msgid "Disabled"
+msgstr "Dezactivat"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:422
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:431
+msgid "Night light"
+msgstr "Lumină de noapte"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:425
+msgid "Installing redshift…"
+msgstr "Se instalează redshift…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:431
+msgid "Enabled (4000K)"
+msgstr "Activată (4000K)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:440
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:445
+msgid "Auto-lock"
+msgstr "Blocare automată"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:445
+msgid "Enabled (10 min)"
+msgstr "Activat (10 min)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:454
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1984
+msgid "Appearance"
+msgstr "Aspect"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:455
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:481
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:853
+msgid "Theme"
+msgstr "Temă"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:456
+msgid "Wallpaper"
+msgstr "Fundal"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:457
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:497
+msgid "Font"
+msgstr "Font"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:458
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:509
+msgid "Bar"
+msgstr "Bară"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:459
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:527
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1348
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1373
+msgid "Windows"
+msgstr "Ferestre"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:460
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:689
+msgid "Tags"
+msgstr "Etichete"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:462
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:769
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:857
+msgid "Back to default"
+msgstr "Revino la implicit"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:482
+msgid "Choose theme"
+msgstr "Alege tema"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:483
+msgid "Create your own theme"
+msgstr "Creează-ți propria temă"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:484
+msgid "Delete theme"
+msgstr "Șterge tema"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:485
+msgid "Random theme"
+msgstr "Temă aleatorie"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:498
+msgid "Bar font"
+msgstr "Fontul barei"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:499
+msgid "Apply everywhere"
+msgstr "Aplică peste tot"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:510
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:802
+msgid "Position"
+msgstr "Poziție"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:511
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:766
+msgid "Padding"
+msgstr "Spațiere"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:512
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:822
+msgid "Hide systray"
+msgstr "Ascunde zona de notificare"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:513
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:576
+msgid "Status modules"
+msgstr "Module de stare"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:514
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:973
+msgid "Launcher icons"
+msgstr "Pictograme de lansare"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:528
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:748
+msgid "Border"
+msgstr "Chenar"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:529
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:755
+msgid "Gaps"
+msgstr "Spații"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:530
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:811
+msgid "Smart gaps"
+msgstr "Spații inteligente"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:544
+msgid "Date & time"
+msgstr "Data și ora"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:545
+msgid "Uptime"
+msgstr "Timp de funcționare"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:546
+msgid "CPU usage %"
+msgstr "Utilizare CPU %"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:547
+msgid "Disk free"
+msgstr "Spațiu liber pe disc"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:548
+msgid "Disk used"
+msgstr "Spațiu ocupat pe disc"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:549
+msgid "Hostname"
+msgstr "Numele calculatorului"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:550
+msgid "Kernel"
+msgstr "Kernel"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:551
+msgid "Load average"
+msgstr "Încărcare medie"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:552
+msgid "Net download speed"
+msgstr "Viteză de descărcare"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:553
+msgid "Net upload speed"
+msgstr "Viteză de încărcare"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:554
+msgid "RAM free"
+msgstr "RAM liberă"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:555
+msgid "RAM usage %"
+msgstr "Utilizare RAM %"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:556
+msgid "RAM used"
+msgstr "RAM ocupată"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:557
+msgid "Swap free"
+msgstr "Swap liber"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:558
+msgid "Swap usage %"
+msgstr "Utilizare swap %"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:573
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:970
+msgid "Apply & rebuild"
+msgstr "Aplică și recompilează"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:580
+msgid "slstatus updated"
+msgstr "slstatus a fost actualizat"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:613
+#, sh-format
+msgid "Random theme: $pick"
+msgstr "Temă aleatorie: $pick"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:632
+#, sh-printf-format
+msgid "Not found: %s"
+msgstr "Negăsit: %s"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:633
+msgid "Reset chadwm config to default"
+msgstr "Readu configurația chadwm la implicit"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:634
+msgid "This will overwrite:"
+msgstr "Se vor suprascrie:"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:635
+#, sh-printf-format
+msgid "the shipped theme files in %s"
+msgstr "fișierele de teme livrate din %s"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:636
+msgid "with the defaults from:"
+msgstr "cu fișierele implicite din:"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:637
+msgid ""
+"Themes you created yourself, wallpapers and other settings are untouched."
+msgstr ""
+"Temele create de tine, imaginile de fundal și celelalte setări rămân "
+"neatinse."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:638
+msgid "Backups will be saved as:"
+msgstr "Copiile de rezervă vor fi salvate ca:"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:639
+msgid "Continue? [y/N]"
+msgstr "Continui? [y/N]"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:640
+msgid "Cancelled."
+msgstr "Anulat."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:641
+msgid "Backups created."
+msgstr "Copiile de rezervă au fost create."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:642
+msgid "config.def.h restored."
+msgstr "config.def.h a fost restaurat."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:643
+msgid "Shipped theme files restored."
+msgstr "Fișierele de teme livrate au fost restaurate."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:644
+msgid "Keybindings cheatsheet restored."
+msgstr "Fișa scurtăturilor de tastatură a fost restaurată."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:690
+msgid "Icons (default)"
+msgstr "Pictograme (implicit)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:691
+msgid "Arabic numbers"
+msgstr "Cifre arabe"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:692
+msgid "Roman numbers"
+msgstr "Cifre romane"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:694
+msgid "Words (Web, Chat, Edit…)"
+msgstr "Cuvinte (Web, Chat, Edit…)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:695
+msgid "Japanese numbers"
+msgstr "Cifre japoneze"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:696
+msgid "Letters"
+msgstr "Litere"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:698
+msgid "Geometric shapes"
+msgstr "Forme geometrice"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:699
+msgid "Chinese numbers"
+msgstr "Cifre chinezești"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:700
+msgid "Purpose (home, chat, surf…)"
+msgstr "După scop (home, chat, surf…)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:717
+msgid "Active theme file not found"
+msgstr "Fișierul temei active nu a fost găsit"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:730
+msgid "Tags changed — rebuilding"
+msgstr "Etichetele s-au schimbat, se recompilează"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:738
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1346
+msgid "Keybinding set"
+msgstr "Set de scurtături"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:739
+msgid "AZERTY (Belgian)"
+msgstr "AZERTY (belgian)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:740
+msgid "QWERTY (US / world)"
+msgstr "QWERTY (SUA / internațional)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:743
+msgid "Keybinding set changed. Press Super+Shift+R to apply."
+msgstr "Setul de scurtături s-a schimbat. Apasă Super+Shift+R pentru a aplica."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:750
+msgid "Border changed — rebuilding"
+msgstr "Chenarul s-a schimbat, se recompilează"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:757
+msgid "Gaps changed — rebuilding"
+msgstr "Spațiile s-au schimbat, se recompilează"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:767
+msgid "Vertical padding"
+msgstr "Spațiere verticală"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:768
+msgid "Horizontal padding"
+msgstr "Spațiere orizontală"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:775
+#, sh-format
+msgid "Vertical padding: $v — rebuilding…"
+msgstr "Spațiere verticală: $v, se recompilează…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:784
+#, sh-format
+msgid "Horizontal padding: $h — rebuilding…"
+msgstr "Spațiere orizontală: $h, se recompilează…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:791
+msgid "Bar padding reset to defaults — rebuilding…"
+msgstr "Spațierea barei a revenit la implicit, se recompilează…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:803
+msgid "Top"
+msgstr "Sus"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:804
+msgid "Bottom"
+msgstr "Jos"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:806
+msgid "Bar position changed — rebuilding"
+msgstr "Poziția barei s-a schimbat, se recompilează"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:812
+msgid "On"
+msgstr "Activat"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:813
+msgid "Off"
+msgstr "Dezactivat"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:815
+msgid "Smart gaps changed — rebuilding"
+msgstr "Spațiile inteligente s-au schimbat, se recompilează"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:820
+msgid "Systray"
+msgstr "Zona de notificare"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:821
+msgid "Show systray"
+msgstr "Afișează zona de notificare"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:824
+msgid "Systray changed — rebuilding"
+msgstr "Zona de notificare s-a schimbat, se recompilează"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:830
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1374
+msgid "New window"
+msgstr "Fereastră nouă"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:831
+msgid "Opens in front"
+msgstr "Se deschide la început"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:832
+msgid "Opens at the end"
+msgstr "Se deschide la sfârșit"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:835
+msgid "New window position changed — rebuilding"
+msgstr "Poziția ferestrelor noi s-a schimbat, se recompilează"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:840
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1375
+msgid "Master area"
+msgstr "Zona principală"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:843
+msgid "Master area changed — rebuilding"
+msgstr "Zona principală s-a schimbat, se recompilează"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:854
+msgid "Font family"
+msgstr "Familie de fonturi"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:855
+msgid "Font size"
+msgstr "Dimensiunea fontului"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:856
+msgid "Opacity"
+msgstr "Opacitate"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:889
+msgid "Alacritty theme"
+msgstr "Tema Alacritty"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:891
+#, sh-format
+msgid "Alacritty theme set to “${chosen}”"
+msgstr "Tema Alacritty: „${chosen}”"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:898
+msgid "Alacritty font…"
+msgstr "Fontul Alacritty…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:900
+#, sh-format
+msgid "Alacritty font set to “${chosen}”"
+msgstr "Fontul Alacritty: „${chosen}”"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:910
+#, sh-format
+msgid "Alacritty font size set to ${chosen}"
+msgstr "Dimensiunea fontului Alacritty: ${chosen}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:920
+#, sh-format
+msgid "Alacritty opacity set to ${chosen}"
+msgstr "Opacitatea Alacritty: ${chosen}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:929
+#, sh-format
+msgid "Shell (now $current)"
+msgstr "Shell (acum $current)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:931
+#, sh-format
+msgid "Alacritty shell set to ${chosen}"
+msgstr "Shell-ul Alacritty: ${chosen}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:939
+msgid "Default Alacritty config not found"
+msgstr "Configurația implicită Alacritty nu a fost găsită"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:943
+msgid "Alacritty reset to default"
+msgstr "Alacritty a revenit la setările implicite"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:977
+msgid "Launcher icons updated"
+msgstr "Pictogramele de lansare au fost actualizate"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1012
+msgid "No custom themes to delete"
+msgstr "Nu există teme proprii de șters"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1022
+msgid "Yes, delete it"
+msgstr "Da, șterge"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1023
+msgid "Cancel"
+msgstr "Anulează"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1043
+msgid "Active theme deleted — switching to kanagawa"
+msgstr "Tema activă a fost ștearsă, se trece la kanagawa"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1046
+#, sh-format
+msgid "Theme “$chosen” deleted"
+msgstr "Tema „$chosen” a fost ștearsă"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1051
+msgid "Theme > "
+msgstr "Temă > "
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1052
+#, sh-printf-format
+msgid "Font not installed: %s"
+msgstr "Fontul nu este instalat: %s"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1053
+msgid "Install it first, or the bar will fall back to a system font."
+msgstr "Instalează-l întâi, altfel bara va folosi un font de sistem."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1054
+msgid "Apply theme anyway? [y/N]"
+msgstr "Aplici tema oricum? [y/N]"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1055
+#, sh-printf-format
+msgid "Theme font: %s"
+msgstr "Fontul temei: %s"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1056
+msgid "Apply it to other apps too (alacritty, kitty, GTK, rofi)? [y/N]"
+msgstr "Aplici și în alte aplicații (alacritty, kitty, GTK, rofi)? [y/N]"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1057
+msgid "Fonts applied."
+msgstr "Fonturile au fost aplicate."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1058
+#, sh-printf-format
+msgid "Theme %s applied — rebuilding…"
+msgstr "Tema %s a fost aplicată, se recompilează…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1066
+#, sh-format
+msgid "No themes directory found at ${themes_dir}"
+msgstr "Nu s-a găsit dosarul de teme în ${themes_dir}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1208
+#, sh-format
+msgid "Theme “${theme}” not found"
+msgstr "Tema „${theme}” nu a fost găsită"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1228
+#, sh-format
+msgid "Theme “${theme}” applied — reboot your system"
+msgstr "Tema „${theme}” a fost aplicată, repornește sistemul"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1232
+msgid "Font family > "
+msgstr "Familie de fonturi > "
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1233
+msgid "Font style > "
+msgstr "Stilul fontului > "
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1234
+msgid "Font size? [default 13]:"
+msgstr "Dimensiunea fontului? [implicit 13]:"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1235
+msgid "Bar icon size? [default 18]:"
+msgstr "Dimensiunea pictogramelor din bară? [implicit 18]:"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1236
+#, sh-printf-format
+msgid "Font: %s — rebuilding…"
+msgstr "Font: %s, se recompilează…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1306
+#, sh-format
+msgid "Font set to “${font}”"
+msgstr "Font: „${font}”"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1322
+msgid "No wallpaper images found"
+msgstr "Nu s-au găsit imagini de fundal"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1329
+msgid "Wallpaper…"
+msgstr "Imagine de fundal…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1334
+#, sh-format
+msgid "Wallpaper set to “$name”"
+msgstr "Imagine de fundal: „$name”"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1345
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1987
+msgid "Setup"
+msgstr "Configurare"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1347
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1825
+msgid "Keyboard"
+msgstr "Tastatură"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1349
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1433
+msgid "Display"
+msgstr "Ecran"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1350
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1523
+msgid "Network"
+msgstr "Rețea"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1351
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1560
+msgid "Defaults"
+msgstr "Valori implicite"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1352
+msgid "Timezone"
+msgstr "Fus orar"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1353
+msgid "Time sync"
+msgstr "Sincronizarea orei"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1354
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1394
+msgid "Config"
+msgstr "Configurare"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1355
+msgid "Hard reset"
+msgstr "Resetare completă"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1362
+msgid "Then run: sudo timedatectl set-timezone <zone>"
+msgstr "Apoi rulează: sudo timedatectl set-timezone <zone>"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1385
+msgid "Autostart"
+msgstr "Pornire automată"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1391
+msgid "Menu theme"
+msgstr "Tema meniului"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1419
+msgid "Auto-detect"
+msgstr "Detectare automată"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1422
+msgid "Mirror displays"
+msgstr "Oglindește ecranele"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1423
+msgid "Extend right"
+msgstr "Extinde la dreapta"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1424
+msgid "Extend left"
+msgstr "Extinde la stânga"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1425
+msgid "Extend above"
+msgstr "Extinde deasupra"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1426
+msgid "Extend below"
+msgstr "Extinde dedesubt"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1427
+msgid "Primary only"
+msgstr "Doar principalul"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1428
+msgid "Secondary only"
+msgstr "Doar secundarul"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1431
+msgid "Rotate display"
+msgstr "Rotește ecranul"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1436
+msgid "Installing arandr…"
+msgstr "Se instalează arandr…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1445
+msgid "Display auto-detected"
+msgstr "Ecran detectat automat"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1451
+#, sh-format
+msgid "Mirroring ${primary} → ${secondary}"
+msgstr "Se oglindește ${primary} → ${secondary}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1457
+#, sh-format
+msgid "${secondary} right of ${primary}"
+msgstr "${secondary} în dreapta ${primary}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1463
+#, sh-format
+msgid "${secondary} left of ${primary}"
+msgstr "${secondary} în stânga ${primary}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1469
+#, sh-format
+msgid "${secondary} above ${primary}"
+msgstr "${secondary} deasupra ${primary}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1475
+#, sh-format
+msgid "${secondary} below ${primary}"
+msgstr "${secondary} sub ${primary}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1481
+#, sh-format
+msgid "Primary only: ${primary}"
+msgstr "Doar principalul: ${primary}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1487
+#, sh-format
+msgid "Secondary only: ${secondary}"
+msgstr "Doar secundarul: ${secondary}"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1508
+msgid "Rotate which display?"
+msgstr "Ce ecran rotești?"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1514
+msgid "Normal"
+msgstr "Normal"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1515
+msgid "Left (90°)"
+msgstr "Stânga (90°)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1516
+msgid "Right (270°)"
+msgstr "Dreapta (270°)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1517
+msgid "Inverted (180°)"
+msgstr "Inversat (180°)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1519
+msgid "Display rotated"
+msgstr "Ecran rotit"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1528
+msgid "Installing network-manager-applet…"
+msgstr "Se instalează network-manager-applet…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1536
+msgid "Installing networkmanager…"
+msgstr "Se instalează networkmanager…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1554
+#, sh-format
+msgid "Installing “${pkg}”…"
+msgstr "Se instalează „${pkg}”…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1556
+#, sh-format
+msgid "Installing “${pkg}” failed"
+msgstr "Instalarea „${pkg}” a eșuat"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1561
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1654
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1674
+msgid "Terminal"
+msgstr "Terminal"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1562
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1651
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1689
+msgid "Editor"
+msgstr "Editor"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1563
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1649
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1702
+msgid "Browser"
+msgstr "Browser"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1564
+msgid "Shell"
+msgstr "Shell"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1576
+msgid "Terminal…"
+msgstr "Terminal…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1587
+#, sh-format
+msgid "Default terminal set to ${chosen} — Super+T updated"
+msgstr "Terminal implicit: ${chosen}, Super+T actualizat"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1593
+msgid "Editor…"
+msgstr "Editor…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1610
+#, sh-format
+msgid "Default editor set to ${chosen} — Super+E updated"
+msgstr "Editor implicit: ${chosen}, Super+E actualizat"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1616
+msgid "Browser…"
+msgstr "Browser…"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1627
+#, sh-format
+msgid "Default browser set to ${chosen} — Super+W updated"
+msgstr "Browser implicit: ${chosen}, Super+W actualizat"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1646
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1785
+msgid "Package"
+msgstr "Pachet"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1647
+msgid "AUR package"
+msgstr "Pachet AUR"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1648
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1737
+msgid "AI tools"
+msgstr "Instrumente AI"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1650
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1713
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1786
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1795
+msgid "Dev environment"
+msgstr "Mediu de dezvoltare"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1652
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1768
+msgid "Extras"
+msgstr "Extra"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1653
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1755
+msgid "Gaming"
+msgstr "Jocuri"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1656
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1988
+msgid "Install"
+msgstr "Instalează"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1717
+msgid "Log out and back in so the docker group takes effect."
+msgstr ""
+"Deconectează-te și conectează-te din nou ca grupul docker să intre în "
+"vigoare."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1729
+#, sh-printf-format
+msgid "Done. Start it with: %s"
+msgstr "Gata. Pornește-l cu: %s"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1730
+msgid "Ollama is running. Try: ollama run llama3"
+msgstr "Ollama rulează. Încearcă: ollama run llama3"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1784
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1989
+msgid "Remove"
+msgstr "Elimină"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1808
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1990
+msgid "Update"
+msgstr "Actualizează"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1809
+msgid "Full update"
+msgstr "Actualizare completă"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1810
+msgid "AUR packages"
+msgstr "Pachete AUR"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1811
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1832
+msgid "Process"
+msgstr "Proces"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1812
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1841
+msgid "Hardware"
+msgstr "Hardware"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1835
+msgid "Sxhkd restarted"
+msgstr "Sxhkd a fost repornit"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1842
+msgid "Audio (PipeWire)"
+msgstr "Audio (PipeWire)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1843
+msgid "Audio (PulseAudio)"
+msgstr "Audio (PulseAudio)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1862
+msgid "Picom restarted"
+msgstr "Picom a fost repornit"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1873
+msgid "Fastcompmgr restarted"
+msgstr "Fastcompmgr a fost repornit"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1877
+msgid "PipeWire restarted"
+msgstr "PipeWire a fost repornit"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1882
+msgid "PulseAudio restarted"
+msgstr "PulseAudio a fost repornit"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1891
+msgid "Lock"
+msgstr "Blochează"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1892
+msgid "Logout"
+msgstr "Deconectare"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1893
+msgid "Suspend"
+msgstr "Suspendă"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1896
+msgid "Hibernate"
+msgstr "Hibernare"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1898
+msgid "Reboot"
+msgstr "Repornește"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1899
+msgid "Shutdown"
+msgstr "Oprește"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1902
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1939
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1992
+msgid "System"
+msgstr "Sistem"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1917
+msgid "Logout script not found"
+msgstr "Scriptul de deconectare nu a fost găsit"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1929
+msgid "No screen locker found. Install slock or i3lock."
+msgstr ""
+"Nu s-a găsit niciun program de blocare a ecranului. Instalează slock sau "
+"i3lock."
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1941
+msgid "Disk overview"
+msgstr "Prezentare discuri"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1942
+msgid "Disk explorer"
+msgstr "Explorator de disc"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1943
+msgid "Temperatures"
+msgstr "Temperaturi"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1945
+msgid "Battery"
+msgstr "Baterie"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1946
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1962
+msgid "Logs"
+msgstr "Jurnale"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1948
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1991
+msgid "Info"
+msgstr "Informații"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1953
+msgid ""
+"Install the sensors first: sudo pacman -S lm_sensors && sudo sensors-detect"
+msgstr ""
+"Instalează întâi senzorii: sudo pacman -S lm_sensors && sudo sensors-detect"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1963
+msgid "System log"
+msgstr "Jurnalul sistemului"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1964
+msgid "Boot log"
+msgstr "Jurnal de pornire"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1965
+msgid "Errors only"
+msgstr "Doar erori"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1966
+msgid "Kernel (dmesg)"
+msgstr "Nucleu (dmesg)"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1967
+msgid "Follow live"
+msgstr "Urmărește în direct"
+
+#: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:1983
+msgid "Apps"
+msgstr "Aplicații"

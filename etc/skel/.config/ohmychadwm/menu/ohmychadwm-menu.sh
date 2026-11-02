@@ -91,15 +91,19 @@ menu() {
 
     local theme_arg=()
     [[ -n "$ROFI_THEME" ]] && theme_arg=(-theme "$ROFI_THEME")
+    local search
+    search="$(_t "Search…")"
 
     local choice
     # Capture exit code explicitly — rofi returns 1 on Escape, not an error
     choice=$(echo -e "$options" | rofi -dmenu \
         -p "" \
+        -i \
         -no-show-match \
         -no-fixed-num-lines \
         -cycle \
         "${theme_arg[@]}" \
+        -theme-str "entry { placeholder: \"${search//\"/}\"; }" \
         ${extra} \
         2>/dev/null) || true
 
@@ -116,10 +120,18 @@ menu() {
 # Translation: labels go through gettext (domain ohmychadwm-menu); English is the fallback.
 # ---------------------------------------------------------------------------
 export TEXTDOMAIN=ohmychadwm-menu
-if command -v gettext &>/dev/null; then
+# Catalogs ship next to the menu (menu/locale/<lang>/LC_MESSAGES), so they come with kiro-skell.
+export TEXTDOMAINDIR="${_SCRIPT_DIR}/locale"
+# _t "Text" translates; _tf 'Text with $var' translates a whole sentence and then fills in $var
+# (gettext's eval_gettext), so translators can move the value where their language needs it.
+if command -v gettext &>/dev/null && command -v gettext.sh &>/dev/null; then
     _t() { gettext "$1"; }
+    # shellcheck source=/dev/null
+    . gettext.sh
+    _tf() { eval_gettext "$1"; }
 else
     _t() { printf '%s' "$1"; }
+    _tf() { local _s="$1"; eval "printf '%s' \"${_s//\"/\\\"}\""; }
 fi
 
 # ---------------------------------------------------------------------------
@@ -135,9 +147,11 @@ pick() {
     done
     [[ "${1:-}" == "--" ]] && shift
     local extra="-format i $*"
-    local options="" label
-    for label in "${_pl[@]}"; do
-        options+=" ${label//\\/\\\\}\n"
+    # Each row carries its key as hidden search words (rofi "meta"): keys are English,
+    # so typing "appear" finds Appearance whatever language the labels are in.
+    local options="" i
+    for i in "${!_pl[@]}"; do
+        options+=" ${_pl[$i]//\\/\\\\}\0meta\x1f${_pk[$i]//_/ }\n"
     done
     local idx
     idx=$(menu "$prompt" "${options%\\n}" "$extra") || return 1
@@ -158,8 +172,12 @@ terminal() {
 # Launch a floating "presentation" terminal for progress output.
 # Uses a WM_CLASS so you can set a ohmychadwm floating rule for it:
 #   { "OhmychadwmPresent", NULL, NULL, 0, 1, 0, 0, -1 }   ← example rules entry
+# Translated text reaches the terminal through exported OHM_MSG* variables, never spliced
+# into the command, so quotes in a translation cannot break it.
 present_terminal() {
     local cmd="$*"
+    OHM_MSG_PRESS="$(_t "Press any key to close…")"
+    export OHM_MSG_PRESS
     setsid "$TERMINAL" \
         --class OhmychadwmPresent \
         -e bash -c "
@@ -167,7 +185,7 @@ present_terminal() {
             printf '  \e[1m%s\e[0m\n\n' 'ohmychadwm'
             ${cmd}
             echo
-            printf '  Press any key to close...'
+            printf '  %s' \"\$OHM_MSG_PRESS\"
             read -n1 -s
         " >/dev/null 2>&1 &
     disown
@@ -189,31 +207,45 @@ plain_terminal() {
 # Open a file in $EDITOR inside a floating terminal
 edit_in_editor() {
     local file="$1"
-    notify-send -t 2000 "ohmychadwm" "Editing $(basename "$file")"
+    local name
+    name="$(basename "$file")"
+    notify-send -t 2000 "ohmychadwm" "$(_tf 'Editing $name')"
     present_terminal "${EDITOR} '${file}'"
 }
 
 # ---------------------------------------------------------------------------
 # Package install helpers
 # ---------------------------------------------------------------------------
+# _pkg_messages "Doing $name…" "$name done." "Failed." — exported for the terminal command
+_pkg_messages() {
+    OHM_MSG_START="$1" OHM_MSG_OK="$2" OHM_MSG_FAIL="$3"
+    export OHM_MSG_START OHM_MSG_OK OHM_MSG_FAIL
+}
+
+_PKG_SHOW='echo "$OHM_MSG_START"'
+_PKG_DONE='notify-send ohmychadwm "$OHM_MSG_OK" || notify-send -u critical ohmychadwm "$OHM_MSG_FAIL"'
+
 install() {
     # install "Display Name" "pkg1 pkg2"
     local name="$1"
     local pkgs="$2"
-    present_terminal "echo 'Installing ${name}...'; sudo pacman -S --needed --noconfirm ${pkgs} && notify-send 'ohmychadwm' '${name} installed.' || notify-send -u critical 'ohmychadwm' 'Install failed.'"
+    _pkg_messages "$(_tf 'Installing $name…')" "$(_tf '$name installed.')" "$(_t "Install failed.")"
+    present_terminal "${_PKG_SHOW}; sudo pacman -S --needed --noconfirm ${pkgs} && ${_PKG_DONE}"
 }
 
 aur_install() {
     # aur_install "Display Name" "aur-pkg"
     local name="$1"
     local pkg="$2"
-    present_terminal "echo 'Installing ${name} from AUR...'; yay -S --noconfirm ${pkg} && notify-send 'ohmychadwm' '${name} installed.' || notify-send -u critical 'ohmychadwm' 'AUR install failed.'"
+    _pkg_messages "$(_tf 'Installing $name from the AUR…')" "$(_tf '$name installed.')" "$(_t "AUR install failed.")"
+    present_terminal "${_PKG_SHOW}; yay -S --noconfirm ${pkg} && ${_PKG_DONE}"
 }
 
 remove_pkg() {
     local name="$1"
     local pkgs="$2"
-    present_terminal "echo 'Removing ${name}...'; sudo pacman -Rns --noconfirm ${pkgs} && notify-send 'ohmychadwm' '${name} removed.' || notify-send -u critical 'ohmychadwm' 'Remove failed.'"
+    _pkg_messages "$(_tf 'Removing $name…')" "$(_tf '$name removed.')" "$(_t "Remove failed.")"
+    present_terminal "${_PKG_SHOW}; sudo pacman -Rns --noconfirm ${pkgs} && ${_PKG_DONE}"
 }
 
 # ===========================================================================
@@ -236,7 +268,7 @@ show_learn_menu() {
         archwiki)    setsid "$BROWSER" "https://wiki.archlinux.org" >/dev/null 2>&1 & disown ;;
         bash)        setsid "$BROWSER" "https://devhints.io/bash" >/dev/null 2>&1 & disown ;;
         fish)        setsid "$BROWSER" "https://fishshell.com/" >/dev/null 2>&1 & disown ;;
-        man)         present_terminal "man -k . &>/dev/null || { echo 'Building man database (first run)...'; sudo mandb; }; man -k . | fzf --preview 'man {1}' | awk '{print \$1}' | xargs -r man" ;;
+        man)         OHM_T_HINT="$(_t "Building the man page index (first run)…")"; export OHM_T_HINT; present_terminal "man -k . &>/dev/null || { echo \"\$OHM_T_HINT\"; sudo mandb; }; man -k . | fzf --preview 'man {1}' | awk '{print \$1}' | xargs -r man" ;;
         *)           return 1 ;;
     esac
 }
@@ -282,11 +314,11 @@ _screenshot_smart() {
     xclip -selection clipboard -t image/png < "$file"
     # Run in background: --wait blocks until the notification is dismissed or the button clicked
     (
-        action=$(notify-send -t 5000 "Screenshot saved" "$(basename "$file")" \
-            --action="open=Open in nomacs" --wait 2>/dev/null)
+        action=$(notify-send -t 5000 "$(_t "Screenshot saved")" "$(basename "$file")" \
+            --action="open=$(_t "Open in nomacs")" --wait 2>/dev/null)
         if [[ "$action" == "open" ]]; then
             if ! command -v nomacs &>/dev/null; then
-                notify-send "ohmychadwm" "Installing nomacs..."
+                notify-send "ohmychadwm" "$(_t "Installing nomacs…")"
                 sudo pacman -S --needed --noconfirm nomacs
             fi
             nomacs "$file" &
@@ -297,7 +329,7 @@ _screenshot_smart() {
 
 _screenshot_clipboard() {
     maim | xclip -selection clipboard -t image/png
-    notify-send -t 2000 "Screenshot" "Copied to clipboard"
+    notify-send -t 2000 "$(_t "Screenshot")" "$(_t "Copied to clipboard")"
 }
 
 _screenshot_region() {
@@ -306,7 +338,7 @@ _screenshot_region() {
     local file="${dir}/$(date +%Y-%m-%d_%H-%M-%S).png"
     maim -s "$file"
     xclip -selection clipboard -t image/png < "$file"
-    notify-send -t 3000 "Region screenshot" "Saved & copied to clipboard"
+    notify-send -t 3000 "$(_t "Region screenshot")" "$(_t "Saved & copied to clipboard")"
 }
 
 _colour_picker() {
@@ -314,15 +346,15 @@ _colour_picker() {
         local color
         color=$(xcolor)
         echo -n "$color" | xclip -selection clipboard
-        notify-send -t 0 "Colour picked" "$color (copied to clipboard)"
+        notify-send -t 0 "$(_t "Color picked")" "$(_tf '$color (copied to clipboard)')"
     else
-        notify-send -u critical "ohmychadwm" "xcolor not installed. Run: sudo pacman -S xcolor"
+        notify-send -u critical "ohmychadwm" "$(_t "xcolor not installed. Run: sudo pacman -S xcolor")"
     fi
 }
 
 show_screenrecord_menu() {
     if ! command -v simplescreenrecorder &>/dev/null; then
-        notify-send "ohmychadwm" "Installing SimpleScreenRecorder..."
+        notify-send "ohmychadwm" "$(_t "Installing SimpleScreenRecorder…")"
         sudo pacman -S --needed --noconfirm simplescreenrecorder
     fi
     setsid simplescreenrecorder &>/dev/null &
@@ -356,7 +388,7 @@ show_toggle_menu() {
 
 _toggle_picom() {
     if pgrep -x picom &>/dev/null; then
-        pkill picom && notify-send "Picom" "Stopped"
+        pkill picom && notify-send "$(_t "Picom")" "$(_t "Stopped")"
     else
         if pgrep -x fastcompmgr &>/dev/null; then
             pkill fastcompmgr 2>/dev/null
@@ -364,13 +396,13 @@ _toggle_picom() {
         fi
         setsid picom --config "${HOME}/.config/ohmychadwm/picom/picom.conf" -b &>/dev/null &
         disown
-        notify-send "Picom" "Started"
+        notify-send "$(_t "Picom")" "$(_t "Started")"
     fi
 }
 
 _toggle_fastcompmgr() {
     if pgrep -x fastcompmgr &>/dev/null; then
-        pkill fastcompmgr && notify-send "Fastcompmgr" "Stopped"
+        pkill fastcompmgr && notify-send "$(_t "Fastcompmgr")" "$(_t "Stopped")"
     else
         if pgrep -x picom &>/dev/null; then
             pkill picom 2>/dev/null
@@ -378,7 +410,7 @@ _toggle_fastcompmgr() {
         fi
         setsid fastcompmgr -c -C &>/dev/null &
         disown
-        notify-send "Fastcompmgr" "Started"
+        notify-send "$(_t "Fastcompmgr")" "$(_t "Started")"
     fi
 }
 
@@ -387,16 +419,16 @@ _toggle_nightlight() {
     mkdir -p "$(dirname "$state_file")"
     if [[ -f "$state_file" ]]; then
         pkill redshift 2>/dev/null; rm -f "$state_file"
-        notify-send "Night light" "Disabled"
+        notify-send "$(_t "Night light")" "$(_t "Disabled")"
     else
         if ! command -v redshift &>/dev/null; then
-            notify-send "ohmychadwm" "Installing redshift..."
+            notify-send "ohmychadwm" "$(_t "Installing redshift…")"
             sudo pacman -S --needed --noconfirm redshift
         fi
         touch "$state_file"
         redshift -O 4000 &>/dev/null &
         disown
-        notify-send "Night light" "Enabled (4000K)"
+        notify-send "$(_t "Night light")" "$(_t "Enabled (4000K)")"
     fi
 }
 
@@ -405,12 +437,12 @@ _toggle_autolock() {
     mkdir -p "$(dirname "$state_file")"
     if [[ -f "$state_file" ]]; then
         pkill xautolock 2>/dev/null; rm -f "$state_file"
-        notify-send "Auto-lock" "Disabled"
+        notify-send "$(_t "Auto-lock")" "$(_t "Disabled")"
     else
         touch "$state_file"
         xautolock -time 10 -locker betterlockscreen -l dim -- --time-str="%H:%M" &>/dev/null &
         disown
-        notify-send "Auto-lock" "Enabled (10 min)"
+        notify-send "$(_t "Auto-lock")" "$(_t "Enabled (10 min)")"
     fi
 }
 
@@ -578,7 +610,7 @@ _random_theme() {
         [[ "$t" != "$current" ]] && candidates+=("$t")
     done
     local pick="${candidates[RANDOM % ${#candidates[@]}]}"
-    notify-send "ohmychadwm" "Random theme: $pick"
+    notify-send "ohmychadwm" "$(_tf 'Random theme: $pick')"
     _apply_theme "$pick"
 }
 
@@ -593,60 +625,63 @@ _customise_reset_defaults() {
     [[ -f "$default" ]] || default="${OHMYCHADWM_CONFIG}/chadwm/config.def.h.default"
     # Border, gaps, tags, bar position and master area live in the theme files, so those
     # are reset too: every shipped theme comes back from skel; themes you made stay.
-    local default_themes
-    default_themes="$(dirname "$default")/themes"
-    present_terminal "bash -c '
-        config=\"${config}\"
-        default=\"${default}\"
-        themes=\"${OHMYCHADWM_CONFIG}/chadwm/themes\"
-        default_themes=\"${default_themes}\"
+    # Paths and translated sentences go to the terminal through the environment.
+    OHM_R_CONFIG="$config" OHM_R_DEFAULT="$default"
+    OHM_R_THEMES="${OHMYCHADWM_CONFIG}/chadwm/themes" OHM_R_DEFAULT_THEMES="$(dirname "$default")/themes"
+    OHM_R_KB="${OHMYCHADWM_CONFIG}/keybindings.txt" OHM_R_CHADWM="${OHMYCHADWM_CONFIG}/chadwm"
+    OHM_T_NOTFOUND="$(_t "Not found: %s")"
+    OHM_T_TITLE="$(_t "Reset chadwm config to default")"
+    OHM_T_OVERWRITE="$(_t "This will overwrite:")"
+    OHM_T_SHIPPED="$(_t "the shipped theme files in %s")"
+    OHM_T_FROM="$(_t "with the defaults from:")"
+    OHM_T_UNTOUCHED="$(_t "Themes you created yourself, wallpapers and other settings are untouched.")"
+    OHM_T_BACKUPS="$(_t "Backups will be saved as:")"
+    OHM_T_CONTINUE="$(_t "Continue? [y/N]")"
+    OHM_T_CANCELLED="$(_t "Cancelled.")"
+    OHM_T_BACKED="$(_t "Backups created.")"
+    OHM_T_CONFIG_DONE="$(_t "config.def.h restored.")"
+    OHM_T_THEMES_DONE="$(_t "Shipped theme files restored.")"
+    OHM_T_KB_DONE="$(_t "Keybindings cheatsheet restored.")"
+    export OHM_R_CONFIG OHM_R_DEFAULT OHM_R_THEMES OHM_R_DEFAULT_THEMES OHM_R_KB OHM_R_CHADWM \
+        OHM_T_NOTFOUND OHM_T_TITLE OHM_T_OVERWRITE OHM_T_SHIPPED OHM_T_FROM OHM_T_UNTOUCHED OHM_T_BACKUPS \
+        OHM_T_CONTINUE OHM_T_CANCELLED OHM_T_BACKED OHM_T_CONFIG_DONE OHM_T_THEMES_DONE OHM_T_KB_DONE
+    local script
+    script=$(cat <<'EOS'
+if [[ ! -f "$OHM_R_DEFAULT" ]]; then
+    printf "  $OHM_T_NOTFOUND\n" "$OHM_R_DEFAULT"
+    exit 1
+fi
+line="━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+printf '%s\n  %s\n%s\n\n' "$line" "$OHM_T_TITLE" "$line"
+printf '  %s\n    %s\n    ' "$OHM_T_OVERWRITE" "$OHM_R_CONFIG"
+printf "$OHM_T_SHIPPED\n" "$OHM_R_THEMES"
+printf '  %s\n    %s\n\n' "$OHM_T_FROM" "$(dirname "$OHM_R_DEFAULT")"
+printf '  %s\n\n' "$OHM_T_UNTOUCHED"
+ts=$(date +%Y%m%d-%H%M%S)
+printf '  %s\n    %s\n    %s\n\n' "$OHM_T_BACKUPS" "${OHM_R_CONFIG}.${ts}" "${OHM_R_THEMES}.${ts}"
+read -rp "  $OHM_T_CONTINUE " answer
+[[ "$answer" =~ ^[Yy]$ ]] || { echo "  $OHM_T_CANCELLED"; exit 0; }
 
-        if [[ ! -f \"\$default\" ]]; then
-            echo \"ERROR: \$default not found.\"
-            exit 1
-        fi
-
-        echo \"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\"
-        echo \"  Reset chadwm config to default\"
-        echo \"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\"
-        echo \"\"
-        echo \"  This will overwrite:\"
-        echo \"    \$config\"
-        echo \"    the shipped theme files in \$themes\"
-        echo \"  with the defaults from:\"
-        echo \"    \$(dirname \"\$default\")\"
-        echo \"\"
-        echo \"  Themes you created yourself, wallpapers and other settings are untouched.\"
-        echo \"\"
-        echo \"  Backups will be saved as:\"
-        ts=\$(date +%Y%m%d-%H%M%S)
-        backup=\"\${config}.\${ts}\"
-        echo \"    \$backup\"
-        echo \"    \${themes}.\${ts}\"
-        echo \"\"
-        read -rp \"  Continue? [y/N] \" answer
-        [[ \"\$answer\" =~ ^[Yy]\$ ]] || { echo \"Cancelled.\"; exit 0; }
-
-        cp \"\$config\" \"\$backup\"
-        cp -a \"\$themes\" \"\${themes}.\${ts}\"
-        echo \"\"
-        echo \"  Backups created.\"
-        cp \"\$default\" \"\$config\"
-        echo \"  config.def.h restored.\"
-        if [[ -d \"\$default_themes\" ]]; then
-            cp -f \"\$default_themes\"/*.h \"\$themes\"/
-            echo \"  Shipped theme files restored.\"
-        fi
-        # The default config is QWERTY again, so the cheatsheet must be too.
-        kb_default=\"\$(dirname \"\$(dirname \"\$default\")\")/keybindings.txt\"
-        kb=\"${OHMYCHADWM_CONFIG}/keybindings.txt\"
-        if [[ -f \"\$kb_default\" && ! \"\$kb_default\" -ef \"\$kb\" ]]; then
-            cp -f \"\$kb_default\" \"\$kb\"
-            echo \"  Keybindings cheatsheet restored.\"
-        fi
-        echo \"\"
-        cd \"${OHMYCHADWM_CONFIG}/chadwm\" && bash rebuild.sh
-    '"
+cp "$OHM_R_CONFIG" "${OHM_R_CONFIG}.${ts}"
+cp -a "$OHM_R_THEMES" "${OHM_R_THEMES}.${ts}"
+printf '\n  %s\n' "$OHM_T_BACKED"
+cp "$OHM_R_DEFAULT" "$OHM_R_CONFIG"
+echo "  $OHM_T_CONFIG_DONE"
+if [[ -d "$OHM_R_DEFAULT_THEMES" ]]; then
+    cp -f "$OHM_R_DEFAULT_THEMES"/*.h "$OHM_R_THEMES"/
+    echo "  $OHM_T_THEMES_DONE"
+fi
+# The default config is QWERTY again, so the cheatsheet must be too.
+kb_default="$(dirname "$(dirname "$OHM_R_DEFAULT")")/keybindings.txt"
+if [[ -f "$kb_default" && ! "$kb_default" -ef "$OHM_R_KB" ]]; then
+    cp -f "$kb_default" "$OHM_R_KB"
+    echo "  $OHM_T_KB_DONE"
+fi
+echo
+cd "$OHM_R_CHADWM" && bash rebuild.sh
+EOS
+)
+    present_terminal "bash -c $(printf '%q' "$script")"
 }
 
 show_tags_menu() {
@@ -737,7 +772,7 @@ show_barpad_menu() {
                 v=$(menu "Bar vertical padding (current: ${cv})" \
                     "0\n2\n4\n6\n8\n10\n11\n12\n14\n16\n18\n20") || continue
                 sed -i "s/\(static const int vertpadbar\s*=\s*\)[0-9]\+/\1${v}/" "$config"
-                notify-send "ohmychadwm" "vertpadbar → ${v} — rebuilding..."
+                notify-send "ohmychadwm" "$(_tf 'Vertical padding: $v — rebuilding…')"
                 (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
                 return 0
                 ;;
@@ -746,14 +781,14 @@ show_barpad_menu() {
                 h=$(menu "Bar horizontal padding (current: ${ch})" \
                     "0\n2\n4\n5\n6\n8\n10\n12\n14\n16\n18\n20") || continue
                 sed -i "s/\(static const int horizpadbar\s*=\s*\)[0-9]\+/\1${h}/" "$config"
-                notify-send "ohmychadwm" "horizpadbar → ${h} — rebuilding..."
+                notify-send "ohmychadwm" "$(_tf 'Horizontal padding: $h — rebuilding…')"
                 (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
                 return 0
                 ;;
             default)
                 sed -i "s/\(static const int vertpadbar\s*=\s*\)[0-9]\+/\111/" "$config"
                 sed -i "s/\(static const int horizpadbar\s*=\s*\)[0-9]\+/\15/" "$config"
-                notify-send "ohmychadwm" "Bar padding reset to defaults — rebuilding..."
+                notify-send "ohmychadwm" "$(_t "Bar padding reset to defaults — rebuilding…")"
                 (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
                 return 0
                 ;;
@@ -851,18 +886,18 @@ show_alacritty_theme_menu() {
         -printf '%f\n' | sort)
     local chosen
     chosen=$(printf '%s\n' "$theme_list" | \
-        rofi -dmenu -p "Alacritty theme" -width "$MENU_WIDTH" -lines 20 2>/dev/null) || return 1
+        rofi -dmenu -p "$(_t "Alacritty theme")" -width "$MENU_WIDTH" -lines 20 2>/dev/null) || return 1
     _alacritty_apply_colors "${ALACRITTY_THEMES_DIR}/${chosen}"
-    notify-send "ohmychadwm" "Alacritty theme set to '${chosen}'"
+    notify-send "ohmychadwm" "$(_tf 'Alacritty theme set to “${chosen}”')"
 }
 
 show_alacritty_font_menu() {
     local font_list
     font_list=$(fc-list : family | sort -u)
     local chosen
-    chosen=$(echo "$font_list" | rofi -dmenu -p "Alacritty font…" -width "$MENU_WIDTH" -lines 20 2>/dev/null) || return 1
+    chosen=$(echo "$font_list" | rofi -dmenu -p "$(_t "Alacritty font…")" -width "$MENU_WIDTH" -lines 20 2>/dev/null) || return 1
     sed -i "s|^\(family = \).*|\1\"${chosen}\"|" "$ALACRITTY_CONF"
-    notify-send "ohmychadwm" "Alacritty font set to '${chosen}'"
+    notify-send "ohmychadwm" "$(_tf 'Alacritty font set to “${chosen}”')"
 }
 
 show_alacritty_size_menu() {
@@ -872,7 +907,7 @@ show_alacritty_size_menu() {
     chosen=$(menu "Font size (current: ${current})" \
         "8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n20\n22\n24") || return 1
     sed -i "s/^\(size\s*=\s*\)[0-9.]*/\1${chosen}.0/" "$ALACRITTY_CONF"
-    notify-send "ohmychadwm" "Alacritty font size set to ${chosen}"
+    notify-send "ohmychadwm" "$(_tf 'Alacritty font size set to ${chosen}')"
 }
 
 show_alacritty_opacity_menu() {
@@ -882,7 +917,7 @@ show_alacritty_opacity_menu() {
     chosen=$(menu "Opacity (current: ${current})" \
         "0.1\n0.2\n0.3\n0.4\n0.5\n0.6\n0.7\n0.8\n0.9\n1.0") || return 1
     sed -i "s/^\(opacity\s*=\s*\)[0-9.]*/\1${chosen}/" "$ALACRITTY_CONF"
-    notify-send "ohmychadwm" "Alacritty opacity set to ${chosen}"
+    notify-send "ohmychadwm" "$(_tf 'Alacritty opacity set to ${chosen}')"
 }
 
 show_alacritty_shell_menu() {
@@ -891,9 +926,9 @@ show_alacritty_shell_menu() {
     local shell_list
     shell_list=$(grep -v '^#' /etc/shells | grep '^/bin/')
     local chosen
-    chosen=$(echo "$shell_list" | rofi -dmenu -p "Shell (current: ${current})" -width "$MENU_WIDTH" 2>/dev/null) || return 1
+    chosen=$(echo "$shell_list" | rofi -dmenu -p "$(_tf 'Shell (now $current)')" -width "$MENU_WIDTH" 2>/dev/null) || return 1
     sed -i "s|^\(program\s*=\s*\)\"[^\"]*\"|\1\"${chosen}\"|" "$ALACRITTY_CONF"
-    notify-send "ohmychadwm" "Alacritty shell set to ${chosen}"
+    notify-send "ohmychadwm" "$(_tf 'Alacritty shell set to ${chosen}')"
 }
 
 _alacritty_reset_default() {
@@ -905,7 +940,7 @@ _alacritty_reset_default() {
         return 1
     fi
     cp "$backup" "$ALACRITTY_CONF"
-    notify-send "ohmychadwm" "Alacritty reset to default"
+    notify-send "ohmychadwm" "$(_t "Alacritty reset to default")"
 }
 
 show_launchers_menu() {
@@ -974,7 +1009,7 @@ show_delete_theme_menu() {
     custom_list="${custom_list%\\n}"
 
     if [[ -z "$custom_list" ]]; then
-        notify-send "ohmychadwm" "No custom themes to delete"
+        notify-send "ohmychadwm" "$(_t "No custom themes to delete")"
         return 1
     fi
 
@@ -1005,20 +1040,30 @@ show_delete_theme_menu() {
 
     # if deleted theme was active, fall back to kanagawa
     if [[ "$active" == "$chosen" ]]; then
-        notify-send "ohmychadwm" "Active theme deleted — switching to kanagawa"
+        notify-send "ohmychadwm" "$(_t "Active theme deleted — switching to kanagawa")"
         _apply_theme "kanagawa"
     else
-        notify-send "ohmychadwm" "Theme '$chosen' deleted"
+        notify-send "ohmychadwm" "$(_tf 'Theme “$chosen” deleted')"
     fi
 }
 
 show_theme_menu() {
+    OHM_T_THEME_PROMPT="$(_t "Theme > ")"
+    OHM_T_FONT_MISSING="$(_t "Font not installed: %s")"
+    OHM_T_FONT_FALLBACK="$(_t "Install it first, or the bar will fall back to a system font.")"
+    OHM_T_APPLY_ANYWAY="$(_t "Apply theme anyway? [y/N]")"
+    OHM_T_THEME_FONT="$(_t "Theme font: %s")"
+    OHM_T_APPLY_OTHERS="$(_t "Apply it to other apps too (alacritty, kitty, GTK, rofi)? [y/N]")"
+    OHM_T_FONTS_APPLIED="$(_t "Fonts applied.")"
+    OHM_T_THEME_APPLIED="$(_t "Theme %s applied — rebuilding…")"
+    export OHM_T_THEME_PROMPT OHM_T_FONT_MISSING OHM_T_FONT_FALLBACK OHM_T_APPLY_ANYWAY \
+        OHM_T_THEME_FONT OHM_T_APPLY_OTHERS OHM_T_FONTS_APPLIED OHM_T_THEME_APPLIED
     local themes_dir="${OHMYCHADWM_CONFIG}/chadwm/themes"
     local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
     local preview_script="${OHMYCHADWM_CONFIG}/scripts/preview-theme.sh"
 
     if [[ ! -d "$themes_dir" ]]; then
-        notify-send "ohmychadwm" "No themes directory found at ${themes_dir}"
+        notify-send "ohmychadwm" "$(_tf 'No themes directory found at ${themes_dir}')"
         return 1
     fi
 
@@ -1027,7 +1072,7 @@ show_theme_menu() {
             | xargs -n1 basename \
             | sed \"s/\\.h\$//\" \
             | fzf \
-                --prompt=\"Theme > \" \
+                --prompt=\"\$OHM_T_THEME_PROMPT\" \
                 --layout=reverse \
                 --border \
                 --ansi \
@@ -1041,10 +1086,10 @@ show_theme_menu() {
         if [[ -n \"\$theme_font\" ]]; then
             if ! fc-list : family | grep -qi \"\$theme_font\"; then
                 echo \"\"
-                echo \"  ⚠  Font not installed: \$theme_font\"
-                echo \"  Install it first, or the bar will fall back to a system font.\"
+                printf \"  ⚠  \$OHM_T_FONT_MISSING\n\" \"\$theme_font\"
+                echo \"  \$OHM_T_FONT_FALLBACK\"
                 echo \"\"
-                read -rp \"  Apply theme anyway? [y/N] \" _fc
+                read -rp \"  \$OHM_T_APPLY_ANYWAY \" _fc
                 [[ \"\$_fc\" =~ ^[Yy]\$ ]] || exit 0
             fi
         fi
@@ -1088,8 +1133,8 @@ show_theme_menu() {
             [[ -z \"\$t_size\"  ]] && t_size=\"13\"
             rofi_font=\"\$t_font \$t_style \$t_size\"
             echo \"\"
-            echo \"Theme font: \$rofi_font\"
-            echo \"Apply to other apps? (alacritty, kitty, GTK, rofi) [y/N]:\"
+            printf \"\$OHM_T_THEME_FONT\n\" \"\$rofi_font\"
+            echo \"\$OHM_T_APPLY_OTHERS\"
             read -rp \"> \" _af
             if [[ \"\$_af\" =~ ^[Yy]\$ ]]; then
                 _ala=\"\${HOME}/.config/alacritty/alacritty.toml\"
@@ -1116,11 +1161,11 @@ show_theme_menu() {
                     \"\${HOME}/.config/rofi/config.rasi\"; do
                     [[ -f \"\$_rasi\" ]] && sed -i \"s|\(\s*font:\s*\)\\\"[^\\\"]*\\\"|\1\\\"\$rofi_font\\\"|g\" \"\$_rasi\"
                 done
-                echo \"Fonts applied.\"
+                echo \"\$OHM_T_FONTS_APPLIED\"
             fi
         fi
 
-        notify-send \"ohmychadwm\" \"Theme \${chosen} applied — rebuilding...\"
+        notify-send \"ohmychadwm\" \"\$(printf \"\$OHM_T_THEME_APPLIED\" \"\$chosen\")\"
         cd \"${OHMYCHADWM_CONFIG}/chadwm\" && bash rebuild.sh
     '"
 }
@@ -1160,7 +1205,7 @@ _apply_theme() {
     local theme="$1"
     local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
     if [[ ! -f "${OHMYCHADWM_CONFIG}/chadwm/themes/${theme}.h" ]]; then
-        notify-send -u critical "ohmychadwm" "Theme '${theme}' not found"
+        notify-send -u critical "ohmychadwm" "$(_tf 'Theme “${theme}” not found')"
         return 1
     fi
     # Comment out any active theme include
@@ -1180,10 +1225,16 @@ _apply_theme() {
     [[ -f "$theme_wp" ]] && feh --bg-fill "$theme_wp"
     # Rebuild chadwm
     (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c 'cd ~/.config/ohmychadwm/chadwm && ./rebuild.sh; exec bash')
-    notify-send "ohmychadwm" "Theme '${theme}' applied — reboot your system"
+    notify-send "ohmychadwm" "$(_tf 'Theme “${theme}” applied — reboot your system')"
 }
 
 show_font_menu() {
+    OHM_T_FAMILY_PROMPT="$(_t "Font family > ")"
+    OHM_T_STYLE_PROMPT="$(_t "Font style > ")"
+    OHM_T_FONT_SIZE="$(_t "Font size? [default 13]:")"
+    OHM_T_ICON_SIZE="$(_t "Bar icon size? [default 18]:")"
+    OHM_T_FONT_SET="$(_t "Font: %s — rebuilding…")"
+    export OHM_T_FAMILY_PROMPT OHM_T_STYLE_PROMPT OHM_T_FONT_SIZE OHM_T_ICON_SIZE OHM_T_FONT_SET
     local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
     local active_theme
     active_theme=$(grep -oP '(?<=#include "themes/)[^"]+(?=\.h")' "$config" | head -1)
@@ -1196,7 +1247,7 @@ show_font_menu() {
             | sed \"s/^[[:space:]]*//;s/[[:space:]]*\$//\" \
             | grep -v \"^\\.\" \
             | sort -uf \
-            | fzf --prompt=\"Font family > \" --height=40% --layout=reverse --border 2>/dev/null) || exit 0
+            | fzf --prompt=\"\$OHM_T_FAMILY_PROMPT\" --height=40% --layout=reverse --border 2>/dev/null) || exit 0
         [[ -z \"\$family\" ]] && exit 0
 
         # ── font style — real styles for chosen family ───────────────────────
@@ -1210,17 +1261,17 @@ show_font_menu() {
             style=\$(echo \"\$styles\" | head -1)
             [[ -z \"\$style\" ]] && style=\"Bold\"
         else
-            style=\$(echo \"\$styles\" | fzf --prompt=\"Font style > \" --height=40% --layout=reverse --border 2>/dev/null) || style=\"Bold\"
+            style=\$(echo \"\$styles\" | fzf --prompt=\"\$OHM_T_STYLE_PROMPT\" --height=40% --layout=reverse --border 2>/dev/null) || style=\"Bold\"
             [[ -z \"\$style\" ]] && style=\"Bold\"
         fi
 
         # ── font size ────────────────────────────────────────────────────────
-        echo -e \"\nFont size? [default 13]:\"
+        printf \"\n%s\n\" \"\$OHM_T_FONT_SIZE\"
         read -rp \"> \" size
         [[ \"\$size\" =~ ^[0-9]+\$ ]] && (( size >= 6 && size <= 72 )) || size=13
 
         # ── icon size ────────────────────────────────────────────────────────
-        echo \"Bar icon size? [default 18]:\"
+        echo \"\$OHM_T_ICON_SIZE\"
         read -rp \"> \" iconsize
         [[ \"\$iconsize\" =~ ^[0-9]+\$ ]] && (( iconsize >= 8 && iconsize <= 72 )) || iconsize=18
 
@@ -1232,7 +1283,7 @@ show_font_menu() {
             sed -i \"s|#define THEME_ICONSIZE [0-9]*|#define THEME_ICONSIZE    \$iconsize|\" \"\$f\"
         done
 
-        notify-send \"ohmychadwm\" \"Font: \$family \$style \$size — rebuilding...\"
+        notify-send \"ohmychadwm\" \"\$(printf \"\$OHM_T_FONT_SET\" \"\$family \$style \$size\")\"
         cd \"${OHMYCHADWM_CONFIG}/chadwm\" && bash rebuild.sh
     '"
 }
@@ -1252,7 +1303,7 @@ _apply_font() {
     # Also update the fallback in config.def.h
     sed -i "s|#define THEME_FONT \"[^\"]*\"|#define THEME_FONT \"${font}\"|" "$config"
     (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
-    notify-send "ohmychadwm" "Font set to '${font}'"
+    notify-send "ohmychadwm" "$(_tf 'Font set to “${font}”')"
 }
 
 show_wallpaper_menu() {
@@ -1268,17 +1319,19 @@ show_wallpaper_menu() {
     fi
 
     if [[ ${#all_images[@]} -eq 0 ]]; then
-        notify-send "ohmychadwm" "No wallpaper images found"
+        notify-send "ohmychadwm" "$(_t "No wallpaper images found")"
         return 1
     fi
 
     local chosen
     chosen=$(for f in "${all_images[@]}"; do
         printf '%s\0icon\x1f%s\n' "$f" "$f"
-    done | rofi -dmenu -p "Wallpaper…" -show-icons -width "$MENU_WIDTH" 2>/dev/null) || return 1
+    done | rofi -dmenu -p "$(_t "Wallpaper…")" -show-icons -width "$MENU_WIDTH" 2>/dev/null) || return 1
 
+    local name
+    name="$(basename "$chosen")"
     feh --bg-fill "$chosen" && \
-        notify-send "ohmychadwm" "Wallpaper set to '$(basename "$chosen")'"
+        notify-send "ohmychadwm" "$(_tf 'Wallpaper set to “$name”')"
 
     # save as the active wallpaper in ohmychadwm wallpapers folder
     cp "$chosen" "${OHMYCHADWM_CONFIG}/wallpapers/wallpaper.jpg"
@@ -1306,7 +1359,7 @@ show_setup_menu() {
             display)     show_display_menu  || continue; return 0 ;;
             network)     show_lanwifi_menu  || continue; return 0 ;;
             defaults)    show_defaults_menu || continue; return 0 ;;
-            timezone)    present_terminal "tzselect && echo 'Run: sudo timedatectl set-timezone <zone>'"; return 0 ;;
+            timezone)    OHM_T_HINT="$(_t "Then run: sudo timedatectl set-timezone <zone>")"; export OHM_T_HINT; present_terminal "tzselect && echo \"\$OHM_T_HINT\""; return 0 ;;
             timesync)    present_terminal "sudo timedatectl set-ntp true && timedatectl status"; return 0 ;;
             config)      show_config_menu   || continue; return 0 ;;
             reset)       present_terminal "bash ${OHMYCHADWM_CONFIG}/scripts/backup-originals.sh --restore"; return 0 ;;
@@ -1380,7 +1433,7 @@ show_display_menu() {
         case $(pick "$(_t "Display")" "${rows[@]}") in
             arandr)
                 if ! command -v arandr &>/dev/null; then
-                    notify-send "ohmychadwm" "Installing arandr..."
+                    notify-send "ohmychadwm" "$(_t "Installing arandr…")"
                     sudo pacman -S --needed --noconfirm arandr
                 fi
                 setsid arandr &>/dev/null &
@@ -1389,49 +1442,49 @@ show_display_menu() {
                 ;;
             auto)
                 xrandr --auto
-                notify-send "ohmychadwm" "Display auto-detected"
+                notify-send "ohmychadwm" "$(_t "Display auto-detected")"
                 return 0
                 ;;
             mirror)
                 xrandr --output "$primary" --auto \
                        --output "$secondary" --same-as "$primary" --auto
-                notify-send "ohmychadwm" "Mirroring ${primary} → ${secondary}"
+                notify-send "ohmychadwm" "$(_tf 'Mirroring ${primary} → ${secondary}')"
                 return 0
                 ;;
             right)
                 xrandr --output "$primary" --auto \
                        --output "$secondary" --auto --right-of "$primary"
-                notify-send "ohmychadwm" "${secondary} right of ${primary}"
+                notify-send "ohmychadwm" "$(_tf '${secondary} right of ${primary}')"
                 return 0
                 ;;
             left)
                 xrandr --output "$primary" --auto \
                        --output "$secondary" --auto --left-of "$primary"
-                notify-send "ohmychadwm" "${secondary} left of ${primary}"
+                notify-send "ohmychadwm" "$(_tf '${secondary} left of ${primary}')"
                 return 0
                 ;;
             above)
                 xrandr --output "$primary" --auto \
                        --output "$secondary" --auto --above "$primary"
-                notify-send "ohmychadwm" "${secondary} above ${primary}"
+                notify-send "ohmychadwm" "$(_tf '${secondary} above ${primary}')"
                 return 0
                 ;;
             below)
                 xrandr --output "$primary" --auto \
                        --output "$secondary" --auto --below "$primary"
-                notify-send "ohmychadwm" "${secondary} below ${primary}"
+                notify-send "ohmychadwm" "$(_tf '${secondary} below ${primary}')"
                 return 0
                 ;;
             primary)
                 xrandr --output "$primary" --auto
                 for _o in "${outputs[@]:1}"; do xrandr --output "$_o" --off; done
-                notify-send "ohmychadwm" "Primary only: ${primary}"
+                notify-send "ohmychadwm" "$(_tf 'Primary only: ${primary}')"
                 return 0
                 ;;
             secondary)
                 xrandr --output "$secondary" --auto
                 xrandr --output "$primary" --off
-                notify-send "ohmychadwm" "Secondary only: ${secondary}"
+                notify-send "ohmychadwm" "$(_tf 'Secondary only: ${secondary}')"
                 return 0
                 ;;
             rotate)
@@ -1452,7 +1505,7 @@ show_rotate_menu() {
         target="${outputs[0]}"
     else
         target=$(printf '%s\n' "${outputs[@]}" | \
-            rofi -dmenu -p "Rotate which display?" -width "$MENU_WIDTH" 2>/dev/null) || return 1
+            rofi -dmenu -p "$(_t "Rotate which display?")" -width "$MENU_WIDTH" 2>/dev/null) || return 1
     fi
     [[ -z "$target" ]] && return 1
 
@@ -1472,7 +1525,7 @@ show_lanwifi_menu() {
             nmtui  "nmtui") in
         editor)
             if ! command -v nm-connection-editor &>/dev/null; then
-                notify-send "ohmychadwm" "Installing network-manager-applet..."
+                notify-send "ohmychadwm" "$(_t "Installing network-manager-applet…")"
                 sudo pacman -S --needed --noconfirm network-manager-applet
             fi
             setsid nm-connection-editor &>/dev/null &
@@ -1480,7 +1533,7 @@ show_lanwifi_menu() {
             ;;
         nmtui)
             if ! command -v nmtui &>/dev/null; then
-                notify-send "ohmychadwm" "Installing networkmanager..."
+                notify-send "ohmychadwm" "$(_t "Installing networkmanager…")"
                 sudo pacman -S --needed --noconfirm networkmanager
             fi
             present_terminal "nmtui"
@@ -1498,9 +1551,9 @@ _ensure_installed() {
         nvim) pkg="neovim" ;;
         *)    pkg="$bin" ;;
     esac
-    notify-send "ohmychadwm" "Installing '${pkg}'..."
+    notify-send "ohmychadwm" "$(_tf 'Installing “${pkg}”…')"
     present_terminal "sudo pacman -S --noconfirm ${pkg}"
-    command -v "$bin" &>/dev/null || { notify-send -u critical "ohmychadwm" "Installation of '${pkg}' failed"; return 1; }
+    command -v "$bin" &>/dev/null || { notify-send -u critical "ohmychadwm" "$(_tf 'Installing “${pkg}” failed')"; return 1; }
 }
 
 show_defaults_menu() {
@@ -1520,7 +1573,7 @@ show_defaults_menu() {
 _set_default_terminal() {
     local terminals="alacritty\nghostty\nkitty\nxterm\nurxvt"
     local chosen
-    chosen=$(echo -e "$terminals" | rofi -dmenu -p "Terminal…" -width "$MENU_WIDTH" 2>/dev/null) || return 1
+    chosen=$(echo -e "$terminals" | rofi -dmenu -p "$(_t "Terminal…")" -width "$MENU_WIDTH" 2>/dev/null) || return 1
     _ensure_installed "$chosen" || return 1
     mkdir -p "${OHMYCHADWM_CONFIG}"
     sed -i "s|^TERMINAL=.*|TERMINAL=${chosen}|" "${OHMYCHADWM_CONFIG}/menu.conf" 2>/dev/null || \
@@ -1531,13 +1584,13 @@ _set_default_terminal() {
         sed -i '/^super + t$/{n; s|.*|    '"${chosen}"'|}' "$sxhkdrc"
         sleep 0.2 && pkill -USR1 sxhkd 2>/dev/null
     fi
-    notify-send "ohmychadwm" "Default terminal set to ${chosen} — Super+T updated"
+    notify-send "ohmychadwm" "$(_tf 'Default terminal set to ${chosen} — Super+T updated')"
 }
 
 _set_default_editor() {
     local editors="code\nnvim\nvim\nemacs\ngedit"
     local chosen
-    chosen=$(echo -e "$editors" | rofi -dmenu -p "Editor…" -width "$MENU_WIDTH" 2>/dev/null) || return 1
+    chosen=$(echo -e "$editors" | rofi -dmenu -p "$(_t "Editor…")" -width "$MENU_WIDTH" 2>/dev/null) || return 1
     _ensure_installed "$chosen" || return 1
     mkdir -p "${OHMYCHADWM_CONFIG}"
     sed -i "s|^EDITOR=.*|EDITOR=${chosen}|" "${OHMYCHADWM_CONFIG}/menu.conf" 2>/dev/null || \
@@ -1554,13 +1607,13 @@ _set_default_editor() {
         sed -i '/^super + e$/{n; s|.*|    '"${launch}"'|}' "$sxhkdrc"
         sleep 0.2 && pkill -USR1 sxhkd 2>/dev/null
     fi
-    notify-send "ohmychadwm" "Default editor set to ${chosen} — Super+E updated"
+    notify-send "ohmychadwm" "$(_tf 'Default editor set to ${chosen} — Super+E updated')"
 }
 
 _set_default_browser() {
     local browsers="firefox\nchromium\nbrave\nqutebrowser\nvivaldi"
     local chosen
-    chosen=$(echo -e "$browsers" | rofi -dmenu -p "Browser…" -width "$MENU_WIDTH" 2>/dev/null) || return 1
+    chosen=$(echo -e "$browsers" | rofi -dmenu -p "$(_t "Browser…")" -width "$MENU_WIDTH" 2>/dev/null) || return 1
     _ensure_installed "$chosen" || return 1
     mkdir -p "${OHMYCHADWM_CONFIG}"
     sed -i "s|^BROWSER=.*|BROWSER=${chosen}|" "${OHMYCHADWM_CONFIG}/menu.conf" 2>/dev/null || \
@@ -1571,7 +1624,7 @@ _set_default_browser() {
         sed -i '/^super + w$/{n; s|.*|    '"${chosen}"'|}' "$sxhkdrc"
         sleep 0.2 && pkill -USR1 sxhkd 2>/dev/null
     fi
-    notify-send "ohmychadwm" "Default browser set to ${chosen} — Super+W updated"
+    notify-send "ohmychadwm" "$(_tf 'Default browser set to ${chosen} — Super+W updated')"
 }
 
 # ---------------------------------------------------------------------------
@@ -1661,7 +1714,7 @@ show_install_dev_menu() {
             docker Docker go Go node "Node.js + mise" podman Podman \
             python "Python + mise" ruby "Ruby + mise" rust Rust) in
         docker) install "Docker" "docker docker-compose" && \
-                present_terminal "sudo systemctl enable --now docker && sudo usermod -aG docker \$USER && echo 'Log out and back in for group change'" ;;
+                OHM_T_HINT="$(_t "Log out and back in so the docker group takes effect.")"; export OHM_T_HINT; present_terminal "sudo systemctl enable --now docker && sudo usermod -aG docker \$USER && echo \"\$OHM_T_HINT\"" ;;
         go)     install "Go" "go" ;;
         node)   present_terminal "mise use -g node@lts && node --version" ;;
         podman) install "Podman" "podman" ;;
@@ -1673,6 +1726,9 @@ show_install_dev_menu() {
 }
 
 show_install_ai_menu() {
+    OHM_T_HINT="$(_t "Done. Start it with: %s")"
+    OHM_T_OLLAMA="$(_t "Ollama is running. Try: ollama run llama3")"
+    export OHM_T_HINT OHM_T_OLLAMA
     # Detect GPU for appropriate Ollama package
     local ollama_pkg="ollama"
     command -v nvidia-smi &>/dev/null && ollama_pkg="ollama-cuda"
@@ -1683,13 +1739,13 @@ show_install_ai_menu() {
             ollama   "Ollama (${ollama_pkg})" \
             opencode "OpenCode") in
         claude)
-            present_terminal "sudo pacman -S --needed --noconfirm nodejs npm && npm install -g @anthropic-ai/claude-code && echo 'Done. Run: claude'"
+            present_terminal "sudo pacman -S --needed --noconfirm nodejs npm && npm install -g @anthropic-ai/claude-code && printf \"\$OHM_T_HINT\n\" claude"
             ;;
         ollama)
-            present_terminal "sudo pacman -S --needed --noconfirm ${ollama_pkg} && sudo systemctl enable --now ollama && echo 'Ollama running. Try: ollama run llama3'"
+            present_terminal "sudo pacman -S --needed --noconfirm ${ollama_pkg} && sudo systemctl enable --now ollama && echo \"\$OHM_T_OLLAMA\""
             ;;
         opencode)
-            present_terminal "sudo pacman -S --needed --noconfirm opencode && echo 'Done. Run: opencode'"
+            present_terminal "sudo pacman -S --needed --noconfirm opencode && printf \"\$OHM_T_HINT\n\" opencode"
             ;;
         *)  return 1 ;;
     esac
@@ -1803,7 +1859,7 @@ _restart_picom() {
     pkill picom 2>/dev/null
     setsid picom --config "${HOME}/.config/ohmychadwm/picom/picom.conf" -b &>/dev/null &
     disown
-    notify-send "ohmychadwm" "Picom restarted"
+    notify-send "ohmychadwm" "$(_t "Picom restarted")"
 }
 
 _restart_fastcompmgr() {
@@ -1814,15 +1870,17 @@ _restart_fastcompmgr() {
     pkill fastcompmgr 2>/dev/null
     setsid fastcompmgr -c -C &>/dev/null &
     disown
-    notify-send "ohmychadwm" "Fastcompmgr restarted"
+    notify-send "ohmychadwm" "$(_t "Fastcompmgr restarted")"
 }
 
 _restart_pipewire() {
-    present_terminal "printf 'Running: systemctl --user restart pipewire pipewire-pulse wireplumber\n\n'; systemctl --user restart pipewire pipewire-pulse wireplumber && notify-send 'ohmychadwm' 'PipeWire restarted' && echo Done"
+    OHM_MSG_OK="$(_t "PipeWire restarted")"; export OHM_MSG_OK
+    present_terminal "printf '\$ systemctl --user restart pipewire pipewire-pulse wireplumber\n\n'; systemctl --user restart pipewire pipewire-pulse wireplumber && notify-send ohmychadwm \"\$OHM_MSG_OK\" && echo \"\$OHM_MSG_OK\""
 }
 
 _restart_pulseaudio() {
-    present_terminal "printf 'Running: systemctl --user restart pulseaudio\n\n'; systemctl --user restart pulseaudio && notify-send 'ohmychadwm' 'PulseAudio restarted' && echo Done"
+    OHM_MSG_OK="$(_t "PulseAudio restarted")"; export OHM_MSG_OK
+    present_terminal "printf '\$ systemctl --user restart pulseaudio\n\n'; systemctl --user restart pulseaudio && notify-send ohmychadwm \"\$OHM_MSG_OK\" && echo \"\$OHM_MSG_OK\""
 }
 
 # ---------------------------------------------------------------------------
@@ -1868,7 +1926,7 @@ _lock_screen() {
     elif command -v slock &>/dev/null; then
         slock
     else
-        notify-send -u critical "ohmychadwm" "No screen locker found. Install slock or i3lock."
+        notify-send -u critical "ohmychadwm" "$(_t "No screen locker found. Install slock or i3lock.")"
     fi
 }
 
@@ -1892,7 +1950,7 @@ show_info_menu() {
             btop)    command -v btop &>/dev/null || install "btop" "btop"; present_terminal "btop"; return 0 ;;
             df)      present_terminal "df -h | (read -r header; echo \"\$header\"; sort)"; return 0 ;;
             ncdu)    command -v ncdu &>/dev/null || install "ncdu" "ncdu"; present_terminal "ncdu ${HOME}"; return 0 ;;
-            temp)    present_terminal "sensors 2>/dev/null || echo 'Run: sudo pacman -S lm_sensors && sudo sensors-detect'" ; return 0 ;;
+            temp)    OHM_T_HINT="$(_t "Install the sensors first: sudo pacman -S lm_sensors && sudo sensors-detect")"; export OHM_T_HINT; present_terminal "sensors 2>/dev/null || echo \"\$OHM_T_HINT\"" ; return 0 ;;
             battery) present_terminal "upower -i \$(upower -e | grep -i bat | head -1)"; return 0 ;;
             logs)    show_logs_menu || continue; return 0 ;;
             *)       return 1 ;;
