@@ -6,11 +6,14 @@
 
 **What Changed.** `tests/showcase-languages.sh` opens the system menu in every shipped language on the running session, English first and then the playbook's order. Each language stays open a few seconds (`-i`, default 3). It's for a showcase video: start the screen recorder, then the script. It also works as a quick visual check of the translations, CJK fonts included. With `-s <folder>` it also saves a screenshot per language.
 
+**Tour mode (`-t`):** in every language it walks Main → Appearance → Theme, back, types "setup" into the search line (which shows the English search working in that language) → Setup → Windows, then back out, pausing `-i` seconds per menu (default 1.5). It needs about 15 seconds per language. With `-s` it saves every step as `<lang>-<step>-<menu>.png` for documentation: 84 screenshots for 14 languages. Each language starts on the next wallpaper (`variety -n`, when Variety is running); `-k` keeps the current one.
+
 **Technical Details.**
 - **Languages:** read from `menu/locale/` next to the menu.
+- **Tour keys:** rofi grabs the keyboard without becoming the focused window, so the tour only sends a key while rofi is running and nothing else has focus. It waits for each new menu (a new rofi process) before the next key.
 - **How it runs:** `LANGUAGE=<lang>` per run. The only key it sends is Escape, to close each menu, and it stops as soon as another window has focus.
 - **Over ssh:** it finds the SDDM X cookie in `/tmp/xauth_*` when started over ssh.
-- Checked on a test box: 14 languages, 14 screenshots.
+- Checked on a test box: 14 languages, plus the full tour with 84 screenshots and a wallpaper change per language.
 
 **Files Modified.** `tests/showcase-languages.sh` (new), `CLAUDE.md`
 

@@ -14,8 +14,14 @@ set -euo pipefail
 #   video (start the screen recorder, then this script) and for a quick
 #   visual check of the translations, CJK fonts included.
 #   Options:
-#     -i <seconds>  how long each language stays open (default 3)
-#     -s <folder>   also save a screenshot per language (needs maim)
+#     -t            tour: in every language walk Main → Appearance → Theme,
+#                   back, search "setup" → Setup → Windows, back out
+#     -i <seconds>  how long each language (or, with -t, each menu) stays
+#                   open (default 3, or 1.5 with -t)
+#     -s <folder>   also save screenshots (needs maim): one per language, or
+#                   with -t one per tour step, <lang>-<step>-<menu>.png, for docs
+#     -k            keep the wallpaper; by default each language starts with
+#                   the next wallpaper (variety -n) when variety is running
 #     -m <menu.sh>  the menu to show (default ~/.config/ohmychadwm/menu/ohmychadwm-menu.sh)
 #   It only sends Escape to close each menu, and stops when another window
 #   takes focus, so it never types into anything else.
@@ -98,18 +104,24 @@ trap 'on_error "$LINENO" "$BASH_COMMAND"' ERR
 #####################################################################
 # Functions
 #####################################################################
-INTERVAL=3
+INTERVAL=""
 SHOTS=""
+TOUR=0
+KEEP_WALLPAPER=0
+CUR_LANG=""
+STEP=0
 MENU="${HOME}/.config/ohmychadwm/menu/ohmychadwm-menu.sh"
 
 usage() {
-    echo "Usage: $(basename "$0") [-i seconds] [-s screenshot-folder] [-m menu.sh]"
+    echo "Usage: $(basename "$0") [-t] [-k] [-i seconds] [-s screenshot-folder] [-m menu.sh]"
 }
 
 parse_args() {
     local opt
-    while getopts ":i:s:m:h" opt; do
+    while getopts ":tki:s:m:h" opt; do
         case "$opt" in
+            t) TOUR=1 ;;
+            k) KEEP_WALLPAPER=1 ;;
             i) INTERVAL="$OPTARG" ;;
             s) SHOTS="$OPTARG" ;;
             m) MENU="$OPTARG" ;;
@@ -117,6 +129,9 @@ parse_args() {
             *) usage; exit 1 ;;
         esac
     done
+    if [[ -z "$INTERVAL" ]]; then
+        if (( TOUR )); then INTERVAL=1.5; else INTERVAL=3; fi
+    fi
 }
 
 check_session() {
@@ -151,6 +166,89 @@ focused_window() {
     xdotool getactivewindow 2>/dev/null || true
 }
 
+# A fresh wallpaper per language, so the video does not look like one long still.
+next_wallpaper() {
+    (( KEEP_WALLPAPER )) && return 0
+    pgrep -x variety >/dev/null || return 0
+    variety -n >/dev/null 2>&1 || true
+    sleep 2
+}
+
+# Screenshot of the whole screen for docs: <lang>-<step>-<name>.png
+snap() {
+    [[ -z "$SHOTS" ]] && return 0
+    STEP=$((STEP + 1))
+    maim "$SHOTS/${CUR_LANG}-${STEP}-$1.png"
+}
+
+# ── Tour: keys go to rofi only ────────────────────────────────────────────────
+# rofi grabs the keyboard without becoming the focused window, so "no focused
+# window and rofi running" means every key lands in the menu, nowhere else.
+ROFI_PID=""
+
+safe() {
+    if [[ -n "$(focused_window)" ]] || ! pgrep -x rofi >/dev/null; then
+        log_warn "The menu lost the keyboard — tour stopped"
+        return 1
+    fi
+}
+
+# Wait until a new menu (a new rofi process) is on screen.
+wait_menu() {
+    local pid _
+    for _ in $(seq 80); do
+        pid="$(pgrep -n -x rofi || true)"
+        if [[ -n "$pid" && "$pid" != "$ROFI_PID" ]]; then
+            ROFI_PID="$pid"
+            sleep 0.4
+            return 0
+        fi
+        sleep 0.1
+    done
+    log_warn "No menu appeared — tour stopped"
+    return 1
+}
+
+pause() { sleep "$INTERVAL"; }
+down() { local i; for ((i = 0; i < $1; i++)); do safe && xdotool key Down; sleep 0.35; done; }
+enter() { safe && xdotool key Return && wait_menu; }
+back() { safe && xdotool key Escape && wait_menu; }
+search() { safe && xdotool type --delay 140 "$1"; sleep 0.6; }
+
+# Main → Appearance → Theme, back, search "setup" → Setup → Windows, back out.
+tour_one() {
+    wait_menu && snap main && pause &&
+    down 1 && enter && snap appearance && pause &&
+    enter && snap theme && pause &&
+    back && back && pause &&
+    search setup && snap search && enter && snap setup && pause &&
+    down 2 && enter && snap windows && pause &&
+    back && back && safe && xdotool key Escape
+}
+
+tour_all() {
+    local lang shown=0
+    log_section "Menu tour in every language, ${INTERVAL}s per menu"
+    [[ -n "$SHOTS" ]] && mkdir -p "$SHOTS"
+    for lang in $(languages); do
+        if [[ -n "$(focused_window)" ]]; then
+            log_warn "A window has focus — stopped before ${lang}"
+            break
+        fi
+        next_wallpaper
+        ROFI_PID="" CUR_LANG="$lang" STEP=0
+        LANGUAGE="$lang" setsid bash "$MENU" </dev/null >/dev/null 2>&1 &
+        if ! tour_one; then
+            pkill -x rofi 2>/dev/null || true
+            break
+        fi
+        sleep 0.6
+        echo "${CYAN}${lang}${RESET}"
+        shown=$((shown + 1))
+    done
+    echo "${shown} languages toured"
+}
+
 show_all() {
     local lang shown=0
     [[ -n "$SHOTS" ]] && mkdir -p "$SHOTS"
@@ -160,6 +258,7 @@ show_all() {
             log_warn "A window has focus — stopped before ${lang} (close or unfocus it and run again)"
             break
         fi
+        next_wallpaper
         LANGUAGE="$lang" setsid bash "$MENU" </dev/null >/dev/null 2>&1 &
         sleep 1
         [[ -n "$SHOTS" ]] && maim "$SHOTS/menu-${lang}.png"
@@ -180,7 +279,11 @@ show_all() {
 main() {
     parse_args "$@"
     check_session
-    show_all
+    if (( TOUR )); then
+        tour_all
+    else
+        show_all
+    fi
     log_success "$(basename "$0") done"
 }
 
