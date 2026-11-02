@@ -832,12 +832,12 @@ _alacritty_apply_colors() {
 
 show_alacritty_theme_menu() {
     # The ohmychadwm theme leads the list when it exists; the rest follow alphabetically.
-    local themes=""
-    [[ -f "${ALACRITTY_THEMES_DIR}/${ALACRITTY_DEFAULT_THEME}" ]] && themes="${ALACRITTY_DEFAULT_THEME}"$'\n'
-    themes+=$(find "$ALACRITTY_THEMES_DIR" -maxdepth 1 -name '*.toml' ! -name "$ALACRITTY_DEFAULT_THEME" \
+    local theme_list=""
+    [[ -f "${ALACRITTY_THEMES_DIR}/${ALACRITTY_DEFAULT_THEME}" ]] && theme_list="${ALACRITTY_DEFAULT_THEME}"$'\n'
+    theme_list+=$(find "$ALACRITTY_THEMES_DIR" -maxdepth 1 -name '*.toml' ! -name "$ALACRITTY_DEFAULT_THEME" \
         -printf '%f\n' | sort)
     local chosen
-    chosen=$(printf '%s\n' "$themes" | \
+    chosen=$(printf '%s\n' "$theme_list" | \
         rofi -dmenu -p "Alacritty theme" -width "$MENU_WIDTH" -lines 20 2>/dev/null) || return 1
     _alacritty_apply_colors "${ALACRITTY_THEMES_DIR}/${chosen}"
     notify-send "ohmychadwm" "Alacritty theme set to '${chosen}'"
