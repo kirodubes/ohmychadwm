@@ -1237,7 +1237,7 @@ int drawstatusbar(Monitor *m, int bh, char *stext) {
 
   /* top and bottom borders for status area */
   int sw_total = (floatbar ? m->ww - m->gappov * 2 - borderpx : m->ww - borderpx) - ret;
-  XSetForeground(drw->dpy, drw->gc, scheme[SchemeNorm][ColBorder].pixel);
+  XSetForeground(drw->dpy, drw->gc, clrborder.pixel);
   XFillRectangle(drw->dpy, drw->drawable, drw->gc, ret, 0, sw_total, borderpx);
   XFillRectangle(drw->dpy, drw->drawable, drw->gc, ret, borderpx + bh, sw_total, borderpx);
 

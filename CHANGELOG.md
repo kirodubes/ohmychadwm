@@ -2,11 +2,15 @@
 
 ## 2026.11.02
 
-### Bar border runs unbroken past the menu button
+### Bar border is one unbroken line in one color
 
-**What Changed.** The Arch menu button at the left of the bar covered the bar's top and bottom border lines, so the border looked cut off there. Most visible on themes with a bright bar border and a bottom bar. The button now sits inside the border, and the border is continuous.
+**What Changed.** Two flaws in the bar border, both clear on mars (bright red border, bottom bar):
+- The Arch menu button covered the bar's top and bottom border lines, so the border looked cut off there. The button now sits inside the border.
+- The status area (clock etc.) drew its border in a lighter color than the rest of the bar, so the line changed color just before the tray icons. It now uses the bar border color.
 
-**Technical Details.** `drawbar()` filled the menu box with `SchemeMenubr` from y=0 over the full bar height `bh`. It now starts at `borderpx` with height `bh_n` (`bh - 2*borderpx`), and the icon is inset by `borderpx` inside that box.
+Checked in a VM on mars: top and bottom border are one color from the left edge to the tray.
+
+**Technical Details.** `drawbar()` filled the menu box with `SchemeMenubr` from y=0 over the full bar height `bh`. It now starts at `borderpx` with height `bh_n` (`bh - 2*borderpx`), and the icon is inset by `borderpx` inside that box. `drawstatusbar()` drew the status top/bottom lines with `scheme[SchemeNorm][ColBorder]` (the window border color); it now uses `clrborder` (`col_borderbar`), which `drawbar()` uses for the rest of the bar.
 
 **Files Modified.** `etc/skel/.config/ohmychadwm/chadwm/dwm.c`
 
