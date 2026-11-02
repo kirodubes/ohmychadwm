@@ -2,6 +2,14 @@
 
 ## 2026.11.02
 
+### Theme showcase checks every theme before it starts
+
+**What Changed.** `showcase-themes.sh` now refuses to start when a requested theme is not listed in `config.def.h`. Before, it only checked that the theme file existed. A theme file without its `#include` line (for example a generated theme after `config.def.h` was reset) stopped the tour halfway, with no active theme left in `config.def.h`. This happened during a VM run through all 48 themes.
+
+**Technical Details.** `check_session()` greps `^(//)?#include "themes/<name>.h"` in the config for every theme, the same line `set_theme()` switches. Tested on a scratch config: an unlisted theme is refused, and the config is left as it was.
+
+**Files Modified.** `usr/share/ohmychadwm/showcase/showcase-themes.sh`
+
 ### Theme generator: readable bars on every wallpaper, right colours from 16-bit PNGs
 
 **What Changed.** Two bugs the new theme generator test found are fixed:

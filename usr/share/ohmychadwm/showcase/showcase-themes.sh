@@ -142,6 +142,9 @@ check_session() {
     [[ -f "$CONF" ]] || { log_error "Not found: $CONF"; exit 1; }
     for theme in "${THEMES[@]}"; do
         [[ -f "${CFG}/chadwm/themes/${theme}.h" ]] || { log_error "Theme not found: ${theme}"; exit 1; }
+        # set_theme switches the include line; without one the build has no theme and the tour stops halfway
+        grep -Eq "^(//)?#include \"themes/${theme}\.h\"" "$CONF" ||
+            { log_error "Theme not listed in ${CONF}: ${theme}"; exit 1; }
     done
 }
 
