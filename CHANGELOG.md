@@ -2,6 +2,31 @@
 
 ## 2026.11.02
 
+### Tests that click through every menu row, and the bugs they found
+
+**What Changed.** `tests/check.sh` tests ohmychadwm the way a user meets it:
+- It lints every script, builds chadwm with each of the 45 themes and with the shipped default config, and builds slstatus with every module switched on.
+- It then clicks through every row of the Super+Alt+Space menu: 201 actions.
+- `up.sh` runs it before every push and stops on a failure. The theme builds are skipped when nothing under `chadwm/` changed.
+
+The first run found these bugs, all fixed now:
+- **Settings that silently did nothing:** Appearance › Windows › Border, Gaps and Smart gaps, and Appearance › Bar › Position and Hide systray. The menu still edited `config.def.h` lines that now only read `THEME_*` defines from the theme, so the sed matched nothing and the rebuild changed nothing.
+- **Setup › Windows › Master area broke the build.** It produced `0.10THEME_MFACT`.
+- **Four status modules could never be switched on** (Hostname, RAM free, Swap free, Swap usage %): slstatus had no line for them. Commented lines were added.
+- **Alacritty › Back to default** looked for `default-arcolinux.toml`. Kiro ships `default-kiro.toml`, which it now tries first.
+- **Alacritty › Theme** listed `ohmychadwm-theme.toml`, which doesn't exist. It is now listed only when present.
+
+**Technical Details.**
+- **Settings:** one helper, `_set_theme_define`, now sets Tags, Border, Gaps, Smart gaps, Systray, Bar position and Master area in the active theme file and rebuilds.
+- **How the crawl works:** `tests/menu_crawl.py` runs the real menu in a fresh copy of the skel home for every row, with a stub rofi that answers with row indices. It walks the tree breadth-first, in parallel. Keyed menus get every row; long value lists only their first and last entry.
+- **Sandbox:** PATH holds only recorder stubs (sudo, pacman, systemctl, pkill, xrandr, …) and allowlisted harmless tools, so nothing reaches the machine. Any unknown command shows up as "command not found".
+- **Real execution:** the terminal stub runs whatever the menu hands it and answers "y" to prompts, so every rebuild really compiles in the sandbox.
+- **What counts as a failure:** shell or compiler errors, critical notifications, a ✓/✗ row that does not flip, and a value menu where no choice changes a source file.
+- **Verified:** with today's fixes stashed, the crawl flags all 13 failures, and the theme build check fails on the August `config.def.h.default`.
+- **Test hook:** `OHMYCHADWM_SKEL` lets the test point Back to default at the repo's skel.
+
+**Files Modified.** `tests/check.sh` (new), `tests/menu_crawl.py` (new), `up.sh`, `etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh`, `etc/skel/.config/ohmychadwm/slstatus/config.def.h`, `CLAUDE.md`, `README.md`
+
 ### System menu reorganised, ready for translation
 
 **What Changed.** The Super+Alt+Space menu now follows one rule: **Appearance** (was Style) is how things look, **Setup** is how things behave.

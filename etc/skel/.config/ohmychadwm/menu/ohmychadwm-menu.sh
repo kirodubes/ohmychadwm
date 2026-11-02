@@ -583,7 +583,7 @@ show_customise_menu() { show_appearance_menu "$@"; }
 _customise_reset_defaults() {
     local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
     # The packaged skel copy always matches the installed dwm.c; the .default copy can lag behind it.
-    local default="/etc/skel/.config/ohmychadwm/chadwm/config.def.h"
+    local default="${OHMYCHADWM_SKEL:-/etc/skel/.config/ohmychadwm}/chadwm/config.def.h"
     [[ -f "$default" ]] || default="${OHMYCHADWM_CONFIG}/chadwm/config.def.h.default"
     present_terminal "bash -c '
         config=\"${config}\"
@@ -641,9 +641,14 @@ show_tags_menu() {
     _apply_tags "$chosen"
 }
 
-# The tag set is the THEME_TAGS define in the active theme file.
-_apply_tags() {
-    local style="$1"
+_rebuild_chadwm() {
+    (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
+}
+
+# Tags, border, gaps, smart gaps, systray, bar position and master area are THEME_* defines
+# in the active theme file; config.def.h only reads them.
+_set_theme_define() {
+    local name="$1" value="$2"
     local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
     local active theme_file
     active=$(grep -oP '(?<=^#include "themes/)[^"]+(?=\.h")' "$config" | head -1)
@@ -652,12 +657,16 @@ _apply_tags() {
         notify-send -u critical "ohmychadwm" "$(_t "Active theme file not found")"
         return 1
     fi
-    if grep -qE '^#define THEME_TAGS[[:space:]]' "$theme_file"; then
-        sed -i -E "s|^#define THEME_TAGS[[:space:]].*|#define THEME_TAGS ${style}|" "$theme_file"
+    if grep -qE "^#define ${name}[[:space:]]" "$theme_file"; then
+        sed -i -E "s|^#define ${name}[[:space:]].*|#define ${name} ${value}|" "$theme_file"
     else
-        printf '#define THEME_TAGS %s\n' "$style" >> "$theme_file"
+        printf '#define %s %s\n' "$name" "$value" >> "$theme_file"
     fi
-    (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
+    _rebuild_chadwm
+}
+
+_apply_tags() {
+    _set_theme_define THEME_TAGS "$1" || return 1
     notify-send "ohmychadwm" "$(_t "Tags changed — rebuilding")"
 }
 
@@ -675,38 +684,17 @@ show_keyboard_layout_menu() {
 }
 
 show_border_menu() {
-    local current
-    current=$(grep -oP 'borderpx\s*=\s*\K[0-9]+' "${OHMYCHADWM_CONFIG}/chadwm/config.def.h")
-    local chosen
-    chosen=$(menu "Border (current: ${current}px)" "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10") || return 1
-    _apply_border "$chosen"
-}
-
-_apply_border() {
-    local px="$1"
-    local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
-    sed -i "s/static const unsigned int borderpx\s*=\s*[0-9]\+/static const unsigned int borderpx  = ${px}/" "$config"
-    (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
-    notify-send "ohmychadwm" "Border set to ${px}px"
+    local px
+    px=$(menu "$(_t "Border")" "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10") || return 1
+    _set_theme_define THEME_BORDER "$px" || return 1
+    notify-send "ohmychadwm" "$(_t "Border changed — rebuilding")"
 }
 
 show_gaps_menu() {
-    local current
-    current=$(grep -oP 'gappih\s*=\s*\K[0-9]+' "${OHMYCHADWM_CONFIG}/chadwm/config.def.h")
-    local chosen
-    chosen=$(menu "Gaps (current: ${current}px)" "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10") || return 1
-    _apply_gaps "$chosen"
-}
-
-_apply_gaps() {
-    local px="$1"
-    local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
-    sed -i "s/\(gappih\s*=\s*\)[0-9]\+/\1${px}/" "$config"
-    sed -i "s/\(gappiv\s*=\s*\)[0-9]\+/\1${px}/" "$config"
-    sed -i "s/\(gappoh\s*=\s*\)[0-9]\+/\1${px}/" "$config"
-    sed -i "s/\(gappov\s*=\s*\)[0-9]\+/\1${px}/" "$config"
-    (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
-    notify-send "ohmychadwm" "Gaps set to ${px}px"
+    local px
+    px=$(menu "$(_t "Gaps")" "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10") || return 1
+    _set_theme_define THEME_GAPS "$px" || return 1
+    notify-send "ohmychadwm" "$(_t "Gaps changed — rebuilding")"
 }
 
 show_barpad_menu() {
@@ -750,35 +738,29 @@ show_barpad_menu() {
 }
 
 show_barpos_menu() {
-    local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
     local value
     value=$(pick "$(_t "Position")" \
             1 "$(_t "Top")" \
             0 "$(_t "Bottom")") || return 1
-    sed -i "s/\(static const int topbar\s*=\s*\)[01]/\1${value}/" "$config"
-    (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
+    _set_theme_define THEME_TOPBAR "$value" || return 1
     notify-send "ohmychadwm" "$(_t "Bar position changed — rebuilding")"
 }
 
 show_smartgaps_menu() {
-    local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
     local value
     value=$(pick "$(_t "Smart gaps")" \
             1 "$(_t "On")" \
             0 "$(_t "Off")") || return 1
-    sed -i "s/\(static const int smartgaps\s*=\s*\)[01]/\1${value}/" "$config"
-    (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
+    _set_theme_define THEME_SMARTGAPS "$value" || return 1
     notify-send "ohmychadwm" "$(_t "Smart gaps changed — rebuilding")"
 }
 
 show_systray_menu() {
-    local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
     local value
     value=$(pick "$(_t "Systray")" \
             1 "$(_t "Show systray")" \
             0 "$(_t "Hide systray")") || return 1
-    sed -i "s/\(static const int showsystray\s*=\s*\)[01]/\1${value}/" "$config"
-    (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
+    _set_theme_define THEME_SHOWSYSTRAY "$value" || return 1
     notify-send "ohmychadwm" "$(_t "Systray changed — rebuilding")"
 }
 
@@ -794,20 +776,11 @@ show_newwindow_menu() {
 }
 
 show_mfact_menu() {
-    local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
-    local current
-    current=$(grep -oP 'mfact\s*=\s*\K[0-9.]+' "$config")
-    local current_pct
-    current_pct=$(printf "%.0f" "$(echo "$current * 100" | bc)")
     local chosen
-    chosen=$(menu "Master area (current: ${current_pct}%)" \
-        "10%\n20%\n30%\n40%\n50%\n60%\n70%\n80%\n90%") || return 1
+    chosen=$(menu "$(_t "Master area")" "10%\n20%\n30%\n40%\n50%\n60%\n70%\n80%\n90%") || return 1
     local pct="${chosen/\%/}"
-    local value
-    value=$(printf "0.%02d" "$pct")
-    sed -i "s/\(static const float mfact\s*=\s*\)[0-9.]*/\1${value}/" "$config"
-    (cd "${OHMYCHADWM_CONFIG}/chadwm" && alacritty -e bash -c './rebuild.sh; exec bash')
-    notify-send "ohmychadwm" "Master area set to ${chosen}"
+    _set_theme_define THEME_MFACT "$(printf "0.%02d" "$pct")" || return 1
+    notify-send "ohmychadwm" "$(_t "Master area changed — rebuilding")"
 }
 
 ALACRITTY_CONF="${HOME}/.config/alacritty/alacritty.toml"
@@ -846,10 +819,13 @@ _alacritty_apply_colors() {
 }
 
 show_alacritty_theme_menu() {
-    local other_themes
-    other_themes=$(ls "$ALACRITTY_THEMES_DIR" | grep -v "^${ALACRITTY_DEFAULT_THEME}$" | sort)
+    # The ohmychadwm theme leads the list when it exists; the rest follow alphabetically.
+    local themes=""
+    [[ -f "${ALACRITTY_THEMES_DIR}/${ALACRITTY_DEFAULT_THEME}" ]] && themes="${ALACRITTY_DEFAULT_THEME}"$'\n'
+    themes+=$(find "$ALACRITTY_THEMES_DIR" -maxdepth 1 -name '*.toml' ! -name "$ALACRITTY_DEFAULT_THEME" \
+        -printf '%f\n' | sort)
     local chosen
-    chosen=$(printf "%s\n%s" "$ALACRITTY_DEFAULT_THEME" "$other_themes" | \
+    chosen=$(printf '%s\n' "$themes" | \
         rofi -dmenu -p "Alacritty theme" -width "$MENU_WIDTH" -lines 20 2>/dev/null) || return 1
     _alacritty_apply_colors "${ALACRITTY_THEMES_DIR}/${chosen}"
     notify-send "ohmychadwm" "Alacritty theme set to '${chosen}'"
@@ -896,9 +872,11 @@ show_alacritty_shell_menu() {
 }
 
 _alacritty_reset_default() {
-    local backup="${HOME}/.config/alacritty/default-arcolinux.toml"
+    # Kiro ships default-kiro.toml; older ArcoLinux-based setups have default-arcolinux.toml.
+    local backup="${HOME}/.config/alacritty/default-kiro.toml"
+    [[ -f "$backup" ]] || backup="${HOME}/.config/alacritty/default-arcolinux.toml"
     if [[ ! -f "$backup" ]]; then
-        notify-send -u critical "ohmychadwm" "Backup not found: ${backup}"
+        notify-send -u critical "ohmychadwm" "$(_t "Default Alacritty config not found")"
         return 1
     fi
     cp "$backup" "$ALACRITTY_CONF"

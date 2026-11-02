@@ -88,6 +88,9 @@ static const struct arg args[] = {
     { cpu_perc,      "  %s%%  ", NULL                },  /* CPU usage       */
     //{ ram_used,      "  %s  ",   NULL                },  /* RAM used (GB)   */
     //{ ram_perc,      "  %s%%  ", NULL                },  /* RAM %           */
+    //{ ram_free,      "  %s  ",   NULL                },  /* RAM free (GB)   */
+    //{ swap_free,     "  %s  ",   NULL                },  /* swap free (GB)  */
+    //{ swap_perc,     "  %s%%  ", NULL                },  /* swap %          */
 
     /* Disk */
     //{ disk_free,     "  %s  ",   "/"                 },  /* free on /       */
@@ -97,6 +100,7 @@ static const struct arg args[] = {
     //{ load_avg,      "  %s  ",   NULL                },  /* load average    */
     //{ uptime,        "  %s  ",   NULL                },  /* uptime          */
     //{ kernel_release,"  %s  ",   NULL                },  /* kernel version  */
+    //{ hostname,      "  %s  ",   NULL                },  /* hostname        */
 
     /* Date & time — always shown last (rightmost) */
     { datetime,         "  %s",    "%H:%M  %d %m %y"   },

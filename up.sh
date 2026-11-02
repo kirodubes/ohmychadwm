@@ -135,6 +135,21 @@ ensure_qwerty_default() {
     log_success "Repo pinned to QWERTY default"
 }
 
+run_checks() {
+    # tests/check.sh lints, builds and clicks through the whole menu; a failure blocks the push.
+    # The 46 theme builds only run when something under chadwm/ changed since origin.
+    local mode="--quick"
+    if git -C "${SCRIPT_DIR}" status --porcelain -- etc/skel/.config/ohmychadwm/chadwm | grep -q . ||
+       git -C "${SCRIPT_DIR}" diff --name-only '@{upstream}' -- etc/skel/.config/ohmychadwm/chadwm 2>/dev/null | grep -q .; then
+        mode=""
+    fi
+    log_section "Running tests/check.sh ${mode}"
+    if ! bash "${SCRIPT_DIR}/tests/check.sh" ${mode}; then
+        log_error "BLOCKED: tests/check.sh failed — fix the FAIL lines above, then re-run up.sh"
+        exit 1
+    fi
+}
+
 git_commit_and_push() {
     local branch
 
@@ -185,6 +200,7 @@ main() {
     fi
 
     ensure_qwerty_default
+    run_checks
     git_commit_and_push
 
     log_success "$(basename "$0") done"

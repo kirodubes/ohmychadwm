@@ -93,6 +93,20 @@ All scripts in `scripts/` and `chadwm/` start with `set -euo pipefail` (or shoul
 - `scripts/preview-theme.sh` — ANSI preview for fzf picker
 - `up.sh` — copies README + previews, commits, pushes (Erik's publish workflow)
 
+## Tests
+
+`bash tests/check.sh` (about 1 minute; `--quick` skips the 46 theme builds) — run it after any change to the menu,
+config.def.h, a theme or slstatus. `up.sh` runs it before every push and blocks the push on a failure.
+
+- Lints every `.sh`, builds chadwm against every theme and `config.def.h.default`, builds slstatus with every module on.
+- `tests/menu_crawl.py` clicks every row of the system menu in a throwaway home with a stub rofi. System commands are
+  recorder stubs on an allowlisted PATH, so nothing touches the machine; terminal commands and rebuilds run for real.
+  A row fails on errors, critical notifications, a ✓/✗ row that does not flip, or a value menu where no choice changes
+  a setting before the rebuild.
+- Menu rows dispatch on keys from `pick`; never match on a label (labels are translated).
+- Tags, border, gaps, smart gaps, systray, bar position and master area are `THEME_*` defines in the active theme;
+  change them with `_set_theme_define`, never by editing the `config.def.h` lines that read them.
+
 ## Packaging note
 
 The repo mirrors what gets installed on Kiro Linux. The `etc/skel/` path maps to `/etc/skel/` on the target system. Files under `usr/` map to `/usr/`. Do not restructure this layout — package scripts depend on it.

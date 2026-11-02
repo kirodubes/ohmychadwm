@@ -378,6 +378,19 @@ run "your-application"
 
 ---
 
+## Testing
+
+```bash
+bash tests/check.sh           # everything, about a minute
+bash tests/check.sh --quick   # skip the 46 theme builds
+```
+
+The check lints every script, builds chadwm with every theme and builds slstatus with every module switched on.
+It then clicks through every row of the system menu like a user would, in a throwaway home folder: system commands
+are replaced by recorders, so nothing on your machine changes. Every rebuild the menu starts is compiled for real.
+
+---
+
 <!-- KIRO-FUNDING-FOOTER:START — managed by Kiro-HQ/cascade-readme-footer.sh -->
 ## Help fund Kiro
 
