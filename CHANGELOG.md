@@ -18,6 +18,7 @@
 - Setup › Config › Menu theme opens your chosen editor instead of nano.
 - The Xresources row did nothing when chosen; it now opens the file.
 - No more stray spaces in the Battery and Hibernate rows.
+- Appearance › Back to default no longer breaks the build. It copied `config.def.h.default`, which hadn't been updated since 2026-08-16, so dwm.c failed on the missing bar-transparency defines (`OPAQUE`, `BARALPHA`, `BORDERALPHA`, `alphas`). It now copies the packaged `/etc/skel` config.def.h, which always matches the installed dwm.c, and falls back to `config.def.h.default`. That file is also refreshed to the current config.def.h.
 
 **Technical Details.**
 - A new `pick` helper takes key/label pairs and returns the key of the chosen row, using rofi's `-format i`. Every menu dispatches on that key instead of matching the English label with `case *Label*`, which translated labels would break.
@@ -28,7 +29,7 @@
 - Labels follow omarchy's menu wording where the meaning is the same, so its MIT-licensed catalogs can seed our translations.
 - Existing users keep their own `~/.config/ohmychadwm/menu/` until they copy the new skel files.
 
-**Files Modified.** `etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh`, `etc/skel/.config/ohmychadwm/menu/menu-extension.sh`, `etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu-README.md`, `etc/skel/.config/ohmychadwm/README.md`, `README.md`
+**Files Modified.** `etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh`, `etc/skel/.config/ohmychadwm/chadwm/config.def.h.default`, `etc/skel/.config/ohmychadwm/menu/menu-extension.sh`, `etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu-README.md`, `etc/skel/.config/ohmychadwm/README.md`, `README.md`
 
 ## 2026.10.25
 

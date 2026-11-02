@@ -32,8 +32,9 @@
 
 // default themes
 //#include "themes/catppuccin.h"
-#include "themes/dracula.h"
-//#include "themes/dracul.h"
+//#include "themes/celestial.h"
+//#include "themes/dracula.h"
+#include "themes/dracul.h"
 //#include "themes/everforest.h"
 //#include "themes/gruvchad.h"
 //#include "themes/nord.h"
@@ -69,6 +70,7 @@
 //#include "themes/buffalo.h"
 
 // custom themes
+//#include "themes/meditation.h"
 //#include "themes/venom.h"
 //#include "themes/spiderwoman.h"
 //#include "themes/bright.h"
@@ -180,6 +182,7 @@ static const int new_window_attach_on_end = 0 ; /*  1 means the new window will 
 static const char *fonts[] = {
     THEME_FONT ":style=" THEME_FONTSTYLE ":size=" _STR(THEME_FONTSIZE),
     "JetBrainsMono Nerd Font Mono:style=Bold:size=" _STR(THEME_ICONSIZE),
+    "Noto Sans CJK JP:size=" _STR(THEME_FONTSIZE),
 };
 
 /* Bar menu-launcher font — font *and* size for that one icon.
@@ -201,6 +204,41 @@ static const char *fonts[] = {
 static const char *menufonts[] = {
     THEME_MENUICONFONT ":style=" THEME_MENUICONSTYLE ":size=" _STR(THEME_MENUICONSIZE),
 };
+
+/* ── Bar transparency ─────────────────────────────────────────────────────────
+ * 0 = fully transparent … 100 = fully opaque. Applies to the background of the
+ * bar, the tab bar and the systray strip; text and tray icons stay opaque.
+ * XEmbed icons have no alpha channel and render as garbage squares on a real
+ * ARGB tray window, so the tray fakes it: the wallpaper is blended into its
+ * background at this opacity (updates automatically on wallpaper change).
+ * True ARGB transparency built into chadwm itself — no picom opacity rules
+ * needed. A running compositor is required to blend the alpha channel;
+ * without one the bar renders opaque. ohmychadwm autostarts fastcompmgr (see
+ * scripts/run.sh); picom blends the bar identically if you prefer it.
+ * Themes may override with #define THEME_BAROPACITY before this point. */
+#ifndef THEME_BAROPACITY
+#define THEME_BAROPACITY 85
+#endif
+/* Opacity of every border element drawn on the bar — the col_borderbar frame,
+ * the menu-button box, the layout underline, and the status/title border
+ * lines (all painted from the schemes' border column). Same 0–100 scale;
+ * defaults to the bar opacity so borders match the background. Themes may
+ * override with #define THEME_BORDEROPACITY. The systray frame follows it
+ * too (blended into the tray's wallpaper background). Client window borders
+ * are 24-bit windows: the alpha byte is truncated there, so they stay opaque
+ * regardless of this value.
+ * At low values the border's RGB still blends in, so a bright border color
+ * can leave a faint glow — pick a color close to the wallpaper/bar for a
+ * clean fade-out. */
+#ifndef THEME_BORDEROPACITY
+#define THEME_BORDEROPACITY THEME_BAROPACITY
+#endif
+#define OPAQUE   0xffU
+#define BARALPHA (THEME_BAROPACITY * 0xffU / 100)
+#define BORDERALPHA (THEME_BORDEROPACITY * 0xffU / 100)
+
+/* alpha per color column, applied to every scheme */
+static const unsigned int alphas[3] = { OPAQUE, BARALPHA, BORDERALPHA }; /* fg, bg, border */
 
 static const char *colors[][3] = {
     /*                     fg                bg                border */
@@ -373,6 +411,62 @@ static const Layout layouts[] = {
 
 /* commands */
 
+/* ── Keyboard layout ──────────────────────────────────────────────────────────
+ * true  = AZERTY (Belgian) — the default ohmychadwm build (Erik's).
+ * false = QWERTY — the rest of the world.
+ * Flip this one value and rebuild; 
+ * #define KIRO_AZERTY true or false
+ * Only the tag, gap-resize, view-all and focus-monitor keys differ.
+ * Or you run this in a terminal 
+ * ohmychadwm-keyboard-layout azerty
+ * ohmychadwm-keyboard-layout qwerty
+ * Afterwards press Super+Shift+R to reload Ohmychadwm */
+
+#ifndef true
+#define true 1
+#endif
+#ifndef false
+#define false 0
+#endif
+
+#define KIRO_AZERTY false
+
+#if KIRO_AZERTY
+/* AZERTY (Belgium) */
+#define KEY_TAG0 XK_ampersand
+#define KEY_TAG1 XK_eacute
+#define KEY_TAG2 XK_quotedbl
+#define KEY_TAG3 XK_apostrophe
+#define KEY_TAG4 XK_parenleft
+#define KEY_TAG5 XK_section
+#define KEY_TAG6 XK_egrave
+#define KEY_TAG7 XK_exclam
+#define KEY_TAG8 XK_ccedilla
+#define KEY_GAP_IH XK_section
+#define KEY_GAP_IV XK_egrave
+#define KEY_GAP_OH XK_exclam
+#define KEY_GAP_OV XK_ccedilla
+#define KEY_VIEWALL XK_agrave
+#define KEY_FOCUSMON_NEXT XK_semicolon
+#else
+/* QWERTY */
+#define KEY_TAG0 XK_1
+#define KEY_TAG1 XK_2
+#define KEY_TAG2 XK_3
+#define KEY_TAG3 XK_4
+#define KEY_TAG4 XK_5
+#define KEY_TAG5 XK_6
+#define KEY_TAG6 XK_7
+#define KEY_TAG7 XK_8
+#define KEY_TAG8 XK_9
+#define KEY_GAP_IH XK_6
+#define KEY_GAP_IV XK_7
+#define KEY_GAP_OH XK_8
+#define KEY_GAP_OV XK_9
+#define KEY_VIEWALL XK_0
+#define KEY_FOCUSMON_NEXT XK_period
+#endif
+
 static const Key keys[] = {
     /* modifier                         key         function        argument */
 
@@ -402,6 +496,8 @@ static const Key keys[] = {
     { MODKEY|ControlMask,               XK_w,       tabmode,        { -1 } },
     //{ MODKEY,                           XK_j,       focusstack,     {.i = +1 } },
     //{ MODKEY,                           XK_k,       focusstack,     {.i = -1 } },
+    { MODKEY,                           XK_Up,      focusstack,     {.i = +1 } },
+    { MODKEY,                           XK_Down,    focusstack,     {.i = -1 } },
     { MODKEY,                           XK_i,       incnmaster,     {.i = +1 } },
     { MODKEY,                           XK_n,       incnmaster,     {.i = -1 } },
 
@@ -439,17 +535,16 @@ static const Key keys[] = {
     { MODKEY|ControlMask|ShiftMask,     XK_o,       incrogaps,      {.i = -1 } },
 
     // inner+outer hori, vert gaps 
-    { MODKEY|ControlMask,               XK_section,           incrihgaps,     {.i = +1 } },
-    { MODKEY|ControlMask|ShiftMask,     XK_section,           incrihgaps,     {.i = -1 } },
-    { MODKEY|ControlMask,               XK_egrave,            incrivgaps,     {.i = +1 } },
-    { MODKEY|ControlMask|ShiftMask,     XK_egrave,            incrivgaps,     {.i = -1 } },
-    { MODKEY|ControlMask,               XK_exclam,            incrohgaps,     {.i = +1 } },
-    { MODKEY|ControlMask|ShiftMask,     XK_exclam,            incrohgaps,     {.i = -1 } },
-    { MODKEY|ControlMask,               XK_ccedilla,          incrovgaps,     {.i = +1 } },
-    { MODKEY|ControlMask|ShiftMask,     XK_ccedilla,          incrovgaps,     {.i = -1 } },
+    { MODKEY|ControlMask,               KEY_GAP_IH,           incrihgaps,     {.i = +1 } },
+    { MODKEY|ControlMask|ShiftMask,     KEY_GAP_IH,           incrihgaps,     {.i = -1 } },
+    { MODKEY|ControlMask,               KEY_GAP_IV,           incrivgaps,     {.i = +1 } },
+    { MODKEY|ControlMask|ShiftMask,     KEY_GAP_IV,           incrivgaps,     {.i = -1 } },
+    { MODKEY|ControlMask,               KEY_GAP_OH,           incrohgaps,     {.i = +1 } },
+    { MODKEY|ControlMask|ShiftMask,     KEY_GAP_OH,           incrohgaps,     {.i = -1 } },
+    { MODKEY|ControlMask,               KEY_GAP_OV,           incrovgaps,     {.i = +1 } },
+    { MODKEY|ControlMask|ShiftMask,     KEY_GAP_OV,           incrovgaps,     {.i = -1 } },
 
     { MODKEY|ControlMask|ShiftMask,     XK_d,                 defaultgaps,    {0} },
-    { MODKEY|ControlMask|ShiftMask,     XK_r,                 spawn, SHCMD("$HOME/.config/ohmychadwm/chadwm/rebuild.sh") },
 
     // layout (preferences = no 1,3,4,8,9)
     { MODKEY|ControlMask,               XK_F1,       setlayout,      {.v = &layouts[0]} },
@@ -468,10 +563,10 @@ static const Key keys[] = {
     //{ MODKEY,                           XK_space,   setlayout,      {0} },
     { MODKEY|ControlMask,               XK_p,       cyclelayout,    {.i = -1 } },
     { MODKEY|ControlMask,               XK_m,       cyclelayout,    {.i = +1 } },
-    { MODKEY,                           XK_agrave,  view,           {.ui = ~0 } },
-    { MODKEY|ShiftMask,                 XK_agrave,  tag,            {.ui = ~0 } },
+    { MODKEY,                           KEY_VIEWALL,  view,         {.ui = ~0 } },
+    { MODKEY|ShiftMask,                 KEY_VIEWALL,  tag,          {.ui = ~0 } },
     { MODKEY,                           XK_comma,   focusmon,       {.i = -1 } },
-    { MODKEY,                           XK_semicolon,  focusmon,       {.i = +1 } },
+    { MODKEY,                           KEY_FOCUSMON_NEXT,  focusmon,   {.i = +1 } },
     { MODKEY|ShiftMask,                 XK_Left,    tagmon,         {.i = -1 } },
     { MODKEY|ShiftMask,                 XK_Right,   tagmon,         {.i = +1 } },
 
@@ -488,6 +583,7 @@ static const Key keys[] = {
     { MODKEY,                           XK_q,       killclient,     {0} },
     { MODKEY|ShiftMask,                 XK_q,       killclient,     {0} },
     { MODKEY|ShiftMask,                 XK_c,       killclient,     {0} },
+    { MODKEY,                           XK_w,       killclient,     {0} },
     { MODKEY|ControlMask,               XK_q,       killall,        {0} },
 
     // restart
@@ -497,28 +593,16 @@ static const Key keys[] = {
     //{ MODKEY,                           XK_i,       hidewin,        {0} },
     //{ MODKEY|ShiftMask,                 XK_i,       restorewin,     {0} },
 
-    // qwerty keyboard
-
-    //TAGKEYS(                            XK_1,                       0)
-    //TAGKEYS(                            XK_2,                       1)
-    //TAGKEYS(                            XK_3,                       2)
-    //TAGKEYS(                            XK_4,                       3)
-    //TAGKEYS(                            XK_5,                       4)
-    //TAGKEYS(                            XK_6,                       5)
-    //TAGKEYS(                            XK_7,                       6)
-    //TAGKEYS(                            XK_8,                       7)
-    //TAGKEYS(                            XK_9,                       8)
-
-    // azerty keyboard (Belgium)
-    TAGKEYS(                               XK_ampersand,                0)
-    TAGKEYS(                               XK_eacute,                   1)
-    TAGKEYS(                               XK_quotedbl,                 2)
-    TAGKEYS(                               XK_apostrophe,               3)
-    TAGKEYS(                               XK_parenleft,                4)
-    TAGKEYS(                               XK_section,                  5)
-    TAGKEYS(                               XK_egrave,                   6)
-    TAGKEYS(                               XK_exclam,                   7)
-    TAGKEYS(                               XK_ccedilla,                 8)
+    // Workspace/tag keys — AZERTY or QWERTY per the KIRO_AZERTY toggle at the top.
+    TAGKEYS(                               KEY_TAG0,                    0)
+    TAGKEYS(                               KEY_TAG1,                    1)
+    TAGKEYS(                               KEY_TAG2,                    2)
+    TAGKEYS(                               KEY_TAG3,                    3)
+    TAGKEYS(                               KEY_TAG4,                    4)
+    TAGKEYS(                               KEY_TAG5,                    5)
+    TAGKEYS(                               KEY_TAG6,                    6)
+    TAGKEYS(                               KEY_TAG7,                    7)
+    TAGKEYS(                               KEY_TAG8,                    8)
 
 };
 
@@ -548,6 +632,7 @@ static const Button buttons[] = {
     { ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
     //{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
     { ClkClientWin,         MODKEY,			Button3,        dragmfact,      {0} },
+    { ClkClientWin,         MODKEY|ShiftMask, Button3,      resizemouse,    {0} },
     //{ ClkClientWin,         MODKEY,    	Button3,        dragcfact,      {0} },
     { ClkRootWin,           0,              Button3,        spawn,          {.v = ohmychadwm_menu} },
     { ClkTagBar,            0,              Button1,        view,           {0} },

@@ -582,7 +582,9 @@ show_customise_menu() { show_appearance_menu "$@"; }
 
 _customise_reset_defaults() {
     local config="${OHMYCHADWM_CONFIG}/chadwm/config.def.h"
-    local default="${OHMYCHADWM_CONFIG}/chadwm/config.def.h.default"
+    # The packaged skel copy always matches the installed dwm.c; the .default copy can lag behind it.
+    local default="/etc/skel/.config/ohmychadwm/chadwm/config.def.h"
+    [[ -f "$default" ]] || default="${OHMYCHADWM_CONFIG}/chadwm/config.def.h.default"
     present_terminal "bash -c '
         config=\"${config}\"
         default=\"${default}\"
