@@ -2,6 +2,14 @@
 
 ## 2026.11.02
 
+### Even gaps in the status text
+
+**What Changed.** The gap between two status items (for example CPU and the clock) was twice as wide as the gap between the time and the date. Every gap is now the same: `0%  13:56  02 11 26`. Checked on the Kiro VM with mars.
+
+**Technical Details.** Every slstatus module padded itself with two spaces on each side (`"  %s  "`), so neighbouring modules ended up four spaces apart, while the datetime format has two (`%H:%M  %d`). Modules now pad with one space each side (`" %s "`, `" %s%% "`, datetime `" %s"`), commented modules included, so modules you switch on later follow the same rule. The menu's module switch finds lines by module name (`\{\s*name,`), not by the format string, so it keeps working. `check.sh` step 3 builds slstatus with every module on.
+
+**Files Modified.** `etc/skel/.config/ohmychadwm/slstatus/config.def.h`
+
 ### Bar shows its real colour, no grey box around the tray
 
 **What Changed.** With a see-through bar (the default 85% opacity), the bar came out brighter than its theme colour. The tray did show the right colour, so it looked like a separate grey box at the right end of the bar. On light bars the difference was big. Now bar and tray are one colour. Checked on the Kiro VM with a bright theme: before, the bar was `(252,255,255)` and the tray `(219,225,231)`; after, both are `(219,225,231)`, which is exactly the theme colour at 85% over the wallpaper. Bright border colours no longer leave a glow at low border opacity either.
