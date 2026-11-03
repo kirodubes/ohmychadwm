@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ohmychadwm-menu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 14:15+0100\n"
+"POT-Creation-Date: 2026-11-03 05:37+0100\n"
 "PO-Revision-Date: 2026-11-02 07:39+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: Romanian\n"
@@ -17,6 +17,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
+
+#: etc/skel/.bin/ohmychadwm-keyboard-layout:123
+#, sh-format
+msgid "Keyboard layout switched to $TARGET. Press Super+Shift+R to apply."
+msgstr ""
+"Aranjamentul tastaturii a fost schimbat în $TARGET. Apasă Super+Shift+R "
+"pentru a aplica."
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:95
 msgid "Search…"

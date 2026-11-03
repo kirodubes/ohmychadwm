@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ohmychadwm-menu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 14:15+0100\n"
+"POT-Creation-Date: 2026-11-03 05:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: etc/skel/.bin/ohmychadwm-keyboard-layout:123
+#, sh-format
+msgid "Keyboard layout switched to $TARGET. Press Super+Shift+R to apply."
+msgstr ""
 
 #: etc/skel/.config/ohmychadwm/menu/ohmychadwm-menu.sh:95
 msgid "Search…"

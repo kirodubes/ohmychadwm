@@ -106,7 +106,8 @@ extract() {
         --add-comments=TRANSLATORS --package-name="$DOMAIN" --sort-by-file \
         -o "$POT" "$MENU_DIR/ohmychadwm-menu.sh" \
         etc/skel/.config/ohmychadwm/scripts/picom-toggle.sh \
-        etc/skel/.config/ohmychadwm/scripts/fastcompmgr-toggle.sh)
+        etc/skel/.config/ohmychadwm/scripts/fastcompmgr-toggle.sh \
+        etc/skel/.bin/ohmychadwm-keyboard-layout)
     log_info "${CYAN}$(grep -c '^msgid ' "$POT")${RESET} entries (the first is the header)"
 }
 

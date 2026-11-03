@@ -130,6 +130,8 @@ config.def.h, a theme or slstatus. `up.sh` runs it before every push and blocks 
   is exported as an `OHM_MSG_*` / `OHM_T_*` variable first, never spliced into the command.
 - `scripts/picom-toggle.sh` and `scripts/fastcompmgr-toggle.sh` share the menu's catalog (same domain, `_t`/`_tf`,
   `TEXTDOMAINDIR` = `../menu/locale`); `po/make-mo.sh` extracts from them too. A new translated script joins the same way.
+- `etc/skel/.bin/ohmychadwm-keyboard-layout` joins it too, with an absolute `TEXTDOMAINDIR` =
+  `$HOME/.config/ohmychadwm/menu/locale` (it lives in `~/.bin`, not next to the menu).
 - After changing menu text run `bash po/make-mo.sh`: it rebuilds `po/ohmychadwm-menu.pot`, merges the 13
   `po/<lang>.po` and compiles `etc/skel/.config/ohmychadwm/menu/locale/<lang>/LC_MESSAGES/ohmychadwm-menu.mo`.
   New or changed strings show as untranslated/fuzzy until translated; English is the fallback.

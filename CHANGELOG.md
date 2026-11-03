@@ -1,5 +1,20 @@
 # Changelog
 
+## 2026.11.03
+
+### What Changed
+- `ohmychadwm-keyboard-layout`'s notification ("Keyboard layout switched to … Press Super+Shift+R to apply.")
+  is translated in all 13 languages.
+
+### Technical Details
+- The script joins the menu's gettext domain `ohmychadwm-menu` (`TEXTDOMAINDIR` = `~/.config/ohmychadwm/menu/locale`)
+  like the picom/fastcompmgr toggles; `po/make-mo.sh` extracts from it too. Whole sentence via `eval_gettext`;
+  the "Press Super+Shift+R" half follows the existing keybinding-set message. Review pass: Hungarian and French
+  wording adjusted.
+
+### Files Modified
+- etc/skel/.bin/ohmychadwm-keyboard-layout, po/make-mo.sh, po/*.po, menu/locale/*/LC_MESSAGES/ohmychadwm-menu.mo
+
 ## 2026.11.02
 
 ### Compositor notifications in your language

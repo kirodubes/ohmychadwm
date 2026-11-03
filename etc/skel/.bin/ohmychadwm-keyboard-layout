@@ -26,6 +26,20 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
+# The notification goes through the menu's gettext catalog (domain ohmychadwm-menu); English is the fallback.
+export TEXTDOMAIN=ohmychadwm-menu
+TEXTDOMAINDIR="$HOME/.config/ohmychadwm/menu/locale"
+export TEXTDOMAINDIR
+if command -v gettext &>/dev/null && command -v gettext.sh &>/dev/null; then
+    _t() { gettext "$1"; }
+    # shellcheck source=/dev/null
+    . gettext.sh
+    _tf() { eval_gettext "$1"; }
+else
+    _t() { printf '%s' "$1"; }
+    _tf() { local _s="$1"; eval "printf '%s' \"${_s//\"/\\\"}\""; }
+fi
+
 # ── Colors (silent fallback when not a TTY) ─────────────────────────
 if [ -t 1 ]; then
     RED="$(tput setaf 1)"; GREEN="$(tput setaf 2)"; YELLOW="$(tput setaf 3)"
@@ -106,7 +120,7 @@ swap_cheatsheet() {
 
 notify_done() {
     if command -v notify-send >/dev/null 2>&1 && [ "${EUID:-$(id -u)}" -ne 0 ] && ! $DRYRUN; then
-        notify-send "ohmychadwm" "Keyboard layout switched to $TARGET. Press Super+Shift+R to apply."
+        notify-send "ohmychadwm" "$(_tf 'Keyboard layout switched to $TARGET. Press Super+Shift+R to apply.')"
     fi
 }
 
