@@ -1,5 +1,20 @@
 # Changelog
 
+## 2026.11.06
+
+### What Changed
+- **The rofi launcher follows the icon theme you pick.** Its config named "Paper Mono", an icon theme that is not
+  installed, so rofi fell back to another theme whatever the Ohmychadwm Tweak Tool set.
+
+### Technical Details
+- `rofi/config.rasi`: the `icon-theme` line is commented out; without it rofi uses the GTK icon theme.
+  `launcher*.rasi` already had an empty `icon-theme`.
+- Existing users keep their old `~/.config` copy until kiro-skell or a manual copy updates it.
+
+### Files Modified
+- `etc/skel/.config/ohmychadwm/rofi/config.rasi`
+- `CHANGELOG.md`
+
 ## 2026.11.03
 
 ### What Changed

@@ -3,7 +3,7 @@ configuration{
     lines: 5;
     font: "JetBrainsMono Nerd Font Mono Bold 13";
     show-icons: true;
-    icon-theme: "Paper Mono";
+/*  icon-theme: "Paper Mono";  follow the GTK icon theme */
     terminal: "st";
     drun-display-format: "{icon} {name}";
     location: 0;
