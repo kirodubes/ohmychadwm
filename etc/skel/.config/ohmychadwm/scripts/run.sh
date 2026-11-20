@@ -125,6 +125,9 @@ crashes=0
 
 while type ohmychadwm >/dev/null 2>&1; do
     start=$(date +%s)
+    # forget the remembered path: a rebuild installed to /usr/local/bin during this session (Ohmychadwm Tweak Tool,
+    # rebuild) must run on Super+Shift+R, not the packaged /usr/bin/ohmychadwm bash found at login
+    hash -r
     ohmychadwm 2>> "$SESSION_LOG"
     code=$?
     uptime=$(( $(date +%s) - start ))

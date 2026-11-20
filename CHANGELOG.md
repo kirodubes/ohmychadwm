@@ -9,6 +9,8 @@
 - **The volume icon is white, like the other tray icons.** It was drawn black on the dark bar.
 - **New default wallpaper, the same one XFCE shows on Kiro**: the Kiro Atelier palette-knife painting replaces the
   swirl with the K logo on a fresh login.
+- **Super+Shift+R shows a rebuild straight away.** The first time a rebuilt Ohmychadwm is installed (by Ohmychadwm
+  Tweak Tool's Look or Themes page, or `rebuild`), a restart still ran the packaged one until the next login.
 
 ### Technical Details
 - `wallpapers/kiro-swirl.png`: contents replaced by kiro-system-files' `kiro-wallpaper.jpg` (3840x2160, as PNG). The
@@ -25,6 +27,10 @@
   property with xprop on the running tray: the speaker turned white once the icon redrew.
 - `chadwm/dwm.c`: `_NET_SYSTEM_TRAY_ORIENTATION` was set to the id of the `_HORZ` atom (530) instead of the spec
   value 0, so GTK tray icons read the tray as vertical. It is now 0.
+- `scripts/run.sh`: `hash -r` before each relaunch in the session loop. bash remembered `/usr/bin/ohmychadwm` from
+  login, so a binary that appeared in `/usr/local/bin` later (earlier in PATH) was skipped on every restart. Found by
+  the tweak tool's live test on the v26.11.20 VM. Existing users keep their own run.sh until kiro-skell; for them it
+  only matters in the session where `/usr/local/bin/ohmychadwm` first appears.
 
 ### Files Modified
 - `etc/skel/.config/ohmychadwm/scripts/run.sh`
