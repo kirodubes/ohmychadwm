@@ -31,6 +31,8 @@
   login, so a binary that appeared in `/usr/local/bin` later (earlier in PATH) was skipped on every restart. Found by
   the tweak tool's live test on the v26.11.20 VM. Existing users keep their own run.sh until kiro-skell; for them it
   only matters in the session where `/usr/local/bin/ohmychadwm` first appears.
+  Tested on the v26.11.20 VM: this run.sh, a fresh login starting `/usr/bin/ohmychadwm`, then a Themes click
+  installing `/usr/local/bin/ohmychadwm` for the first time: the first Super+Shift+R already ran the new build.
 
 ### Files Modified
 - `etc/skel/.config/ohmychadwm/scripts/run.sh`
