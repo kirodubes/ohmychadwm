@@ -6,6 +6,7 @@
 - **The volume icon is back in the tray.** volctl 1.x (the GTK4 rewrite) only offers a StatusNotifierItem icon, which
   the XEmbed systray of chadwm cannot show, so volctl ran without any visible icon. The session now starts
   `snixembed`, which turns StatusNotifierItem icons into XEmbed tray icons.
+- **The volume icon is white, like the other tray icons.** It was drawn black on the dark bar.
 
 ### Technical Details
 - `scripts/run.sh`: `snixembed --fork` runs before `volctl`, only when it is installed and not already running.
@@ -13,9 +14,14 @@
 - `snixembed` (extra) added to the optional packages in `install-ohmychadwm-on-arch.sh` and both READMEs; the
   package PKGBUILD lists it as an optional dependency.
 - Existing users keep their old `~/.config` copy until kiro-skell or a manual copy updates it.
+- `chadwm/dwm.c`: the tray window now sets `_NET_SYSTEM_TRAY_COLORS` (fg white plus GTK's error/warning/success
+  defaults). volctl sends `audio-volume-high-symbolic`; snixembed shows it through a GTK3 status icon, which
+  recolours symbolic icons from that property and uses black when it is missing. Tested live by setting the
+  property with xprop on the running tray: the speaker turned white once the icon redrew.
 
 ### Files Modified
 - `etc/skel/.config/ohmychadwm/scripts/run.sh`
+- `etc/skel/.config/ohmychadwm/chadwm/dwm.c`
 - `etc/skel/.config/ohmychadwm/scripts/install-ohmychadwm-on-arch.sh`
 - `etc/skel/.config/ohmychadwm/README.md`
 - `README.md`

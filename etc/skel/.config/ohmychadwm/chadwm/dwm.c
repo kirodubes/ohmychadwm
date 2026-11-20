@@ -4023,6 +4023,15 @@ void updatesystray(void) {
     XChangeProperty(dpy, systray->win, netatom[NetSystemTrayVisual],
                     XA_VISUALID, 32, PropModeReplace,
                     (unsigned char *)&trayvisual, 1);
+    /* GTK tray icons (GtkStatusIcon, snixembed for SNI apps like volctl) recolour
+     * -symbolic icons from this property and fall back to black without it, so a
+     * white symbolic icon was drawn black on the dark bar. Order: fg, error,
+     * warning, success, each as 16-bit r,g,b. */
+    Atom traycolors = XInternAtom(dpy, "_NET_SYSTEM_TRAY_COLORS", False);
+    long traycolorvals[] = { 0xffff, 0xffff, 0xffff, 0xeeee, 0x2929, 0x2929,
+                             0xf5f5, 0x7979, 0x0000, 0x4d4d, 0xafaf, 0x3636 };
+    XChangeProperty(dpy, systray->win, traycolors, XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)traycolorvals, 12);
     /* A dock, like the bar: compositors then skip its drop shadow (fastcompmgr -C,
      * picom's dock wintype). The opaque 24-bit tray otherwise got a shadow the ARGB
      * bar does not, which framed the icons in a dark halo. */
