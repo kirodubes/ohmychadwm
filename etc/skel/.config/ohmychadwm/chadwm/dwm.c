@@ -4016,9 +4016,11 @@ void updatesystray(void) {
         DefaultVisual(dpy, screen),
         CWOverrideRedirect | CWBackPixel | CWEventMask, &wa);
     XSelectInput(dpy, systray->win, SubstructureNotifyMask);
+    /* the spec value for horizontal is 0, not the _HORZ atom's id */
+    long trayorient = 0;
     XChangeProperty(dpy, systray->win, netatom[NetSystemTrayOrientation],
                     XA_CARDINAL, 32, PropModeReplace,
-                    (unsigned char *)&netatom[NetSystemTrayOrientationHorz], 1);
+                    (unsigned char *)&trayorient, 1);
     VisualID trayvisual = XVisualIDFromVisual(DefaultVisual(dpy, screen));
     XChangeProperty(dpy, systray->win, netatom[NetSystemTrayVisual],
                     XA_VISUALID, 32, PropModeReplace,

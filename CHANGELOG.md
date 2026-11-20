@@ -18,6 +18,8 @@
   defaults). volctl sends `audio-volume-high-symbolic`; snixembed shows it through a GTK3 status icon, which
   recolours symbolic icons from that property and uses black when it is missing. Tested live by setting the
   property with xprop on the running tray: the speaker turned white once the icon redrew.
+- `chadwm/dwm.c`: `_NET_SYSTEM_TRAY_ORIENTATION` was set to the id of the `_HORZ` atom (530) instead of the spec
+  value 0, so GTK tray icons read the tray as vertical. It is now 0.
 
 ### Files Modified
 - `etc/skel/.config/ohmychadwm/scripts/run.sh`
