@@ -7,8 +7,13 @@
   the XEmbed systray of chadwm cannot show, so volctl ran without any visible icon. The session now starts
   `snixembed`, which turns StatusNotifierItem icons into XEmbed tray icons.
 - **The volume icon is white, like the other tray icons.** It was drawn black on the dark bar.
+- **New default wallpaper, the same one XFCE shows on Kiro**: the Kiro Atelier palette-knife painting replaces the
+  swirl with the K logo on a fresh login.
 
 ### Technical Details
+- `wallpapers/kiro-swirl.png`: contents replaced by kiro-system-files' `kiro-wallpaper.jpg` (3840x2160, as PNG). The
+  filename stays, so `run.sh`'s first-login fallback and ohmychadwm-tweak-tool's default need no change. Users who
+  already have `~/.fehbg` or an old `~/.config/ohmychadwm` keep their wallpaper.
 - `scripts/run.sh`: `snixembed --fork` runs before `volctl`, only when it is installed and not already running.
   `--fork` returns once it owns the watcher name, so volctl finds it when it starts.
 - `snixembed` (extra) added to the optional packages in `install-ohmychadwm-on-arch.sh` and both READMEs; the
@@ -24,6 +29,7 @@
 ### Files Modified
 - `etc/skel/.config/ohmychadwm/scripts/run.sh`
 - `etc/skel/.config/ohmychadwm/chadwm/dwm.c`
+- `etc/skel/.config/ohmychadwm/wallpapers/kiro-swirl.png`
 - `etc/skel/.config/ohmychadwm/scripts/install-ohmychadwm-on-arch.sh`
 - `etc/skel/.config/ohmychadwm/README.md`
 - `README.md`
