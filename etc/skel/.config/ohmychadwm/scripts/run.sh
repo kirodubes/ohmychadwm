@@ -70,6 +70,10 @@ run numlockx on                                       # Enable numlock on login
 sxhkd -c ~/.config/ohmychadwm/sxhkd/sxhkdrc &
 
 # ── Volume control ────────────────────────────────────────────────────────────
+# volctl 1.x only offers a StatusNotifierItem icon; the chadwm systray is XEmbed.
+# snixembed bridges the two. --fork returns once it owns the watcher name, so
+# volctl finds it at start-up.
+command -v snixembed >/dev/null && ! pgrep -x snixembed >/dev/null && snixembed --fork
 run volctl                                            # PipeWire/PulseAudio volume tray
 
 # ── Wallpaper ─────────────────────────────────────────────────────────────────

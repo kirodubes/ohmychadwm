@@ -165,6 +165,7 @@ OPTIONAL_OFFICIAL_PKGS=(
     xfce4-power-manager
     xfce4-clipman-plugin
     blueberry
+    snixembed
     arandr
     xcolor
     xdotool

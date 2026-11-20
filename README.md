@@ -44,7 +44,7 @@ sudo pacman -S base-devel libx11 libxft libxinerama imlib2 \
 yay -S ttf-jetbrains-mono-nerd
 
 # Optional but recommended
-sudo pacman -S redshift xautolock numlockx volctl flameshot \
+sudo pacman -S redshift xautolock numlockx volctl snixembed flameshot \
                nm-applet xfce4-power-manager blueberry
 ```
 

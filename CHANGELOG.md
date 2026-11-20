@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026.11.20
+
+### What Changed
+- **The volume icon is back in the tray.** volctl 1.x (the GTK4 rewrite) only offers a StatusNotifierItem icon, which
+  the XEmbed systray of chadwm cannot show, so volctl ran without any visible icon. The session now starts
+  `snixembed`, which turns StatusNotifierItem icons into XEmbed tray icons.
+
+### Technical Details
+- `scripts/run.sh`: `snixembed --fork` runs before `volctl`, only when it is installed and not already running.
+  `--fork` returns once it owns the watcher name, so volctl finds it when it starts.
+- `snixembed` (extra) added to the optional packages in `install-ohmychadwm-on-arch.sh` and both READMEs; the
+  package PKGBUILD lists it as an optional dependency.
+- Existing users keep their old `~/.config` copy until kiro-skell or a manual copy updates it.
+
+### Files Modified
+- `etc/skel/.config/ohmychadwm/scripts/run.sh`
+- `etc/skel/.config/ohmychadwm/scripts/install-ohmychadwm-on-arch.sh`
+- `etc/skel/.config/ohmychadwm/README.md`
+- `README.md`
+- `CHANGELOG.md`
+
 ## 2026.11.06
 
 ### What Changed
