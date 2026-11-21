@@ -1,5 +1,22 @@
 # Changelog
 
+## 2026.11.21
+
+### What Changed
+- **No window rules by default.** The three rules a new user got (Gimp, Firefox on workspace 9, mintstick) did
+  nothing: Gimp and mintstick set no screen, workspace or floating, and today's Firefox window has the class
+  `firefox`, which the case-sensitive rule `"Firefox"` never matched. New installs start with an empty list; the
+  App placement page of the Ohmychadwm Tweak Tool adds rules (screen, workspace, floating, start at login, go to it).
+
+### Technical Details
+- C forbids an empty `rules[]`, so the table keeps one placeholder rule, class `ohmychadwm-no-rules`, which no window
+  has. It is the same line the Tweak Tool writes when its last rule is removed; the tool hides it and drops it when
+  the first rule is saved. Existing users keep their own `config.def.h` (skel is copied once).
+
+### Files Modified
+- `etc/skel/.config/ohmychadwm/chadwm/config.def.h`
+- `etc/skel/.config/ohmychadwm/chadwm/config.def.h.default`
+
 ## 2026.11.20
 
 ### What Changed

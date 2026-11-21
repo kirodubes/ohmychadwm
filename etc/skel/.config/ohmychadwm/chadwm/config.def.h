@@ -335,9 +335,8 @@ static const Rule rules[] = {
      *	WM_NAME(STRING) = title
      */
     /* class      instance    title       tags mask     iscentered   isfloating   monitor */
-    { "Gimp",     NULL,       NULL,       0,            0,           0,           -1 },
-    { "Firefox",  NULL,       NULL,       1 << 8,       0,           0,           -1 },
-    { "mintstick", NULL,      NULL,       0,            0,           0,           -1 },
+    /* no rules by default: add them on the App placement page of the Ohmychadwm Tweak Tool */
+    { "ohmychadwm-no-rules", NULL, NULL, 0, 0, 0, -1 }, /* keeps rules[] non-empty: C forbids an empty array */
 };
 
 /* layout(s) */
