@@ -1,5 +1,24 @@
 # Changelog
 
+## 2026.11.23
+
+### What Changed
+- **The installer starts by itself on the live ISO.** An ohmychadwm-only Kiro ISO had no XFCE to launch Calamares, so
+  the live session showed nothing to install with. `run.sh` now starts it, the same way the Wayland editions do.
+- **The Ohmychadwm Tweak Tool opens at the first login on its Displays page**, so a new user, or the live session
+  in QEMU/VirtualBox, can set the screen resolution. On the live ISO it opens next to the installer.
+
+### Technical Details
+- `run.sh`: `sh -c '[ -d /run/archiso/bootmnt ] && calamares_polkit -d -style kvantum' &`. The bootmnt folder exists only
+  in the live session, so on an installed system the line does nothing. It runs after the polkit agent, because
+  `calamares_polkit` asks for the password through pkexec.
+- `run.sh`: `ohmychadwm-tweak-tool --first-login &`. The tool itself decides whether this is the first login
+  (prefs.json mark), so the line can run at every login.
+- Existing users keep their own `run.sh` (skel is copied once): only new users and fresh installs get both lines.
+
+### Files Modified
+- `etc/skel/.config/ohmychadwm/scripts/run.sh`
+
 ## 2026.11.21
 
 ### What Changed

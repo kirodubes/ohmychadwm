@@ -56,6 +56,13 @@ command -v ckb-next >/dev/null 2>&1 && run ckb-next --background
 run /usr/lib/xfce4/notifyd/xfce4-notifyd              # Desktop notification daemon
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1  # Polkit auth popups (sudo GUI)
 
+# ── Installer + first-login welcome ───────────────────────────────────────────
+# Live ISO only: start the installer (the bootmnt folder exists only in the live session, so this does nothing once
+# installed). After the polkit agent, because calamares_polkit asks for the password through pkexec.
+sh -c '[ -d /run/archiso/bootmnt ] && calamares_polkit -d -style kvantum' &
+# Opens the Ohmychadwm Tweak Tool on its Displays page at the first login only (screen resolution in a VM, etc.).
+command -v ohmychadwm-tweak-tool >/dev/null 2>&1 && ohmychadwm-tweak-tool --first-login &
+
 # ── Compositor ────────────────────────────────────────────────────────────────
 # Provides transparency, shadows and smooth window rendering.
 # Switch between fastcompmgr (lightweight) and picom (feature-rich) here.
