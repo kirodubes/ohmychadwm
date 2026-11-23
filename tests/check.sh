@@ -20,8 +20,8 @@ set -euo pipefail
 #   6. readable bar text in every shipped theme (title 3:1, status 1.5:1), then create
 #      themes from wallpapers with the theme generator in throwaway homes
 #      (tests/theme_gen.py): theme file, config.def.h, chadwm build, readable bar text
-#   Builds run in temporary copies; nothing is installed. --quick skips step 2
-#   and runs step 6 on the synthetic wallpapers only.
+#   Builds run in temporary copies; nothing is installed. --quick skips steps 2
+#   and 5 and runs step 6 on the synthetic wallpapers only.
 #
 # Why: menu entries broke silently (Tags, Border, Gaps, Master area, Back to
 #   default) because nothing exercised them after the config moved to THEME_* defines.
@@ -247,7 +247,11 @@ main() {
     fi
     build_slstatus
     race_rebuilds
-    crawl_menu
+    if (( quick )); then
+        log_warn "--quick: menu crawl skipped"
+    else
+        crawl_menu
+    fi
     generate_themes "$quick"
 
     if (( FAILED > 0 )); then

@@ -136,8 +136,8 @@ ensure_qwerty_default() {
 }
 
 run_checks() {
-    # tests/check.sh lints, builds and clicks through the whole menu; a failure blocks the push.
-    # The 46 theme builds only run when something under chadwm/ changed since origin.
+    # tests/check.sh lints and builds; a failure blocks the push.
+    # The 46 theme builds and the menu crawl only run when something under chadwm/ changed since origin.
     local mode="--quick"
     if git -C "${SCRIPT_DIR}" status --porcelain -- etc/skel/.config/ohmychadwm/chadwm | grep -q . ||
        git -C "${SCRIPT_DIR}" diff --name-only '@{upstream}' -- etc/skel/.config/ohmychadwm/chadwm 2>/dev/null | grep -q .; then

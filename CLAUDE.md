@@ -95,7 +95,7 @@ All scripts in `scripts/` and `chadwm/` start with `set -euo pipefail` (or shoul
 
 ## Tests
 
-`bash tests/check.sh` (about 1 minute; `--quick` skips the 46 theme builds) — run it after any change to the menu,
+`bash tests/check.sh` (about 1 minute; `--quick` skips the 46 theme builds and the menu crawl) — run it after any change to the menu,
 config.def.h, a theme or slstatus. `up.sh` runs it before every push and blocks the push on a failure.
 
 - Lints every `.sh`, builds chadwm against every theme and `config.def.h.default`, builds slstatus with every module on.

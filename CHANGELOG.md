@@ -15,9 +15,13 @@
 - `run.sh`: `ohmychadwm-tweak-tool --first-login &`. The tool itself decides whether this is the first login
   (prefs.json mark), so the line can run at every login.
 - Existing users keep their own `run.sh` (skel is copied once): only new users and fresh installs get both lines.
+- `tests/check.sh --quick` (what `up.sh` runs when nothing under `chadwm/` changed) now also skips step 5, the
+  menu crawl, so a quick push no longer prints its long output. Run `bash tests/check.sh` without `--quick` after a
+  menu change.
 
 ### Files Modified
 - `etc/skel/.config/ohmychadwm/scripts/run.sh`
+- `tests/check.sh`, `up.sh`, `CLAUDE.md`
 
 ## 2026.11.21
 
