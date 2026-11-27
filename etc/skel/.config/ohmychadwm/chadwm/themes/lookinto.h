@@ -36,27 +36,27 @@ static const char TabNormfg[]          = "#3e3e3e";
 static const char TabNormbg[]          = "#232323";
 static const char TabNormbr[]          = "#232323";
 
-static const char SchemeTagfg[]        = "#3e3e3e";
+static const char SchemeTagfg[]        = "#636363";
 static const char SchemeTagbg[]        = "#232323";
 static const char SchemeTagbr[]        = "#232323";
 
-static const char SchemeTag1fg[]       = "#474747";
+static const char SchemeTag1fg[]       = "#6d6d6d";
 static const char SchemeTag1bg[]       = "#232323";
 static const char SchemeTag1br[]       = "#232323";
 
-static const char SchemeTag2fg[]       = "#4f4f4f";
+static const char SchemeTag2fg[]       = "#6e6e6e";
 static const char SchemeTag2bg[]       = "#232323";
 static const char SchemeTag2br[]       = "#232323";
 
-static const char SchemeTag3fg[]       = "#575757";
+static const char SchemeTag3fg[]       = "#6d6d6d";
 static const char SchemeTag3bg[]       = "#232323";
 static const char SchemeTag3br[]       = "#232323";
 
-static const char SchemeTag4fg[]       = "#5f5f5f";
+static const char SchemeTag4fg[]       = "#6d6d6d";
 static const char SchemeTag4bg[]       = "#232323";
 static const char SchemeTag4br[]       = "#232323";
 
-static const char SchemeTag5fg[]       = "#676767";
+static const char SchemeTag5fg[]       = "#6d6d6d";
 static const char SchemeTag5bg[]       = "#232323";
 static const char SchemeTag5br[]       = "#232323";
 

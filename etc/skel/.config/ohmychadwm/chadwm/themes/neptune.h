@@ -36,7 +36,7 @@ static const char TabNormfg[]          = "#334155";
 static const char TabNormbg[]          = "#0f172a";
 static const char TabNormbr[]          = "#475569";
 
-static const char SchemeTagfg[]        = "#334155";
+static const char SchemeTagfg[]        = "#485c78";
 static const char SchemeTagbg[]        = "#0f172a";
 static const char SchemeTagbr[]        = "#475569";
 

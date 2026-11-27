@@ -36,15 +36,15 @@ static const char TabNormfg[]          = "#1F1E2E";
 static const char TabNormbg[]          = "#100E1D";
 static const char TabNormbr[]          = "#100E1D";
 
-static const char SchemeTagfg[]        = "#1F1E2E";
+static const char SchemeTagfg[]        = "#55527e";
 static const char SchemeTagbg[]        = "#100E1D";
 static const char SchemeTagbr[]        = "#100E1D";
 
-static const char SchemeTag1fg[]       = "#525468";
+static const char SchemeTag1fg[]       = "#5c5e75";
 static const char SchemeTag1bg[]       = "#100E1D";
 static const char SchemeTag1br[]       = "#100E1D";
 
-static const char SchemeTag2fg[]       = "#525468";
+static const char SchemeTag2fg[]       = "#5c5e75";
 static const char SchemeTag2bg[]       = "#100E1D";
 static const char SchemeTag2br[]       = "#100E1D";
 

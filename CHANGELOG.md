@@ -6,15 +6,22 @@
 - **Meditation theme: workspace numbers are readable again.** Empty workspaces were dark grey on the near-black bar
   (contrast 1.4:1) and hard to see; the darker red tags for workspaces with windows were barely better (1.6:1).
   Empty tags are now a mid grey, the dark reds are lighter versions of the same red.
+- **Eleven more themes get readable workspace icons:** clonewar, doors, drwho, lookinto, starwars, gruvchad,
+  tokyonight, onedark, neptune, goodnight and pluto. Each was checked live on a test box (riker) and picked one by
+  one; summit, nord, nord-polarnight, everforest and prime were looked at and kept as they are.
 
 ### Technical Details
 - `SchemeTagfg` `#2f302e` → `#5c5d5a` (~2.7:1 on `#161412`); `SchemeTag1–5fg` lightened in HSL, hue kept, to at least
-  3.0:1. Tags 6–10 already passed and are unchanged. Only meditation was changed on purpose; 31 other themes also have
-  empty tags below 3:1. The generator's `DIM_FG` floor (1.2) is unchanged.
+  3.0:1. Tags 6–10 already passed and are unchanged. The generator's `DIM_FG` floor (1.2) is unchanged.
+- The eleven: `SchemeTagfg` (empty workspace) lightened in HSL, hue kept, to 2.6:1 against its own `SchemeTagbg`;
+  any `SchemeTag1–10fg` below 3.0:1 lightened to 3.0:1. Colours already above those floors are untouched, so
+  starwars, gruvchad, tokyonight, onedark, neptune and pluto only change the empty-tag colour. doors' ten tag colours
+  now sit at two near-identical purples (its old gradient was all below 3:1).
 - Existing users keep their own copy of the theme (skel is copied once).
 
 ### Files Modified
 - `etc/skel/.config/ohmychadwm/chadwm/themes/meditation.h`
+- `etc/skel/.config/ohmychadwm/chadwm/themes/{clonewar,doors,drwho,lookinto,starwars,gruvchad,tokyonight,onedark,neptune,goodnight,pluto}.h`
 
 ## 2026.11.23
 
